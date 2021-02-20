@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <iostream>
 
 #include "recoverymanager.hpp"
 #include "logrecord.hpp"

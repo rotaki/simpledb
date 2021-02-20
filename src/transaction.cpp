@@ -119,8 +119,4 @@ namespace smartdb {
     std::cout << "new transaction: " << std::to_string(mNextTxNum) << std::endl;
     return mNextTxNum;
   }
-
-  
-
-  
 };

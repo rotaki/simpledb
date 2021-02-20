@@ -59,6 +59,10 @@ namespace smartdb {
     std::vector<char> v(pString.begin(), pString.end());
     set_bytes(pOffset, v);
   }
+
+  int page::max_length(int pStrLen) {
+    return sizeof(int) + pStrLen;
+  }
   
   std::vector<char>& page::contents() {
     return mByteBuffer;

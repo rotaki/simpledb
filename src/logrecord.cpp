@@ -157,9 +157,9 @@ namespace smartdb {
     mTxNum = pPage->get_int(tPos);
     int fPos = tPos + sizeof(int);
     std::string fileName = pPage->get_string(fPos);
-    int bPos = fPos + fileName.size();
+    int bPos = fPos + page::max_length(fileName.size());
     int blkNum = pPage->get_int(bPos);
-    std::shared_ptr<block_id> mBlockId(new block_id(fileName, blkNum));
+    mBlockId = std::shared_ptr<block_id>(new block_id(fileName, blkNum));
     int oPos = bPos + sizeof(int);
     mOffset = pPage->get_int(oPos);
     int vPos = oPos + sizeof(int);
@@ -191,7 +191,7 @@ namespace smartdb {
                                    const int &pVal) {
     int tPos = sizeof(int);
     int fPos = tPos + sizeof(int);
-    int bPos = fPos + pBlockId->file_name().size();
+    int bPos = fPos + page::max_length(pBlockId->file_name().size());
     int oPos = bPos + sizeof(int);
     int vPos = oPos + sizeof(int);
     int recLen = vPos + sizeof(int);
@@ -212,9 +212,9 @@ namespace smartdb {
     mTxNum = pPage->get_int(tPos);
     int fPos = tPos + sizeof(int);
     std::string fileName = pPage->get_string(fPos);
-    int bPos = fPos + fileName.size();
+    int bPos = fPos + page::max_length(fileName.size());
     int blkNum = pPage->get_int(bPos);
-    std::shared_ptr<block_id> mBlockId(new block_id(fileName, blkNum));
+    mBlockId = std::shared_ptr<block_id>(new block_id(fileName, blkNum));
     int oPos = bPos + sizeof(int);
     mOffset = pPage->get_int(oPos);
     int vPos = oPos + sizeof(int);
@@ -246,10 +246,10 @@ namespace smartdb {
                                       const std::string &pVal) {
     int tPos = sizeof(int);
     int fPos = tPos + sizeof(int);
-    int bPos = fPos + pBlockId->file_name().size();
+    int bPos = fPos + page::max_length(pBlockId->file_name().size());
     int oPos = bPos + sizeof(int);
     int vPos = oPos + sizeof(int);
-    int recLen = vPos + pVal.size();
+    int recLen = vPos + page::max_length(pVal.size());
     std::vector<char> byteVec(recLen, 0);
     std::shared_ptr<page> p(new page(byteVec));
     p->set_int(0, setstring);

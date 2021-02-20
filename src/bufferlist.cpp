@@ -1,6 +1,7 @@
-#include "bufferlist.hpp"
-
 #include <algorithm>
+#include <iostream>
+
+#include "bufferlist.hpp"
 
 namespace smartdb {
   buffer_list::buffer_list(std::shared_ptr<buffer_manager> pBM): mBM(pBM) {}

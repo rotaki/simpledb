@@ -92,7 +92,7 @@ void test_blockid() {
   block_id block2("testfile", 2);
   std::cout << block1.number() << std::endl;
   std::cout << block1.file_name() << std::endl;
-  std::cout << block1.equals(block2) << std::endl;
+  // std::cout << block1.equals(block2) << std::endl;
   std::cout << block1.to_string() << std::endl;
 }
 

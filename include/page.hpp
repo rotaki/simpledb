@@ -22,6 +22,8 @@ namespace smartdb {
 
     void set_string(const int &pOffset, const std::string &pString);
 
+    static int max_length(int pStrLen);
+
     std::vector<char>& contents();
     
   private:
