@@ -14,7 +14,7 @@ namespace smartdb {
     file_manager(const std::filesystem::path &pDbDirectory, const int &pBlockSize);
     void read(const block_id &pBlockId, page &pPage) ;
     void write(const block_id &pBlockId, page &pPage);
-    block_id append(const std::string &pFileName);
+    std::shared_ptr<block_id> append(const std::string &pFileName);
     bool is_new();
     int block_size();
     int length(const std::string &pFileName);

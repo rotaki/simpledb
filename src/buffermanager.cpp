@@ -4,6 +4,7 @@
 
 #include "buffermanager.hpp"
 
+
 namespace smartdb {
   buffer::buffer(std::shared_ptr<file_manager> pFileManager, std::shared_ptr<log_manager> pLogManager):
     mFileManager(pFileManager), mLogManager(pLogManager)
@@ -93,7 +94,7 @@ namespace smartdb {
     std::shared_ptr<buffer> buff = try_to_pin(pBlockId);
     // while buffer is null and not have waited too long
     while (!buff && !waiting_too_long(start)) {
-      mCondVar.wait_for(lock, mMaxTime * std::chrono::milliseconds(1));
+      mCondVar.wait_for(lock, std::chrono::milliseconds(mMaxTime));
     }
     if (!buff) {
       throw std::runtime_error("buffer abort exception");

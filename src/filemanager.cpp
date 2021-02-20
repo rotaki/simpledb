@@ -30,21 +30,23 @@ namespace smartdb {
     std::shared_ptr<std::fstream> fileIO = get_file(fileName);
     size_t offset = pBlockId.number() * mBlockSize;
     
-    if (static_cast<int>(offset) >= get_file_size(fileName)) {
-      throw std::runtime_error("I/O error, reading past of file");
-      return;
-    } else {
-      fileIO->seekp(offset, std::ios::beg);
-      fileIO->read(&(pPage.contents()[0]), mBlockSize);
-      if (fileIO->bad()) {
-        throw std::runtime_error("I/O error while reading");
-      }
-      int readCount = fileIO->gcount();
-      if (readCount < mBlockSize) {
-        std::cerr << "Read less than a page" << std::endl;
-        fileIO->clear();
-        memset(&(pPage.contents()[readCount]), 0, mBlockSize-readCount);
-      }
+    // if (static_cast<int>(offset) >= get_file_size(fileName)) {
+    //   std::cerr << "Reading past of file. Appending empty blocks." << std::endl;
+    //   while (static_cast<int>(offset) >= get_file_size(fileName)) {
+    //     append(fileName);
+    //   }
+    // }
+    
+    fileIO->seekp(offset, std::ios::beg);
+    fileIO->read(&(pPage.contents()[0]), mBlockSize);
+    if (fileIO->bad()) {
+      throw std::runtime_error("I/O error while reading");
+    }
+    int readCount = fileIO->gcount();
+    if (readCount < mBlockSize) {
+      std::cerr << "Read less than a page" << std::endl;
+      fileIO->clear();
+      memset(&(pPage.contents()[readCount]), 0, mBlockSize-readCount);
     }
   }
 
@@ -52,7 +54,7 @@ namespace smartdb {
     std::unique_lock<std::mutex> lock(mMutex);
     
     const std::string fileName = pBlockId.file_name();
-    // todo append?
+    // todo append
     std::shared_ptr<std::fstream> fileIO = get_file(fileName);
     
     size_t offset = pBlockId.number() * mBlockSize;
@@ -64,12 +66,12 @@ namespace smartdb {
     fileIO->flush();
   }
 
-  block_id file_manager::append(const std::string &pFileName) {
+  std::shared_ptr<block_id> file_manager::append(const std::string &pFileName) {
     std::unique_lock<std::mutex> lock(mMutex);
     std::shared_ptr<std::fstream> fileIO = get_file(pFileName);
 
     int newBlockNum = length(pFileName);
-    block_id BlockId(pFileName, newBlockNum);
+    std::shared_ptr<block_id> blockId(new block_id(pFileName, newBlockNum));
     
     std::vector<char> byteVec;
     byteVec.resize(mBlockSize);
@@ -80,7 +82,7 @@ namespace smartdb {
       throw std::runtime_error("I/O error while append");
     }
     fileIO->flush();
-    return BlockId;
+    return blockId;
   }
 
   bool file_manager::is_new() {

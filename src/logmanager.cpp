@@ -74,11 +74,10 @@ namespace smartdb {
   }
   
   std::shared_ptr<block_id> log_manager::append_new_block() {
-    block_id blk = mFileManager->append(mLogFile);
-    std::shared_ptr<block_id> blkPointer(new block_id(blk.file_name(), blk.number()));
+    std::shared_ptr<block_id> blockId = mFileManager->append(mLogFile);
     mLogPage->set_int(0, mFileManager->block_size());
-    mFileManager->write(*blkPointer, *mLogPage);
-    return blkPointer;
+    mFileManager->write(*blockId, *mLogPage);
+    return blockId;
   };
 
   void log_manager::flush() {

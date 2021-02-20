@@ -19,6 +19,6 @@ namespace smartdb {
   }
   
   std::string block_id::to_string() const {
-    return "[file " + mFileName + ", block " + std::to_string(mBlockNum) + "]";
+    return mFileName + ", " + std::to_string(mBlockNum);
   }
 }

@@ -11,6 +11,8 @@ project(
   DESCRIPTION "${SMARTDB_DESCRIPTION}"
   )
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set(CMAKE_C_COMPILER_ID "Clang")
+set(CMAKE_CXX_COMPILER_ID "Clang")
 
 ###############################################################################
 # HEADER safety checks
