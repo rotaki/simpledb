@@ -1,6 +1,5 @@
 #include <chrono>
 #include <stdexcept>
-#include <iostream>
 
 #include "buffermanager.hpp"
 

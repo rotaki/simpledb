@@ -4,14 +4,14 @@ namespace smartdb {
   // instantiate static member
   lock_table concurrency_manager::mLockTable; 
   
-  void concurrency_manager::slock(std::shared_ptr<block_id> pBlockId) {
+  void concurrency_manager::slock(const block_id &pBlockId) {
     if (mLocks.find(pBlockId) == mLocks.end()) {
       mLockTable.slock(pBlockId);
       mLocks[pBlockId] = "S";
     }
   }
 
-  void concurrency_manager::xlock(std::shared_ptr<block_id> pBlockId) {
+  void concurrency_manager::xlock(const block_id &pBlockId) {
     if (!has_xlock(pBlockId)) {
       slock(pBlockId);
       mLockTable.xlock(pBlockId);
@@ -26,7 +26,7 @@ namespace smartdb {
     mLocks.clear();
   }
 
-  bool concurrency_manager::has_xlock(std::shared_ptr<block_id> pBlockId) {
+  bool concurrency_manager::has_xlock(const block_id &pBlockId) {
     auto iter = mLocks.find(pBlockId);
     return (iter != mLocks.end()) && (iter->second == "X");
   }

@@ -1,5 +1,4 @@
 #include <algorithm>
-#include <iostream>
 
 #include "bufferlist.hpp"
 
@@ -8,25 +7,25 @@ namespace smartdb {
 
   std::shared_ptr<buffer> buffer_list::get_buffer(std::shared_ptr<block_id> pBlockId) 
   {
-    return mBuffers.at(pBlockId);
+    return mBuffers.at(*pBlockId);
   }
 
   void buffer_list::pin(std::shared_ptr<block_id> pBlockId) {
     std::shared_ptr<buffer> buff = mBM->pin(pBlockId);
-    mBuffers[pBlockId] = buff;
-    mPins.emplace_back(pBlockId);
+    mBuffers[*pBlockId] = buff;
+    mPins.emplace_back(*pBlockId);
   }
 
   void buffer_list::unpin(std::shared_ptr<block_id> pBlockId) {
-    std::shared_ptr<buffer> buff = mBuffers.at(pBlockId);
+    std::shared_ptr<buffer> buff = mBuffers.at(*pBlockId);
     mBM->unpin(buff);
-    auto iter = std::find(mPins.begin(), mPins.end(), pBlockId);
+    auto iter = std::find(mPins.begin(), mPins.end(), *pBlockId);
     if (iter != mPins.end()) {
       mPins.erase(iter);
     }
-    iter = std::find(mPins.begin(), mPins.end(), pBlockId);
+    iter = std::find(mPins.begin(), mPins.end(), *pBlockId);
     if (iter == mPins.end()) {
-      mBuffers.erase(pBlockId);
+      mBuffers.erase(*pBlockId);
     }
   }
 

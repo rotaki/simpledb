@@ -8,13 +8,13 @@
 namespace smartdb {
   class concurrency_manager{
   public:
-    void slock(std::shared_ptr<block_id> pBlockId);
-    void xlock(std::shared_ptr<block_id> pBlockId);
+    void slock(const block_id &pBlockId);
+    void xlock(const block_id &pBlockId);
     void release();
   private:
     static lock_table mLockTable;
-    std::map<std::shared_ptr<block_id>, std::string> mLocks;
+    std::map<block_id, std::string> mLocks;
 
-    bool has_xlock(std::shared_ptr<block_id> pBlockId);
+    bool has_xlock(const block_id &pBlockId);
   };
 }

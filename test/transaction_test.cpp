@@ -56,5 +56,6 @@ namespace smartdb {
     EXPECT_EQ(newIVal, tx4->get_int(blockId, 80));
 
     tx4->commit();
+    fs::remove_all(dirSandBox);
   }
 }

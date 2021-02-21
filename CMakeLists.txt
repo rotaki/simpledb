@@ -182,7 +182,7 @@ target_compile_definitions(smartdb_objlib PUBLIC #PUBLIC: all consumers of the l
   )
 
 target_compile_options(smartdb_objlib PUBLIC
-  "-march=native"               # enable machine-specific instruction sets and optimization
+  # "-march=native"               # enable machine-specific instruction sets and optimization
   "-mcx16"                      # allow CMPXCHG16B (16-byte compare and exchange)
   ${SMARTDB_COMPILE_OPTIONS}
   )

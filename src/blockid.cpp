@@ -1,5 +1,4 @@
 #include <string>
-#include <iostream>
 
 #include "blockid.hpp"
 
@@ -21,5 +20,17 @@ namespace smartdb {
 
   std::string block_id::to_string() const {
     return mFileName + ", " + std::to_string(mBlockNum);
+  }
+
+  bool block_id::operator<(const block_id &pBlockId) const {
+    if (mFileName == pBlockId.file_name()) {
+      return mBlockNum < pBlockId.number();
+    } else {
+      return mFileName < pBlockId.file_name();
+    }
+  }
+
+  bool block_id::operator==(const block_id &pBlockId) const {
+    return equals(pBlockId);
   }
 }

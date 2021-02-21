@@ -15,8 +15,8 @@ namespace smartdb {
     void unpin_all();
 
   private:
-    std::map<std::shared_ptr<block_id>, std::shared_ptr<buffer>> mBuffers;
-    std::vector<std::shared_ptr<block_id>> mPins;
+    std::map<block_id, std::shared_ptr<buffer>> mBuffers;
+    std::vector<block_id> mPins;
     std::shared_ptr<buffer_manager> mBM;
   };
 }

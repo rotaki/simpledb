@@ -4,7 +4,7 @@ namespace smartdb {
   lock_table::lock_table() {
     
   }
-  void lock_table::slock(std::shared_ptr<block_id> pBlockId) {
+  void lock_table::slock(const block_id &pBlockId) {
     std::unique_lock<std::mutex> lock(mMutex);
     auto start = std::chrono::high_resolution_clock::now();
     while (has_xlock(pBlockId) && !waiting_too_long(start)) {
@@ -17,7 +17,7 @@ namespace smartdb {
     mLocks[pBlockId] = val+1;
   }
 
-  void lock_table::xlock(std::shared_ptr<block_id> pBlockId) {
+  void lock_table::xlock(const block_id &pBlockId) {
     std::unique_lock<std::mutex> lock(mMutex);
     auto start = std::chrono::high_resolution_clock::now();
     while (has_other_slocks(pBlockId) && !waiting_too_long(start)) {
@@ -29,7 +29,7 @@ namespace smartdb {
     mLocks[pBlockId] = -1;
   }
 
-  void lock_table::unlock(std::shared_ptr<block_id> pBlockId) {
+  void lock_table::unlock(const block_id &pBlockId) {
     std::unique_lock<std::mutex> lock(mMutex);
     int val = get_lock_val(pBlockId);
     if (val > 1) {
@@ -40,11 +40,11 @@ namespace smartdb {
     }
   }
 
-  bool lock_table::has_xlock(std::shared_ptr<block_id> pBlockId) {
+  bool lock_table::has_xlock(const block_id &pBlockId) {
     return get_lock_val(pBlockId) < 0;
   }
 
-  bool lock_table::has_other_slocks(std::shared_ptr<block_id> pBlockId) {
+  bool lock_table::has_other_slocks(const block_id &pBlockId) {
     return get_lock_val(pBlockId) > 1; 
   }
 
@@ -54,7 +54,7 @@ namespace smartdb {
     return elapsed > mMaxTime;
   }
 
-  int lock_table::get_lock_val(std::shared_ptr<block_id> pBlockId) {
+  int lock_table::get_lock_val(const block_id &pBlockId) {
     auto iter = mLocks.find(pBlockId);
     return ((iter == mLocks.end()) ? 0 : iter->second);
   }

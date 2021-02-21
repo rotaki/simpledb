@@ -15,6 +15,10 @@ namespace smartdb {
 
     std::string to_string() const;
 
+    bool operator<(const block_id &pBlockId) const;
+
+    bool operator==(const block_id &pBlockId) const;
+
   private:
     std::string mFileName;
     int mBlockNum;

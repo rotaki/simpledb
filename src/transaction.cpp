@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include "transaction.hpp"
 
 namespace smartdb {
@@ -52,13 +54,13 @@ namespace smartdb {
   }
 
   int transaction::get_int(std::shared_ptr<block_id> pBlockId, const int& pOffset) {
-    mCM->slock(pBlockId);
+    mCM->slock(*pBlockId);
     std::shared_ptr<buffer> buff = mBL->get_buffer(pBlockId);
     return buff->contents()->get_int(pOffset);
   }
 
   std::string transaction::get_string(std::shared_ptr<block_id> pBlockId, const int& pOffset) {
-    mCM->slock(pBlockId);
+    mCM->slock(*pBlockId);
     std::shared_ptr<buffer>buff = mBL->get_buffer(pBlockId);
     return buff->contents()->get_string(pOffset);
   }
@@ -67,7 +69,7 @@ namespace smartdb {
                             const int& pOffset,
                             const int& pVal,
                             const bool& pOkToLog) {
-    mCM->xlock(pBlockId);
+    mCM->xlock(*pBlockId);
     std::shared_ptr<buffer> buff = mBL->get_buffer(pBlockId);
     int lsn = -1;
     if (pOkToLog) {
@@ -82,7 +84,7 @@ namespace smartdb {
                                const int &pOffset,
                                const std::string &pVal,
                                const bool &pOkToLog) {
-    mCM->xlock(pBlockId);
+    mCM->xlock(*pBlockId);
     std::shared_ptr<buffer> buff = mBL->get_buffer(pBlockId);
     int lsn = -1;
     if (pOkToLog) {
@@ -95,13 +97,13 @@ namespace smartdb {
 
   int transaction::size(const std::string &pFileName) {
     std::shared_ptr<block_id> dummyBlockId(new block_id(pFileName, mEndOfFile));
-    mCM->slock(dummyBlockId);
+    mCM->slock(*dummyBlockId);
     return mFM->length(pFileName);
   }
 
   std::shared_ptr<block_id> transaction::append(const std::string &pFileName) {
     std::shared_ptr<block_id> dummyBlockId(new block_id(pFileName, mEndOfFile));
-    mCM->xlock(dummyBlockId);
+    mCM->xlock(*dummyBlockId);
     return mFM->append(pFileName);
   }
 
