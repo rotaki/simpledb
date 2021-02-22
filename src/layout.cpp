@@ -24,7 +24,7 @@ namespace smartdb {
 
   int layout::offset(const std::string &pFldName) {
     if (mOffsets.find(pFldName) == mOffsets.end()) {
-      return -1;               // not found
+      throw std::runtime_error("field name " + pFldName + " not found in schema" );
     } else {
       return mOffsets[pFldName];
     }
@@ -41,7 +41,7 @@ namespace smartdb {
     } else if (fldType == schema::varchar) {
       return page::max_length(mSchema->length(pFldName));
     } else {
-      return -1;
+      throw std::runtime_error("field type not defined");
     }
   }
 }
