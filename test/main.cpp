@@ -2,6 +2,6 @@
 
 int main(int argc, char **argv) {
   ::testing::InitGoogleTest(&argc, argv);
-  ::testing::GTEST_FLAG(filter)="tablescan*";
+  ::testing::GTEST_FLAG(filter)="tablemanager*";
   return RUN_ALL_TESTS();
 }

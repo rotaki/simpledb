@@ -12,6 +12,8 @@ namespace smartdb {
                integer = 0,
                varchar = 1
     };
+    schema();
+    
     void add_field(const std::string &pFldName, const int &pType, const int &pLength);
     void add_int_field(const std::string &pFldName);
 

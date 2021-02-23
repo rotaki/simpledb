@@ -3,6 +3,8 @@
 #include "schema.hpp"
 
 namespace smartdb {
+  schema::schema() {}
+  
   void schema::add_field(const std::string &pFldName, const int &pType, const int &pLength) {
     mFields.emplace_back(pFldName);
     mInfo[pFldName] = std::shared_ptr<schema::field_info>(new schema::field_info(pType, pLength));
