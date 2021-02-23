@@ -1,7 +1,7 @@
 #include "tablescan.hpp"
 
 namespace smartdb {
-  tablescan::tablescan(std::shared_ptr<transaction> pTx, const std::string &pTableName, std::shared_ptr<layout> pLt):
+  table_scan::table_scan(std::shared_ptr<transaction> pTx, const std::string &pTableName, std::shared_ptr<layout> pLt):
     mTx(pTx), mLt(pLt)
   {
     mFileName = pTableName + ".tbl";
@@ -12,13 +12,13 @@ namespace smartdb {
     }
   }
 
-  tablescan::~tablescan() {}
+  table_scan::~table_scan() {}
 
-  void tablescan::before_first() {
+  void table_scan::before_first() {
     move_to_block(0);
   }
 
-  bool tablescan::next() {
+  bool table_scan::next() {
     mCurrentSlot = mRP->next_after(mCurrentSlot);
     while (mCurrentSlot < 0) {
       if (at_last_block()) {
@@ -31,15 +31,15 @@ namespace smartdb {
   }
 
   
-  int tablescan::get_int(const std::string &pFldName) {
+  int table_scan::get_int(const std::string &pFldName) {
     return mRP->get_int(mCurrentSlot, pFldName);
   }
 
-  std::string tablescan::get_string(const std::string &pFldName) {
+  std::string table_scan::get_string(const std::string &pFldName) {
     return mRP->get_string(mCurrentSlot, pFldName);
   }
 
-  constant tablescan::get_val(const std::string &pFldName) {
+  constant table_scan::get_val(const std::string &pFldName) {
     if (mLt->get_schema()->type(pFldName) == schema::integer) {
       return constant(get_int(pFldName));
     } else {
@@ -47,25 +47,25 @@ namespace smartdb {
     }
   }
 
-  bool tablescan::has_field(const std::string &pFldName) {
+  bool table_scan::has_field(const std::string &pFldName) {
     return mLt->get_schema()->has_field(pFldName);
   }
 
-  void tablescan::close() {
+  void table_scan::close() {
     if (mRP) {
       mTx->unpin(mRP->block());
     }
   }
 
-  void tablescan::set_int(const std::string &pFldName, const int &pVal) {
+  void table_scan::set_int(const std::string &pFldName, const int &pVal) {
     return mRP->set_int(mCurrentSlot, pFldName, pVal);
   }
 
-  void tablescan::set_string(const std::string &pFldName, const std::string &pVal) {
+  void table_scan::set_string(const std::string &pFldName, const std::string &pVal) {
     return mRP->set_string(mCurrentSlot, pFldName, pVal);
   }
 
-  void tablescan::set_val(const std::string &pFldName, const constant &pVal) {
+  void table_scan::set_val(const std::string &pFldName, const constant &pVal) {
     if (mLt->get_schema()->type(pFldName) == schema::integer) {
       set_int(pFldName, pVal.as_int());
     } else {
@@ -73,7 +73,7 @@ namespace smartdb {
     }
   }
 
-  void tablescan::insert() {
+  void table_scan::insert() {
     mCurrentSlot = mRP->insert_after(mCurrentSlot);
     while (mCurrentSlot < 0) {
       if (at_last_block()) {
@@ -85,15 +85,15 @@ namespace smartdb {
     }
   }
 
-  void tablescan::remove() {
+  void table_scan::remove() {
     mRP->remove(mCurrentSlot);
   }
 
-  rid tablescan::get_rid() {
+  rid table_scan::get_rid() {
     return rid(mRP->block()->number(), mCurrentSlot);
   }
 
-  void tablescan::move_to_rid(const rid &pRID) {
+  void table_scan::move_to_rid(const rid &pRID) {
     close();
     std::shared_ptr<block_id> blockId(new block_id(mFileName, pRID.block_number()));
     mRP = std::shared_ptr<record_page>(new record_page(mTx, blockId, mLt));
@@ -101,14 +101,14 @@ namespace smartdb {
   }
 
 
-  void tablescan::move_to_block(const int &pBlkNum) {
+  void table_scan::move_to_block(const int &pBlkNum) {
     close();
     std::shared_ptr<block_id> blockId(new block_id(mFileName, pBlkNum));
     mRP = std::shared_ptr<record_page>(new record_page(mTx, blockId, mLt));
     mCurrentSlot = -1;
   }
 
-  void tablescan::move_to_new_block() {
+  void table_scan::move_to_new_block() {
     close();
     std::shared_ptr<block_id> blockId = mTx->append(mFileName);
     mRP = std::shared_ptr<record_page>(new record_page(mTx, blockId, mLt));
@@ -116,7 +116,7 @@ namespace smartdb {
     mCurrentSlot = -1;
   }
 
-  bool tablescan::at_last_block() {
+  bool table_scan::at_last_block() {
     return mRP->block()->number() == (mTx->size(mFileName)-1);
   }
 

@@ -10,10 +10,10 @@
 #include "updatescan.hpp"
 
 namespace smartdb {
-  class tablescan: public updatescan {
+  class table_scan: public update_scan {
   public:
-    tablescan(std::shared_ptr<transaction> pTx, const std::string &pTableName, std::shared_ptr<layout> pLayout);
-    ~tablescan();
+    table_scan(std::shared_ptr<transaction> pTx, const std::string &pTableName, std::shared_ptr<layout> pLayout);
+    ~table_scan();
     void before_first() override;
     bool next() override;
     int get_int(const std::string &pFldName) override;

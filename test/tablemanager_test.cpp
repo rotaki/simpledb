@@ -72,7 +72,7 @@ namespace smartdb {
 
     std::cout << "All tables and their lengths:" << std::endl;
     std::shared_ptr<layout> lt = tM.get_layout("tblcat", tx);
-    std::shared_ptr<tablescan> tS(new tablescan(tx, "tblcat", lt));
+    std::shared_ptr<table_scan> tS(new table_scan(tx, "tblcat", lt));
     while (tS->next()) {
       std::string tName = tS->get_string("tblname");
       int size = tS->get_int("slotsize");
@@ -82,7 +82,7 @@ namespace smartdb {
 
     std::cout << "All fields and their offsets" << std::endl;
     lt = tM.get_layout("fldcat", tx);
-    tS = std::shared_ptr<tablescan>(new tablescan(tx, "fldcat", lt));
+    tS = std::shared_ptr<table_scan>(new table_scan(tx, "fldcat", lt));
     while (tS->next()) {
       std::string tName = tS->get_string("tblname");
       std::string fName = tS->get_string("fldname");

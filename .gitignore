@@ -2,3 +2,4 @@
 /build
 .git
 .DS_Store
+*.bak

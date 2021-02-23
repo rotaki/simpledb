@@ -26,14 +26,14 @@ namespace smartdb {
     std::shared_ptr<layout> lt(new layout(pSch));
     
     // insert one record into tblcat
-    std::shared_ptr<tablescan> tCat(new tablescan(pTx, "tblcat", mTCatLayout));
+    std::shared_ptr<table_scan> tCat(new table_scan(pTx, "tblcat", mTCatLayout));
     tCat->insert();
     tCat->set_string("tblname", pTblName);
     tCat->set_int("slotsize", lt->slot_size());
     tCat->close();
 
     // insert a record into fldcat for each field
-    std::shared_ptr<tablescan> fCat(new tablescan(pTx, "fldcat", mFCatLayout));
+    std::shared_ptr<table_scan> fCat(new table_scan(pTx, "fldcat", mFCatLayout));
     for (const std::string &fldName: pSch->fields()) {
       fCat->insert();
       fCat->set_string("tblname", pTblName);
@@ -47,7 +47,7 @@ namespace smartdb {
 
   std::shared_ptr<layout> table_manager::get_layout(const std::string &pTblName, std::shared_ptr<transaction> pTx) {
     int size = -1;
-    std::shared_ptr<tablescan> tCat(new tablescan(pTx, "tblcat", mTCatLayout));
+    std::shared_ptr<table_scan> tCat(new table_scan(pTx, "tblcat", mTCatLayout));
     while (tCat->next()) {
       if (tCat->get_string("tblname") == pTblName) {
         size = tCat->get_int("slotsize");
@@ -58,7 +58,7 @@ namespace smartdb {
     
     std::shared_ptr<schema> sch(new schema);
     std::map<std::string, int> offsets;
-    std::shared_ptr<tablescan> fCat(new tablescan(pTx, "fldcat", mFCatLayout));
+    std::shared_ptr<table_scan> fCat(new table_scan(pTx, "fldcat", mFCatLayout));
     while (fCat->next()) {
       if (fCat->get_string("tblname") == pTblName) {
         std::string fldName = fCat->get_string("fldname");

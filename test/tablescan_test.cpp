@@ -6,7 +6,7 @@
 namespace fs = std::filesystem;
 
 namespace smartdb {
-  TEST(tablescan, basic) {
+  TEST(table_scan, basic) {
     int blockSize = 400;
     const auto oldCurrentPath = fs::current_path();
     const auto dirSandBox = oldCurrentPath / "sandbox";
@@ -34,7 +34,7 @@ namespace smartdb {
 
     std::shared_ptr<block_id> blockId = tx->append(testFileName);
 
-    tablescan ts(tx, "T", lt);
+    table_scan ts(tx, "T", lt);
     std::cout <<"filling the page with 50 random records." << std::endl;
     ts.before_first();
 
