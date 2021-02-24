@@ -11,6 +11,7 @@ namespace smartdb {
     int slot() const;
     bool equals(const rid &pRID) const;
     std::string to_string() const;
+    bool operator==(const rid &pRID) const;
   private:
     int mBlockNum;
     int mSlot;

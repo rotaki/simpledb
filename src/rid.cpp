@@ -22,5 +22,9 @@ namespace smartdb {
   std::string rid::to_string() const {
     return "[" + std::to_string(mBlockNum) + ", " + std::to_string(mSlot) + "]";
   }
+
+  bool rid::operator==(const rid &pRID) const {
+    return equals(pRID);
+  }
 }
 
