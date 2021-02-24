@@ -2,6 +2,6 @@
 
 int main(int argc, char **argv) {
   ::testing::InitGoogleTest(&argc, argv);
-  ::testing::GTEST_FLAG(filter)="indexmanager*";
+  ::testing::GTEST_FLAG(filter)="metadata*";
   return RUN_ALL_TESTS();
 }
