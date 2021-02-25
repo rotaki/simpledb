@@ -30,6 +30,3 @@ namespace smartdb {
     std::vector<char> mByteBuffer;
   };
 }
-
-// todo
-// default size

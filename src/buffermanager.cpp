@@ -83,7 +83,7 @@ namespace smartdb {
     pBuff->unpin();
     if (!pBuff->is_pinned()) {
       mNumAvailable++;
-      mCondVar.notify_all();             // todo
+      mCondVar.notify_all();             
     }
   }
 

@@ -3,6 +3,50 @@
 #include "blockid.hpp"
 
 namespace smartdb {
+  bool operator==(const block_id &pLhs, const block_id &pRhs) {
+    return (pLhs.mFileName == pRhs.mFileName) && (pLhs.mBlockNum == pRhs.mBlockNum);
+  }
+
+  bool operator!=(const block_id &pLhs, const block_id &pRhs) {
+    if (pLhs == pRhs) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  bool operator<(const block_id &pLhs, const block_id &pRhs) {
+    if (pLhs.mFileName  == pRhs.mFileName) {
+      return pLhs.mBlockNum < pRhs.mBlockNum;
+    } else {
+      return pLhs.mFileName < pRhs.mFileName;
+    }
+  }
+
+  bool operator>(const block_id &pLhs, const block_id &pRhs) {
+    if (pLhs.mFileName  == pRhs.mFileName) {
+      return pLhs.mBlockNum > pRhs.mBlockNum;
+    } else {
+      return pLhs.mFileName > pRhs.mFileName;
+    }
+  }
+
+  bool operator<=(const block_id &pLhs, const block_id &pRhs) {
+    if (pLhs > pRhs) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  bool operator>=(const block_id &pLhs, const block_id &pRhs) {
+    if (pLhs < pRhs) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+  
   block_id::block_id(const std::string &pFileName, const int &pBlockNum):
     mFileName(pFileName), mBlockNum(pBlockNum) {}
 
@@ -20,17 +64,5 @@ namespace smartdb {
 
   std::string block_id::to_string() const {
     return mFileName + ", " + std::to_string(mBlockNum);
-  }
-
-  bool block_id::operator<(const block_id &pBlockId) const {
-    if (mFileName == pBlockId.file_name()) {
-      return mBlockNum < pBlockId.number();
-    } else {
-      return mFileName < pBlockId.file_name();
-    }
-  }
-
-  bool block_id::operator==(const block_id &pBlockId) const {
-    return equals(pBlockId);
   }
 }

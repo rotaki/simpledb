@@ -36,7 +36,7 @@ namespace smartdb {
     int block_size();
     int available_buffers();
   private:
-    static int mNextTxNum;      // todo dont forget to instantiate
+    static int mNextTxNum;
     static std::mutex mMutex;
     const int mEndOfFile = -1;
     std::shared_ptr<file_manager> mFM;

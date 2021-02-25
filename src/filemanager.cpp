@@ -54,7 +54,7 @@ namespace smartdb {
     std::unique_lock<std::mutex> lock(mMutex);
     
     const std::string fileName = pBlockId.file_name();
-    // todo append
+    
     std::shared_ptr<std::fstream> fileIO = get_file(fileName);
     
     size_t offset = pBlockId.number() * mBlockSize;

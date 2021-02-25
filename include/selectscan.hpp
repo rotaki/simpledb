@@ -1,19 +1,17 @@
 #pragma once
 
 #include <memory>
-#include <string>
 
-#include "transaction.hpp"
-#include "layout.hpp"
-#include "recordpage.hpp"
-#include "rid.hpp"
+#include "constant.hpp"
+#include "scan.hpp"
 #include "updatescan.hpp"
+#include "predicate.hpp"
 
 namespace smartdb {
-  class table_scan: public update_scan {
+  class select_scan: public update_scan {
   public:
-    table_scan(std::shared_ptr<transaction> pTx, const std::string &pTableName, std::shared_ptr<layout> pLayout);
-    ~table_scan();
+    select_scan(std::shared_ptr<scan> pS, std::shared_ptr<predicate> pP);
+
     void before_first() override;
     bool next() override;
     int get_int(const std::string &pFldName) override;
@@ -29,16 +27,9 @@ namespace smartdb {
     void remove() override;
     rid get_rid() override;
     void move_to_rid(const rid &pRID) override;
-
-  private:
-    std::shared_ptr<transaction> mTx;
-    std::shared_ptr<layout> mLt;
-    std::shared_ptr<record_page> mRP;
-    std::string mFileName;
-    int mCurrentSlot;
     
-    void move_to_block(const int &pBlkNum);
-    void move_to_new_block();
-    bool at_last_block();
+  private:
+    std::shared_ptr<scan> mS;
+    std::shared_ptr<predicate> mP;
   };
 }

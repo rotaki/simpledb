@@ -4,6 +4,7 @@
 
 namespace smartdb {
   class rid {
+    friend bool operator==(const rid &pLhs, const rid &pRhs);
   public:
     rid(const rid& pRID);
     rid(const int &pBlockNum, const int &pSlot);
@@ -11,7 +12,6 @@ namespace smartdb {
     int slot() const;
     bool equals(const rid &pRID) const;
     std::string to_string() const;
-    bool operator==(const rid &pRID) const;
   private:
     int mBlockNum;
     int mSlot;

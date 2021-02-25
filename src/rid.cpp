@@ -1,6 +1,9 @@
 #include "rid.hpp"
 
 namespace smartdb {
+  bool operator==(const rid &pLhs, const rid &pRhs) {
+    return (pLhs.mBlockNum == pRhs.mBlockNum) && (pLhs.mSlot == pRhs.mSlot);
+  }
   rid::rid(const rid &pRID):
     mBlockNum(pRID.mBlockNum), mSlot(pRID.mSlot) {}
   
@@ -21,10 +24,6 @@ namespace smartdb {
 
   std::string rid::to_string() const {
     return "[" + std::to_string(mBlockNum) + ", " + std::to_string(mSlot) + "]";
-  }
-
-  bool rid::operator==(const rid &pRID) const {
-    return equals(pRID);
   }
 }
 

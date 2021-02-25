@@ -3,6 +3,43 @@
 #include "constant.hpp"
 
 namespace smartdb {
+  bool operator==(const constant &pLhs, const constant &pRhs) {
+    return (pLhs.mIVal ? *(pLhs.mIVal) == *(pRhs.mIVal) : *(pLhs.mSVal) == *(pRhs.mSVal));
+  }
+
+  bool operator!=(const constant &pLhs, const constant &pRhs) {
+    if (pLhs == pRhs) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  bool operator<(const constant &pLhs, const constant &pRhs) {
+    return (pLhs.mIVal ? *(pLhs.mIVal) < *(pRhs.mIVal) : *(pLhs.mSVal) < *(pRhs.mSVal));
+  }
+
+
+  bool operator>(const constant &pLhs, const constant &pRhs) {
+    return (pLhs.mIVal ? *(pLhs.mIVal) > *(pRhs.mIVal) : *(pLhs.mSVal) > *(pRhs.mSVal));
+  }
+
+  bool operator<=(const constant &pLhs, const constant &pRhs) {
+    if (pLhs > pRhs) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  bool operator>=(const constant &pLhs, const constant &pRhs) {
+    if (pLhs < pRhs) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
   constant::constant(){}
   
   constant::constant(const constant &pVal):
@@ -32,19 +69,19 @@ namespace smartdb {
     return *mSVal;
   }
 
-  bool constant::operator==(const constant &pVal) const {
-    return (mIVal ? *mIVal == pVal.as_int() : *mSVal == pVal.as_string());
-  }
-
-  bool constant::operator<(const constant &pVal) const {
-    return (mIVal ? *mIVal < pVal.as_int() : *mSVal < pVal.as_string());
-  }
-
   std::string constant::to_string() const {
     return (mIVal ? std::to_string(*mIVal) : *mSVal);
   }
 
   int constant::hash_code() const {
     return (mIVal ? std::hash<int>{}(*mIVal) : std::hash<std::string>{}(*mSVal));
+  }
+
+  bool constant::is_null() const {
+    if (mIVal || mSVal) {
+      return false;
+    } else {
+      return true;
+    }
   }
 }

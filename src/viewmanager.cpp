@@ -1,13 +1,12 @@
 #include "viewmanager.hpp"
 
-// todo need testing
 namespace smartdb {
   view_manager::view_manager(bool pIsNew, std::shared_ptr<table_manager> pTM, std::shared_ptr<transaction> pTx):
     mTM(pTM)
   {
     if (pIsNew) {
       std::shared_ptr<schema> sch(new schema);
-      sch->add_string_field("viewname", mTM->mMaxName); // todo is this possible?
+      sch->add_string_field("viewname", mTM->mMaxName);
       sch->add_string_field("viewdef", mMaxViewDiff);
       mTM->create_table("viewcat", sch, pTx);
     }

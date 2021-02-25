@@ -42,6 +42,6 @@ namespace smartdb {
 
   private:
     std::vector<std::string> mFields;
-    std::map<std::string, std::shared_ptr<field_info>> mInfo; // todo value ma?
+    std::map<std::string, std::shared_ptr<field_info>> mInfo;
   };
 }
