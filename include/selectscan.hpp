@@ -10,7 +10,7 @@
 namespace smartdb {
   class select_scan: public update_scan {
   public:
-    select_scan(std::shared_ptr<scan> pS, std::shared_ptr<predicate> pP);
+    select_scan(std::shared_ptr<scan> pS, const predicate &pP);
 
     void before_first() override;
     bool next() override;
@@ -30,6 +30,6 @@ namespace smartdb {
     
   private:
     std::shared_ptr<scan> mS;
-    std::shared_ptr<predicate> mP;
+    predicate mP;
   };
 }

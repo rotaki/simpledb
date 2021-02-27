@@ -1,6 +1,8 @@
 #include "expression.hpp"
 
 namespace smartdb {
+  expression::expression() {}
+  
   expression::expression(const expression &pE):
     mVal(pE.mVal), mFldName(pE.mFldName) {}
   
@@ -9,6 +11,14 @@ namespace smartdb {
 
   expression::expression(const std::string &pFldName):
     mFldName(pFldName) {}
+
+  expression& expression::operator=(const expression &pE) {
+    if (this != &pE) {
+      mVal = pE.mVal;
+      mFldName = pE.mFldName;
+    }
+    return *this;
+  }
 
   bool expression::is_field_name() {
     return !mFldName.empty();

@@ -6,7 +6,10 @@
 namespace smartdb {
   class term {
   public:
+    term();
+    term(const term &pT);
     term(const expression &pLhs, const expression &pRhs);
+    term& operator=(const term &pT);
     bool is_satisfied(std::shared_ptr<scan> pS);
     bool applies_to(std::shared_ptr<schema> pSch);
     int reduction_factor(std::shared_ptr<plan> pPlan);

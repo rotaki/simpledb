@@ -3,8 +3,21 @@
 #include "term.hpp"
 
 namespace smartdb {
+  term::term() {}
+  
+  term::term(const term &pT):
+    mLhs(pT.mLhs), mRhs(pT.mRhs) {}
+
   term::term(const expression &pLhs, const expression &pRhs):
     mLhs(pLhs), mRhs(pRhs) {}
+
+  term& term::operator=(const term &pT) {
+    if (this != &pT) {
+      mLhs = pT.mLhs;
+      mRhs = pT.mRhs;
+    }
+    return *this;
+  }
 
   bool term::is_satisfied(std::shared_ptr<scan> pS) {
     constant lhsVal = mLhs.evaluate(pS);

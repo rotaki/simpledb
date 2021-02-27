@@ -3,7 +3,7 @@
 #include "selectscan.hpp"
 
 namespace smartdb {
-  select_scan::select_scan(std::shared_ptr<scan> pS, std::shared_ptr<predicate> pP) :
+  select_scan::select_scan(std::shared_ptr<scan> pS, const predicate &pP) :
     mS(pS), mP(pP)
   {}
 
@@ -13,7 +13,7 @@ namespace smartdb {
 
   bool select_scan::next() {
     while (mS->next()) {
-      if (mP->is_satisfied(mS)) {
+      if (mP.is_satisfied(mS)) {
         return true;
       } 
     }

@@ -10,9 +10,11 @@
 namespace smartdb {
   class expression {
   public:
+    expression();
     expression(const expression &pE);
     expression(const constant &pVal);
     expression(const std::string &pFldName);
+    expression& operator=(const expression &pE);
     bool is_field_name();
     constant as_constant();
     std::string as_field_name();
