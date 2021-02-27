@@ -2,6 +2,6 @@
 
 int main(int argc, char **argv) {
   ::testing::InitGoogleTest(&argc, argv);
-  ::testing::GTEST_FLAG(filter)="tokenizer*";
+  ::testing::GTEST_FLAG(filter)="lexer*";
   return RUN_ALL_TESTS();
 }
