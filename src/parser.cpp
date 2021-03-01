@@ -41,7 +41,7 @@ namespace smartdb {
     return pred;
   }
 
-  query_data parser::query() {
+  std::shared_ptr<query_data> parser::query() {
     lex->eat_keyword("select");
     std::vector<std::string> fields = select_list();
     lex->eat_keyword("from");
@@ -51,7 +51,7 @@ namespace smartdb {
       lex->eat_keyword("where");
       pred = new_predicate();
     }
-    return query_data(fields, tables, pred);
+    return std::shared_ptr<query_data>(new query_data(fields, tables, pred));
   }
 
   std::vector<std::string> parser::select_list() {
@@ -77,7 +77,7 @@ namespace smartdb {
   }
 
   // todo udpate_cmd
-  object parser::update_cmd() {
+  std::shared_ptr<object> parser::update_cmd() {
     if (lex->match_keyword("insert")) {
       return insert();
     } else if (lex->match_keyword("delete")) {
@@ -89,7 +89,7 @@ namespace smartdb {
     }
   }
 
-  object parser::create() {
+  std::shared_ptr<object> parser::create() {
     lex->eat_keyword("create");
     if (lex->match_keyword("table")) {
       return create_table();
@@ -100,7 +100,7 @@ namespace smartdb {
     }
   }
 
-  delete_data parser::remove() {
+  std::shared_ptr<delete_data> parser::remove() {
     lex->eat_keyword("delete");
     lex->eat_keyword("from");
     std::string tblName = lex->eat_id();
@@ -109,10 +109,10 @@ namespace smartdb {
       lex->eat_keyword("where");
       pred = new_predicate();
     }
-    return delete_data(tblName, pred);
+    return std::shared_ptr<delete_data>(new delete_data(tblName, pred));
   }
 
-  insert_data parser::insert() {
+  std::shared_ptr<insert_data> parser::insert() {
     lex->eat_keyword("insert");
     lex->eat_keyword("into");
     std::string tblName = lex->eat_id();
@@ -123,7 +123,7 @@ namespace smartdb {
     lex->eat_delim('(');
     std::vector<constant> vals = const_list();
     lex->eat_delim(')');
-    return insert_data(tblName, flds, vals);
+    return std::shared_ptr<insert_data>(new insert_data(tblName, flds, vals));
   }
 
   std::vector<std::string> parser::field_list() {
@@ -148,7 +148,7 @@ namespace smartdb {
     return L;
   }
 
-  modify_data parser::modify() {
+  std::shared_ptr<modify_data> parser::modify() {
     lex->eat_keyword("update");
     std::string tblName = lex->eat_id();
     lex->eat_keyword("set");
@@ -160,16 +160,16 @@ namespace smartdb {
       lex->eat_keyword("where");
       pred = new_predicate();
     }
-    return modify_data(tblName, fldName, newVal, pred);
+    return std::shared_ptr<modify_data>(new modify_data(tblName, fldName, newVal, pred));
   }
 
-  create_table_data parser::create_table() {
+  std::shared_ptr<create_table_data> parser::create_table() {
     lex->eat_keyword("table");
     std::string tblName = lex->eat_id();
-    lex->eat_delim(',');
+    lex->eat_delim('(');
     std::shared_ptr<schema> sch = field_defs();
     lex->eat_delim(')');
-    return create_table_data(tblName, sch);
+    return std::shared_ptr<create_table_data>(new create_table_data(tblName, sch));
   }
 
   std::shared_ptr<schema> parser::field_defs() {
@@ -193,7 +193,7 @@ namespace smartdb {
       lex->eat_keyword("int");
       sch->add_int_field(pFldName);
     } else {
-      lex->eat_keyword("string");
+      lex->eat_keyword("varchar");
       lex->eat_delim('(');
       int strLen = lex->eat_int_constant();
       lex->eat_delim(')');
@@ -202,15 +202,15 @@ namespace smartdb {
     return sch;
   }
 
-  create_view_data parser::create_view() {
+  std::shared_ptr<create_view_data> parser::create_view() {
     lex->eat_keyword("view");
     std::string viewName = lex->eat_id();
     lex->eat_keyword("as");
-    query_data qD = query();
-    return create_view_data(viewName, qD);
+    std::shared_ptr<query_data> qD = query();
+    return std::shared_ptr<create_view_data>(new create_view_data(viewName, qD));
   }
 
-  create_index_data parser::create_index() {
+  std::shared_ptr<create_index_data> parser::create_index() {
     lex->eat_keyword("index");
     std::string idxName = lex->eat_id();
     lex->eat_keyword("on");
@@ -218,10 +218,6 @@ namespace smartdb {
     lex->eat_delim('(');
     std::string fldName = new_field();
     lex->eat_delim(')');
-    return create_index_data(idxName, tblName, fldName);
+    return std::shared_ptr<create_index_data>(new create_index_data(idxName, tblName, fldName));
   }
-  
-
-  
-  
 }

@@ -10,7 +10,7 @@ namespace fs = std::filesystem;
 
 namespace smartdb {
   TEST(metadatamanager, basic) {
-    smartdb db("metadatamgrtest", 400, 8);
+    smartdb db("metadatamgrtest");
     auto tx = db.new_tx();
     std::shared_ptr<metadata_manager> mM(new metadata_manager(true, tx));
     std::shared_ptr<schema> sch(new schema);

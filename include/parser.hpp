@@ -33,28 +33,28 @@ namespace smartdb {
 
 
     // methods for parsing queries
-    query_data query();
+    std::shared_ptr<query_data> query();
     
     // methods for parsing the varioud update commands
-    object update_cmd();
+    std::shared_ptr<object> update_cmd();
 
     // methods for parsing remove commands
-    delete_data remove();
+    std::shared_ptr<delete_data> remove();
 
     // methods for parsing insert commands
-    insert_data insert();
+    std::shared_ptr<insert_data> insert();
 
     // methods for parsing modify commands
-    modify_data modify();
+    std::shared_ptr<modify_data> modify();
 
     // method for parsing create table commands
-    create_table_data create_table();
+    std::shared_ptr<create_table_data> create_table();
 
     // method for parsing create view commands
-    create_view_data create_view();
+    std::shared_ptr<create_view_data> create_view();
 
     // method for parsing creaete index commands
-    create_index_data create_index();
+    std::shared_ptr<create_index_data> create_index();
 
 
   private:
@@ -65,7 +65,7 @@ namespace smartdb {
     std::set<std::string> table_list();
 
     // methods for parsing the various update commands
-    object create();
+    std::shared_ptr<object> create();
 
     // methods for parsing insert commands
     std::vector<std::string> field_list();

@@ -1,3 +1,4 @@
+#include <iostream>
 #include "predicate.hpp"
 
 namespace smartdb {
@@ -25,8 +26,8 @@ namespace smartdb {
     mTerms.insert(mTerms.end(), pP.mTerms.begin(), pP.mTerms.end());
   }
 
-  bool predicate::is_satisfied(std::shared_ptr<scan> pS) {
-    for (auto t: mTerms) {
+  bool predicate::is_satisfied(std::shared_ptr<scan> pS) const {
+    for (const term &t: mTerms) {
       if (!t.is_satisfied(pS)) {
         return false;
       }
@@ -34,18 +35,18 @@ namespace smartdb {
     return true;
   }
 
-  int predicate::reduction_factor(std::shared_ptr<plan> pPlan) {
+  int predicate::reduction_factor(std::shared_ptr<plan> pPlan) const {
     int factor = 1;
-    for (auto t: mTerms) {
+    for (const term &t: mTerms) {
       factor *= t.reduction_factor(pPlan);
     }
     return factor;
   }
 
 
-  predicate predicate::select_sub_pred(std::shared_ptr<schema> pSch){
+  predicate predicate::select_sub_pred(std::shared_ptr<schema> pSch) const {
     predicate result;
-    for (auto t: mTerms) {
+    for (const term &t: mTerms) {
       if (t.applies_to(pSch)) {
         result.mTerms.emplace_back(t);
       }
@@ -54,12 +55,12 @@ namespace smartdb {
   }
 
 
-  predicate predicate::join_sub_pred(std::shared_ptr<schema> pSch1, std::shared_ptr<schema> pSch2) {
+  predicate predicate::join_sub_pred(std::shared_ptr<schema> pSch1, std::shared_ptr<schema> pSch2) const {
     predicate result;
     std::shared_ptr<schema> newSch(new schema);
     newSch->add_all(pSch1);
     newSch->add_all(pSch2);
-    for (auto t: mTerms) {
+    for (const term &t: mTerms) {
       if (!t.applies_to(pSch1) && !t.applies_to(pSch2) && t.applies_to(newSch)) {
         result.mTerms.emplace_back(t);
       }
@@ -67,8 +68,8 @@ namespace smartdb {
     return result;
   }
 
-  constant predicate::equates_with_constant(const std::string &pFldName) {
-    for (auto t: mTerms) {
+  constant predicate::equates_with_constant(const std::string &pFldName) const {
+    for (const term &t: mTerms) {
       constant c = t.equates_with_constant(pFldName);
       if (!c.is_null()) {
         return c;
@@ -78,8 +79,8 @@ namespace smartdb {
     return n;
   }
 
-  std::string predicate::equates_with_field(const std::string &pFldName) {
-    for (auto t: mTerms) {
+  std::string predicate::equates_with_field(const std::string &pFldName) const {
+    for (const term &t: mTerms) {
       std::string s = t.equates_with_field(pFldName);
       if (!s.empty()) {
         return s;
@@ -91,7 +92,7 @@ namespace smartdb {
   std::string predicate::to_string() const {
     std::string result = "";
     int cnt = 0;
-    for (auto t: mTerms) {
+    for (const term &t: mTerms) {
       cnt++;
       result += t.to_string();
       if (cnt < static_cast<int>(mTerms.size())) {

@@ -11,7 +11,7 @@ namespace smartdb {
                     createview,
                     createindex
     };
-    virtual ~object();
-    virtual int op();
+    virtual ~object() {};
+    virtual int op() = 0;
   };
 }

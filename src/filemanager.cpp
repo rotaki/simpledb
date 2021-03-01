@@ -6,6 +6,7 @@
 #include <sys/types.h>
 #include <unistd.h>
 
+#include "logger.hpp"
 #include "filemanager.hpp"
 
 namespace smartdb {
@@ -102,7 +103,6 @@ namespace smartdb {
       if (fileIO->is_open()) return fileIO;
     }
 
-
     fileIO->open(path.string(), std::ios::binary | std::ios::in | std::ios::out);
     if (!fileIO->is_open()) {
       // clear the error flag
@@ -113,7 +113,8 @@ namespace smartdb {
       // reopen with original mode
       fileIO->open(path.string(), std::ios::binary | std::ios::in | std::ios::out);
       if (!fileIO->is_open()) {
-        throw std::runtime_error("can't open file: " + pFileName);
+        LOG_ERROR("can't open file: %s", pFileName.c_str());
+        throw std::runtime_error("can't open file");
       }
     }
 

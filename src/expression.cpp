@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include "expression.hpp"
 
 namespace smartdb {
@@ -20,27 +22,27 @@ namespace smartdb {
     return *this;
   }
 
-  bool expression::is_field_name() {
+  bool expression::is_field_name() const {
     return !mFldName.empty();
   }
 
-  constant expression::as_constant() {
+  constant expression::as_constant() const {
     return mVal;
   }
 
-  std::string expression::as_field_name() {
+  std::string expression::as_field_name() const {
     return mFldName;
   }
 
-  constant expression::evaluate(std::shared_ptr<scan> pS) {
-    return (!mVal.is_null() ? pS->get_val(mFldName) : mVal);
+  constant expression::evaluate(std::shared_ptr<scan> pS) const{
+    return (mVal.is_null() ? pS->get_val(mFldName) : mVal);
   }
 
-  bool expression::applies_to(std::shared_ptr<schema> pSch) {
-    return (!mVal.is_null() ? pSch->has_field(mFldName) : true);
+  bool expression::applies_to(std::shared_ptr<schema> pSch) const {
+    return (mVal.is_null() ? pSch->has_field(mFldName) : true);
   }
 
-  std::string expression::to_string() {
-    return (!mVal.is_null() ? mFldName : mVal.to_string());
+  std::string expression::to_string() const {
+    return  (mVal.is_null() ? mFldName : mVal.to_string());
   }
 }

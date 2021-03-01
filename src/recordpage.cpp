@@ -1,4 +1,7 @@
+#include <iostream>
+
 #include "recordpage.hpp"
+#include "logger.hpp"
 
 namespace smartdb {
   record_page::record_page(std::shared_ptr<transaction> pTx,
@@ -86,8 +89,13 @@ namespace smartdb {
   }
 
   int record_page::offset(const int &pSlot) const {
-    return pSlot * mLayout->slot_size();
+    int slotSize = mLayout->slot_size();
+    int offset = pSlot * slotSize;
+    if (offset < 0) {
+      LOG_ERROR("slot num %d, slot size %d, offset %d", pSlot, slotSize, offset);
+      throw std::runtime_error("negative offset");
+    }
+    return offset;
   }
-  
 }
 

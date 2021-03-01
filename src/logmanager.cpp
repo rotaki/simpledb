@@ -23,7 +23,7 @@ namespace smartdb {
   }
 
   int log_manager::append(const std::vector<char> &pLogRecord) {
-    std::unique_lock<std::mutex> lock(mMutex); // only one thread should add record to page 
+    std::unique_lock<std::mutex> lock(mMutex); // only one thread should add record to page
     int boundary= mLogPage->get_int(0);
     int recSize = pLogRecord.size();
     int bytesNeeded = recSize + sizeof(int); // record itself and size of record
@@ -33,6 +33,7 @@ namespace smartdb {
       mCurrentBlk = append_new_block(); // the page might be dirty but ok
       boundary = mLogPage->get_int(0);
     }
+
     int recPos = boundary - bytesNeeded;
     mLogPage->set_bytes(recPos, pLogRecord);
     mLogPage->set_int(0, recPos);

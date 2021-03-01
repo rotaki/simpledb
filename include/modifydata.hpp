@@ -11,10 +11,10 @@ namespace smartdb {
   class modify_data: public object {
   public:
     int op() override;
-    modify_data();
-    modify_data(const modify_data &pMD);
+    // modify_data();
+    // modify_data(const modify_data &pMD);
     modify_data(const std::string &pTblName, const std::string &pFldName, const expression &pNewVal, const predicate &pPred);
-    modify_data& operator=(const modify_data &pMD);
+    // modify_data& operator=(const modify_data &pMD);
     
     std::string table_name() const;
 

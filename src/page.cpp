@@ -1,8 +1,10 @@
+#include <iostream>
 #include <stdexcept>
 #include <cstring>
 #include <vector>
 
 #include "page.hpp"
+#include "logger.hpp"
 
 namespace smartdb {
   page::page(const int &pBlockSize) {
@@ -15,6 +17,7 @@ namespace smartdb {
   
   int page::get_int(const int &pOffset) const {
     if (pOffset + sizeof(int) > mByteBuffer.size()) {
+      LOG_ERROR("offset: %d, sizeof(int): %ld, PAGE_SIZE:%lu", pOffset, sizeof(int), mByteBuffer.size());
       throw std::runtime_error("Page overflow while get_int");
     }
     int num;
@@ -24,6 +27,7 @@ namespace smartdb {
 
   void page::set_int(const int &pOffset, const int &num) {
     if (pOffset + sizeof(int) > mByteBuffer.size()) {
+      LOG_ERROR("offset: %d, sizeof(int): %ld, PAGE_SIZE:%lu", pOffset, sizeof(int), mByteBuffer.size());
       throw std::runtime_error("Page overflow while set_int");
     }
     std::memcpy(&mByteBuffer[pOffset], &num, sizeof(int));

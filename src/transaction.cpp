@@ -1,6 +1,7 @@
 #include <iostream>
 
 #include "transaction.hpp"
+#include "logger.hpp"
 
 namespace smartdb {
   int transaction::mNextTxNum = 0;

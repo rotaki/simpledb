@@ -40,7 +40,7 @@ namespace smartdb {
 
   int schema::type(const std::string &pFldName) {
     if (mInfo.find(pFldName) == mInfo.end()) {
-      throw std::runtime_error("field info not found");
+      throw std::runtime_error("field info (" + pFldName+ ") not found");
     } else {
       return mInfo[pFldName]->type();
     }
@@ -48,7 +48,7 @@ namespace smartdb {
 
   int schema::length(const std::string &pFldName) {
     if (mInfo.find(pFldName) == mInfo.end()) {
-      throw std::runtime_error("field info not found");
+      throw std::runtime_error("field info (" + pFldName+ ") not found");
     } else {
       return mInfo[pFldName]->length();
     }

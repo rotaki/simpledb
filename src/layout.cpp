@@ -18,7 +18,7 @@ namespace smartdb {
                  int pSlotSize):
     mSchema(pSchema), mOffsets(pOffsets), mSlotSize(pSlotSize) {}
 
-  std::shared_ptr<schema> layout::get_schema() {
+  std::shared_ptr<schema> layout::get_schema() const {
     return mSchema;
   }
 
@@ -30,7 +30,7 @@ namespace smartdb {
     }
   }
 
-  int layout::slot_size() {
+  int layout::slot_size() const {
     return mSlotSize;
   }
 

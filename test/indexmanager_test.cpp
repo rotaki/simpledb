@@ -39,7 +39,6 @@ namespace smartdb {
       std::cout << fldName << " " << iI->blocks_accessed() << std::endl;
     }
     tx->commit();
-
     fs::remove_all(dirSandBox);
   }
 }
