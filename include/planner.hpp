@@ -3,6 +3,7 @@
 #include <memory>
 
 #include "queryplanner.hpp"
+#include "updateplanner.hpp"
 
 namespace smartdb {
   class planner {
