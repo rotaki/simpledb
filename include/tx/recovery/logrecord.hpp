@@ -25,7 +25,7 @@ namespace smartdb {
     virtual ~log_record();
     virtual int op() = 0;
     virtual int tx_number() = 0;
-    virtual void undo(std::shared_ptr<transaction> pTx) = 0;
+    virtual void undo(transaction* pTx) = 0;
     static std::shared_ptr<log_record> create_log_record(std::vector<char> &pByteVec);
   };
 
@@ -35,8 +35,8 @@ namespace smartdb {
     int op() override;
     int tx_number() override;
     std::string to_string();
-    void undo(std::shared_ptr<transaction> pTx) override;
-    static int write_to_log(std::shared_ptr<log_manager> pLM);
+    void undo(transaction* pTx) override;
+    static int write_to_log(log_manager* pLM);
   };
 
   class start_record: public log_record {
@@ -45,8 +45,8 @@ namespace smartdb {
     int op() override;
     int tx_number() override;
     std::string to_string();
-    void undo(std::shared_ptr<transaction> pTx) override;
-    static int write_to_log(std::shared_ptr<log_manager> pLM,
+    void undo(transaction* pTx) override;
+    static int write_to_log(log_manager* pLM,
                             const int &pTxNum);
   private:
     int mTxNum;
@@ -58,8 +58,8 @@ namespace smartdb {
     int op() override;
     int tx_number() override;
     std::string to_string();
-    void undo(std::shared_ptr<transaction> pTx) override;
-    static int write_to_log(std::shared_ptr<log_manager> pLM,
+    void undo(transaction* pTx) override;
+    static int write_to_log(log_manager* pLM,
                             const int &pTxNum);
   private:
     int mTxNum;
@@ -71,8 +71,8 @@ namespace smartdb {
     int op() override;
     int tx_number() override;
     std::string to_string();
-    void undo(std::shared_ptr<transaction> pTx) override;
-    static int write_to_log(std::shared_ptr<log_manager> pLM,
+    void undo(transaction* pTx) override;
+    static int write_to_log(log_manager* pLM,
                             const int &pTxNum);
   private:
     int mTxNum;
@@ -85,17 +85,17 @@ namespace smartdb {
     int op() override;
     int tx_number() override;
     std::string to_string();
-    void undo(std::shared_ptr<transaction> pTx) override;
-    static int write_to_log(std::shared_ptr<log_manager> pLM,
+    void undo(transaction* pTx) override;
+    static int write_to_log(log_manager* pLM,
                             const int &pTxNum,
-                            std::shared_ptr<block_id> pBlockId,
+                            const block_id & pBlockId,
                             const int &pOffset,
                             const int &pVal);
 
   private:
     int mTxNum, mOffset;
     int mVal;
-    std::shared_ptr<block_id> mBlockId;
+    block_id mBlockId;
   };
 
   class set_string_record: public log_record {
@@ -104,17 +104,17 @@ namespace smartdb {
     int op() override;
     int tx_number() override;
     std::string to_string();
-    void undo(std::shared_ptr<transaction> pTx) override;
-    static int write_to_log(std::shared_ptr<log_manager> pLM,
+    void undo(transaction* pTx) override;
+    static int write_to_log(log_manager* pLM,
                             const int &pTxNum,
-                            std::shared_ptr<block_id> pBlockId,
+                            const block_id & pBlockId,
                             const int &pOffset,
                             const std::string &pVal);
     
   private:
     int mTxNum, mOffset;
     std::string mVal;
-    std::shared_ptr<block_id> mBlockId;
+    block_id mBlockId;
   };
   
 }

@@ -67,12 +67,12 @@ namespace smartdb {
     fileIO->flush();
   }
 
-  std::shared_ptr<block_id> file_manager::append(const std::string &pFileName) {
+  block_id file_manager::append(const std::string &pFileName) {
     std::unique_lock<std::mutex> lock(mMutex);
     std::shared_ptr<std::fstream> fileIO = get_file(pFileName);
 
     int newBlockNum = length(pFileName);
-    std::shared_ptr<block_id> blockId(new block_id(pFileName, newBlockNum));
+    block_id blockId(pFileName, newBlockNum);
     
     std::vector<char> byteVec;
     byteVec.resize(mBlockSize);

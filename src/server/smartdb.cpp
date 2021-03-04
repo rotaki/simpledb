@@ -13,13 +13,15 @@ namespace smartdb {
   
   smartdb::smartdb(const std::string &pDirName, const int &pBlockSize, const int &pBuffSize) {
     auto path = std::filesystem::current_path() / pDirName;
-    mFM = std::shared_ptr<file_manager>(new file_manager(path, pBlockSize));
-    mLM = std::shared_ptr<log_manager>(new log_manager(mFM, mLogFile));
-    mBM = std::shared_ptr<buffer_manager>(new buffer_manager(mFM, mLM, pBuffSize));
+    mFM = std::make_unique<file_manager>(path, pBlockSize); // todo unique
+    mLM = std::make_unique<log_manager>(mFM.get(), mLogFile);
+    mBM = std::make_unique<buffer_manager>(mFM.get(), mLM.get(), pBuffSize);
   }
 
   smartdb::smartdb(const std::string &pDirName): smartdb(pDirName, mBlockSize, mBufferSize) {
-    std::shared_ptr<transaction> tx = transaction::create(mFM, mLM, mBM);
+    //std::unique_ptr<transaction> tx = transaction::create(mFM.get(), mLM.get(), mBM.get());
+    auto tx = std::make_shared<transaction>(mFM.get(), mLM.get(), mBM.get());
+    //auto tx = std::make_unique<transaction>(mFM.get(), mLM.get(), mBM.get());
     bool isNew = mFM->is_new();
     if (isNew) {
       std::cout << "creating new database" << std::endl;
@@ -34,27 +36,28 @@ namespace smartdb {
     tx->commit();
   }
 
-  std::shared_ptr<transaction> smartdb::new_tx() {
-    return transaction::create(mFM, mLM, mBM);
+  std::unique_ptr<transaction> smartdb::new_tx() {
+    auto txPtr = std::make_unique<transaction>(mFM.get(), mLM.get(), mBM.get());
+    return txPtr;
   }
 
   std::shared_ptr<metadata_manager> smartdb::new_mm() {
     return mMM;
   }
   
-  std::shared_ptr<file_manager> smartdb::new_fm() {
-    return mFM;
+  file_manager* smartdb::new_fm() {
+    return mFM.get();
   }
 
   std::shared_ptr<planner> smartdb::new_planner() {
     return mP;
   }
 
-  std::shared_ptr<log_manager> smartdb::new_lm() {
-    return mLM;
+  log_manager* smartdb::new_lm() {
+    return mLM.get();
   }
 
-  std::shared_ptr<buffer_manager> smartdb::new_bm() {
-    return mBM;
+  buffer_manager* smartdb::new_bm() {
+    return mBM.get();
   }
 }

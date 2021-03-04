@@ -9,11 +9,12 @@
 #include "tx/bufferlist.hpp"
 
 namespace smartdb {
-  class transaction: public std::enable_shared_from_this<transaction> {
+  class transaction {
   public:
-    static std::shared_ptr<transaction> create(std::shared_ptr<file_manager> pFM,
-                                               std::shared_ptr<log_manager> pLM,
-                                               std::shared_ptr<buffer_manager> pBM);
+    transaction(file_manager* pFM,
+                log_manager* pLM,
+                buffer_manager* pBM);
+
     void commit();
     void rollback();
     void recover();
@@ -39,18 +40,14 @@ namespace smartdb {
     static int mNextTxNum;
     static std::mutex mMutex;
     const int mEndOfFile = -1;
-    std::shared_ptr<file_manager> mFM;
-    std::shared_ptr<log_manager> mLM;
-    std::shared_ptr<buffer_manager> mBM;
+    file_manager* mFM;
+    log_manager* mLM;
+    buffer_manager* mBM;
     int mTxNum;
     std::shared_ptr<recovery_manager> mRM;
     std::shared_ptr<concurrency_manager> mCM;
     std::shared_ptr<buffer_list> mBL;
 
-    transaction(std::shared_ptr<file_manager> pFM,
-                std::shared_ptr<log_manager> pLM,
-                std::shared_ptr<buffer_manager> pBM);
-    void start();
 
     static int next_tx_number();
   };

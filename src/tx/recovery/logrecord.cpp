@@ -41,11 +41,11 @@ namespace smartdb {
     return "<CHECKPOINT>";
   }
 
-  void checkpoint_record::undo(std::shared_ptr<transaction> pTx) {
+  void checkpoint_record::undo(transaction* pTx) {
     // do nothing;
   }
 
-  int checkpoint_record::write_to_log(std::shared_ptr<log_manager> pLM) {
+  int checkpoint_record::write_to_log(log_manager* pLM) {
     std::vector<char> byteVec(sizeof(int), 0);
     std::shared_ptr<page> p(new page(byteVec));
     p->set_int(0, checkpoint);
@@ -70,11 +70,11 @@ namespace smartdb {
     return "<START, " + std::to_string(mTxNum) + ">";
   }
 
-  void start_record::undo(std::shared_ptr<transaction> pTx)  {
+  void start_record::undo(transaction* pTx)  {
     // do nothing
   }
 
-  int start_record::write_to_log(std::shared_ptr<log_manager> pLM,
+  int start_record::write_to_log(log_manager* pLM,
                                  const int &pTxNum) {
     int tPos = sizeof(int);
     int recLen = tPos + sizeof(int);
@@ -103,11 +103,11 @@ namespace smartdb {
     return "<COMMIT, " + std::to_string(mTxNum) + ">";
   }
 
-  void commit_record::undo(std::shared_ptr<transaction> pTx) {
+  void commit_record::undo(transaction* pTx) {
     // do nothing
   }
 
-  int commit_record::write_to_log(std::shared_ptr<log_manager> pLM,
+  int commit_record::write_to_log(log_manager* pLM,
                                   const int &pTxNum) {
     int tPos = sizeof(int);
     int recLen = tPos + sizeof(int);
@@ -136,11 +136,11 @@ namespace smartdb {
     return "<ROLLBACK, " + std::to_string(mTxNum) + ">";
   }
 
-  void rollback_record::undo(std::shared_ptr<transaction> pTx) {
+  void rollback_record::undo(transaction* pTx) {
     // do nothing
   }
   
-  int rollback_record::write_to_log(std::shared_ptr<log_manager> pLM,
+  int rollback_record::write_to_log(log_manager* pLM,
                                     const int &pTxNum) {
     int tPos = sizeof(int);
     int recLen = tPos + sizeof(int);
@@ -159,7 +159,7 @@ namespace smartdb {
     std::string fileName = pPage->get_string(fPos);
     int bPos = fPos + page::max_length(fileName.size());
     int blkNum = pPage->get_int(bPos);
-    mBlockId = std::shared_ptr<block_id>(new block_id(fileName, blkNum));
+    mBlockId = block_id(fileName, blkNum);
     int oPos = bPos + sizeof(int);
     mOffset = pPage->get_int(oPos);
     int vPos = oPos + sizeof(int);
@@ -175,23 +175,23 @@ namespace smartdb {
   }
 
   std::string set_int_record::to_string() {
-    return "<SETINT, " + std::to_string(mTxNum) + ", " + mBlockId->to_string() + ", " + std::to_string(mOffset) + ", " + std::to_string(mVal) + ">";
+    return "<SETINT, " + std::to_string(mTxNum) + ", " + mBlockId.to_string() + ", " + std::to_string(mOffset) + ", " + std::to_string(mVal) + ">";
   }
 
-  void set_int_record::undo(std::shared_ptr<transaction> pTx) {
-    pTx->pin(mBlockId);
-    pTx->set_int(mBlockId, mOffset, mVal, false);
-    pTx->unpin(mBlockId);
+  void set_int_record::undo(transaction* pTx) {
+    pTx->pin(std::make_shared<block_id>(mBlockId));
+    pTx->set_int(std::make_shared<block_id>(mBlockId), mOffset, mVal, false);
+    pTx->unpin(std::make_shared<block_id>(mBlockId));
   }
 
-  int set_int_record::write_to_log(std::shared_ptr<log_manager> pLM,
+  int set_int_record::write_to_log(log_manager* pLM,
                                    const int &pTxNum,
-                                   std::shared_ptr<block_id> pBlockId,
+                                   const block_id &pBlockId,
                                    const int &pOffset,
                                    const int &pVal) {
     int tPos = sizeof(int);
     int fPos = tPos + sizeof(int);
-    int bPos = fPos + page::max_length(pBlockId->file_name().size());
+    int bPos = fPos + page::max_length(pBlockId.file_name().size());
     int oPos = bPos + sizeof(int);
     int vPos = oPos + sizeof(int);
     int recLen = vPos + sizeof(int);
@@ -199,8 +199,8 @@ namespace smartdb {
     std::shared_ptr<page> p(new page(byteVec));
     p->set_int(0, setint);
     p->set_int(tPos, pTxNum);
-    p->set_string(fPos, pBlockId->file_name());
-    p->set_int(bPos, pBlockId->number());
+    p->set_string(fPos, pBlockId.file_name());
+    p->set_int(bPos, pBlockId.number());
     p->set_int(oPos, pOffset);
     p->set_int(vPos, pVal);
     std::vector<char> rec = p->contents();
@@ -214,7 +214,7 @@ namespace smartdb {
     std::string fileName = pPage->get_string(fPos);
     int bPos = fPos + page::max_length(fileName.size());
     int blkNum = pPage->get_int(bPos);
-    mBlockId = std::shared_ptr<block_id>(new block_id(fileName, blkNum));
+    mBlockId = block_id(fileName, blkNum);
     int oPos = bPos + sizeof(int);
     mOffset = pPage->get_int(oPos);
     int vPos = oPos + sizeof(int);
@@ -230,23 +230,23 @@ namespace smartdb {
   }
 
   std::string set_string_record::to_string() {
-    return "<SETSTRING, " + std::to_string(mTxNum) + ", " + mBlockId->to_string() + ", " + std::to_string(mOffset) + ", " + mVal + ">";
+    return "<SETSTRING, " + std::to_string(mTxNum) + ", " + mBlockId.to_string() + ", " + std::to_string(mOffset) + ", " + mVal + ">";
   }
 
-  void set_string_record::undo(std::shared_ptr<transaction> pTx) {
-    pTx->pin(mBlockId);
-    pTx->set_string(mBlockId, mOffset, mVal, false);
-    pTx->unpin(mBlockId);
+  void set_string_record::undo(transaction* pTx) {
+    pTx->pin(std::make_shared<block_id>(mBlockId));
+    pTx->set_string(std::make_shared<block_id>(mBlockId), mOffset, mVal, false);
+    pTx->unpin(std::make_shared<block_id>(mBlockId)); // todo fix
   }
 
-  int set_string_record::write_to_log(std::shared_ptr<log_manager> pLM,
+  int set_string_record::write_to_log(log_manager* pLM,
                                       const int &pTxNum,
-                                      std::shared_ptr<block_id> pBlockId,
+                                      const block_id &pBlockId,
                                       const int &pOffset,
                                       const std::string &pVal) {
     int tPos = sizeof(int);
     int fPos = tPos + sizeof(int);
-    int bPos = fPos + page::max_length(pBlockId->file_name().size());
+    int bPos = fPos + page::max_length(pBlockId.file_name().size());
     int oPos = bPos + sizeof(int);
     int vPos = oPos + sizeof(int);
     int recLen = vPos + page::max_length(pVal.size());
@@ -254,8 +254,8 @@ namespace smartdb {
     std::shared_ptr<page> p(new page(byteVec));
     p->set_int(0, setstring);
     p->set_int(tPos, pTxNum);
-    p->set_string(fPos, pBlockId->file_name());
-    p->set_int(bPos, pBlockId->number());
+    p->set_string(fPos, pBlockId.file_name());
+    p->set_int(bPos, pBlockId.number());
     p->set_int(oPos, pOffset);
     p->set_string(vPos, pVal);
     std::vector<char> rec = p->contents();

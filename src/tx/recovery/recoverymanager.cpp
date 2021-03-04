@@ -4,13 +4,13 @@
 #include "tx/recovery/logrecord.hpp"
 
 namespace smartdb {
-  recovery_manager::recovery_manager(std::shared_ptr<transaction> pTx,
+  recovery_manager::recovery_manager(transaction* pTx,
                                      const int &pTxNum,
-                                     std::shared_ptr<log_manager> pLM,
-                                     std::shared_ptr<buffer_manager> pBM):
+                                     log_manager* pLM,
+                                     buffer_manager* pBM):
     mTx(pTx), mTxNum(pTxNum), mLM(pLM), mBM(pBM)
   {
-    start_record::write_to_log(mLM, mTxNum);
+    start_record::write_to_log(mLM, mTxNum); // todo fix
   }
 
   void recovery_manager::commit() {
@@ -33,19 +33,19 @@ namespace smartdb {
     mLM->flush(lsn);
   }
 
-  int recovery_manager::set_int(std::shared_ptr<buffer> pBuff,
+  int recovery_manager::set_int(buffer* pBuff,
                                 const int &pOffset,
                                 const int &pNewVal) {
     int oldVal = pBuff->contents()->get_int(pOffset);
-    std::shared_ptr<block_id> blockId = pBuff->block();
+    block_id blockId = pBuff->block();
     return set_int_record::write_to_log(mLM, mTxNum, blockId, pOffset, oldVal);
   }
 
-  int recovery_manager::set_string(std::shared_ptr<buffer> pBuff,
+  int recovery_manager::set_string(buffer* pBuff,
                                    const int &pOffset,
                                    const std::string &pNewVal) {
     std::string oldVal = pBuff->contents()->get_string(pOffset);
-    std::shared_ptr<block_id> blockId = pBuff->block();
+    block_id blockId = pBuff->block();
     return set_string_record::write_to_log(mLM, mTxNum, blockId, pOffset, oldVal);
   }
 

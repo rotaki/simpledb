@@ -11,10 +11,10 @@ namespace smartdb {
 
   class recovery_manager {
   public:
-    recovery_manager(std::shared_ptr<transaction> pTx,
+    recovery_manager(transaction* pTx,
                      const int &pTxNum,
-                     std::shared_ptr<log_manager> pLM,
-                     std::shared_ptr<buffer_manager> pBM);
+                     log_manager* pLM,
+                     buffer_manager* pBM);
 
     void commit();
 
@@ -22,17 +22,17 @@ namespace smartdb {
 
     void recover();
 
-    int set_int(std::shared_ptr<buffer> pBuff, const int &pOffset, const int &pNewVal);
+    int set_int(buffer* pBuff, const int &pOffset, const int &pNewVal);
 
-    int set_string(std::shared_ptr<buffer> pBuff,
+    int set_string(buffer* pBuff,
                    const int &pOffset, const std::string &pNewVal);
 
 
   private:
-    std::shared_ptr<transaction> mTx;
+    transaction* mTx;
     int mTxNum;
-    std::shared_ptr<log_manager> mLM;
-    std::shared_ptr<buffer_manager> mBM;
+    log_manager* mLM;
+    buffer_manager* mBM;
 
     void do_rollback();
     void do_recover();

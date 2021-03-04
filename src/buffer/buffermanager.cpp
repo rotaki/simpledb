@@ -4,44 +4,45 @@
 #include "buffer/buffermanager.hpp"
 
 namespace smartdb {
-  buffer::buffer(std::shared_ptr<file_manager> pFileManager, std::shared_ptr<log_manager> pLogManager):
+  buffer::buffer(file_manager* pFileManager, log_manager* pLogManager):
     mFileManager(pFileManager), mLogManager(pLogManager)
   {
-    mContents = std::shared_ptr<page>(new page(mFileManager->block_size()));
+    //mContents = std::shared_ptr<page>(new page(mFileManager->block_size()));
+    mContents = std::make_unique<page>(mFileManager->block_size());
   }
 
-  std::shared_ptr<page> buffer::contents() {
-    return mContents;
+  page* buffer::contents() const {
+    return mContents.get();
   }
 
-  std::shared_ptr<block_id> buffer::block() {
+  block_id buffer::block() const {
     return mBlockId;
   }
 
-  void buffer::set_modified(int pTxNum, int pLSN) {
+  void buffer::set_modified(const int &pTxNum, const int &pLSN) {
     mTxNum = pTxNum;
     if (pLSN >= 0) mLSN = pLSN;
   }
 
-  bool buffer::is_pinned() {
+  bool buffer::is_pinned() const {
     return mPins > 0;
   }
 
-  int buffer::modifying_tx() {
+  int buffer::modifying_tx() const {
     return mTxNum;
   }
 
-  void buffer::assign_to_block(std::shared_ptr<block_id> pBlockId) {
+  void buffer::assign_to_block(const block_id &pBlockId) {
     flush();
     mBlockId = pBlockId;
-    mFileManager->read(*mBlockId, *mContents);
+    mFileManager->read(mBlockId, *mContents);
     mPins = 0;
   }
 
   void buffer::flush() {
     if (mTxNum >= 0) {
       mLogManager->flush(mLSN);
-      mFileManager->write(*mBlockId, *mContents);
+      mFileManager->write(mBlockId, *mContents);
       mTxNum = -1;
     }
   }
@@ -54,12 +55,14 @@ namespace smartdb {
     mPins--;
   }
 
-  buffer_manager::buffer_manager(std::shared_ptr<file_manager> pFileManager,
-                                 std::shared_ptr<log_manager> pLogManager,
+  buffer_manager::buffer_manager(file_manager* pFileManager,
+                                 log_manager* pLogManager,
                                  const int &pNumBuffs) {
     mNumAvailable = pNumBuffs;
     for (int i = 0; i < pNumBuffs; i++) {
-      mBufferPool.emplace_back(std::shared_ptr<buffer>(new buffer(pFileManager, pLogManager)));
+      auto bufferPtr = std::make_unique<buffer>(pFileManager, pLogManager);
+      mBufferPool.emplace_back(std::move(bufferPtr));
+      // mBufferPool.emplace_back(std::shared_ptr<buffer>(new buffer(pFileManager, pLogManager)));
     }
   }
 
@@ -70,14 +73,14 @@ namespace smartdb {
 
   void buffer_manager::flush_all(const int &pTxNum) {
     std::unique_lock<std::mutex> lock(mMutex);
-    for (auto &buff: mBufferPool) {
+    for (auto &&buff: mBufferPool) {
       if (buff->modifying_tx() == pTxNum) {
         buff->flush();
       }
     }
   }
 
-  void buffer_manager::unpin(std::shared_ptr<buffer> pBuff) {
+  void buffer_manager::unpin(buffer* pBuff) {
     std::unique_lock<std::mutex> lock(mMutex);
     pBuff->unpin();
     if (!pBuff->is_pinned()) {
@@ -86,10 +89,10 @@ namespace smartdb {
     }
   }
 
-  std::shared_ptr<buffer> buffer_manager::pin(std::shared_ptr<block_id> pBlockId) {
+  buffer* buffer_manager::pin(const block_id &pBlockId) {
     std::unique_lock<std::mutex> lock(mMutex);
     auto start = std::chrono::high_resolution_clock::now();
-    std::shared_ptr<buffer> buff = try_to_pin(pBlockId);
+    buffer* buff = try_to_pin(pBlockId);
     // while buffer is null and not have waited too long
     while (!buff && !waiting_too_long(start)) {
       mCondVar.wait_for(lock, std::chrono::milliseconds(mMaxTime));
@@ -106,8 +109,8 @@ namespace smartdb {
     return elapsed > mMaxTime;
   }
 
-  std::shared_ptr<buffer> buffer_manager::try_to_pin(std::shared_ptr<block_id> pBlockId) {
-    std::shared_ptr<buffer> buff = find_existing_buffer(pBlockId);
+  buffer* buffer_manager::try_to_pin(const block_id &pBlockId) {
+    buffer* buff = find_existing_buffer(pBlockId);
     // if buffer is not found
     if (!buff) {
       buff = choose_unpinned_buffer();
@@ -124,22 +127,22 @@ namespace smartdb {
     return buff;
   }
   
-  std::shared_ptr<buffer> buffer_manager::find_existing_buffer(std::shared_ptr<block_id> pBlockId) {
-    for (auto &buff: mBufferPool) {
-      std::shared_ptr<block_id> blockId = buff->block();
-      if (blockId && blockId->equals(*pBlockId)) {
-        return buff;
+  buffer* buffer_manager::find_existing_buffer(const block_id &pBlockId) {
+    for (auto &&buff: mBufferPool) {
+      block_id blockId = buff->block();
+      if (!blockId.is_null() && blockId == pBlockId) {
+        return buff.get();
       }
     }
-    return std::shared_ptr<buffer>(nullptr);
+    return nullptr;
   }
 
-  std::shared_ptr<buffer> buffer_manager::choose_unpinned_buffer() {
-    for (auto &buff: mBufferPool) {
+  buffer* buffer_manager::choose_unpinned_buffer() {
+    for (auto &&buff: mBufferPool) {
       if (!buff->is_pinned()) {
-        return buff;
+        return buff.get();
       }
     }
-    return std::shared_ptr<buffer>(nullptr);
+    return nullptr;
   }
 }

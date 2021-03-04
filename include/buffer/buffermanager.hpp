@@ -10,22 +10,22 @@
 namespace smartdb {
   class buffer {
   public:
-    buffer(std::shared_ptr<file_manager> pFileManager, std::shared_ptr<log_manager> pLogManager);
-    std::shared_ptr<page> contents();
-    std::shared_ptr<block_id> block();
-    void set_modified(int pTxNum, int pLSN);
-    bool is_pinned();
-    int modifying_tx();
-    void assign_to_block(std::shared_ptr<block_id> pBlockId);
+    buffer(file_manager* pFileManager, log_manager* pLogManager);
+    page* contents() const;
+    block_id block() const;
+    void set_modified(const int &pTxNum, const int &pLSN);
+    bool is_pinned() const;
+    int modifying_tx() const;
+    void assign_to_block(const block_id &pBlockId);
     void flush();
     void pin();
     void unpin();
     
   private:
-    std::shared_ptr<file_manager> mFileManager;
-    std::shared_ptr<log_manager> mLogManager;
-    std::shared_ptr<page> mContents;
-    std::shared_ptr<block_id> mBlockId = std::shared_ptr<block_id>(nullptr);
+    file_manager* mFileManager;
+    log_manager* mLogManager;
+    std::unique_ptr<page> mContents;
+    block_id mBlockId;
     int mPins = 0;
     int mTxNum = -1;            // transaction that touched the buffer last
     int mLSN = -1;
@@ -33,25 +33,25 @@ namespace smartdb {
 
   class buffer_manager {
   public:
-    buffer_manager(std::shared_ptr<file_manager> pFileManager,
-                   std::shared_ptr<log_manager> pLogManager,
+    buffer_manager(file_manager* pFileManager,
+                   log_manager* pLogManager,
                    const int &pNumBuffs);
     
     int available();
     void flush_all(const int &pTxNum);
-    void unpin(std::shared_ptr<buffer> pBuff);
-    std::shared_ptr<buffer> pin(std::shared_ptr<block_id> pBlockId);
+    void unpin(buffer* pBuff);
+    buffer* pin(const block_id &pBlockId);
     
   private:
-    std::vector<std::shared_ptr<buffer>> mBufferPool;
+    std::vector<std::unique_ptr<buffer>> mBufferPool;
     int mNumAvailable;          // number of unpinned buffers
     const int mMaxTime = 10000;
     std::mutex mMutex;
     std::condition_variable mCondVar;
 
     bool waiting_too_long(std::chrono::time_point<std::chrono::high_resolution_clock> pStartTime);
-    std::shared_ptr<buffer> try_to_pin(std::shared_ptr<block_id> pBlockId);
-    std::shared_ptr<buffer> find_existing_buffer(std::shared_ptr<block_id> pBlockId);
-    std::shared_ptr<buffer> choose_unpinned_buffer();
+    buffer* try_to_pin(const block_id &pBlockId);
+    buffer* find_existing_buffer(const block_id &pBlockId);
+    buffer* choose_unpinned_buffer();
   };
 }

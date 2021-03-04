@@ -11,7 +11,7 @@ namespace smartdb {
     mByteBuffer.resize(pBlockSize);
   }
   
-  page::page(std::vector<char> &pByteBuffer) {
+  page::page(const std::vector<char> &pByteBuffer) {
     mByteBuffer = pByteBuffer;
   }
   

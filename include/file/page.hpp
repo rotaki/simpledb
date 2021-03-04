@@ -8,7 +8,7 @@ namespace smartdb {
   public:
     page(const int &pBlockSize);
     
-    page(std::vector<char> &pByteBuffer);
+    page(const std::vector<char> &pByteBuffer);
 
     int get_int(const int &pOffset) const;
 

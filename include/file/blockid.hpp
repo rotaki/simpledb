@@ -12,7 +12,12 @@ namespace smartdb {
     friend bool operator>=(const block_id &pLhs, const block_id &pRhs);
     
   public:
+    block_id();
+    block_id(const block_id &pBlk);
     block_id(const std::string &pFileName, const int &pBlockNum);
+    block_id &operator=(const block_id &pBlk);
+
+    bool is_null();
 
     std::string file_name() const;
 
