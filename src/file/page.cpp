@@ -37,6 +37,7 @@ namespace smartdb {
   std::vector<char> page::get_bytes(const int &pOffset) const {
     int size = get_int(pOffset);
     if (pOffset + sizeof(int) + size > mByteBuffer.size()) {
+      LOG_ERROR("offset: %d, sizeof(int): %ld, size: %d, PAGE_SIZE:%lu", pOffset, sizeof(int), size, mByteBuffer.size());
       throw std::runtime_error("Page overflow while get_bytes");
     }
     std::vector<char> byteVec;
@@ -47,6 +48,7 @@ namespace smartdb {
   void page::set_bytes(const int &pOffset, const std::vector<char> &pByteBuffer) {
     int size = pByteBuffer.size();
     if (pOffset + sizeof(int) + size > mByteBuffer.size()) {
+      LOG_ERROR("offset: %d, sizeof(int): %ld, size: %d, PAGE_SIZE:%lu", pOffset, sizeof(int), size, mByteBuffer.size());
       throw std::runtime_error("Page overflow whlile set_bytes");
     }
     set_int(pOffset, size);
