@@ -2,13 +2,14 @@
 
 #include <string>
 #include <vector>
+#include <memory>
 
 namespace smartdb {
   class page {
   public:
     page(const int &pBlockSize);
     
-    page(const std::vector<char> &pByteBuffer);
+    page(const std::shared_ptr<std::vector<char>> &pByteBuffer);
 
     int get_int(const int &pOffset) const;
 
@@ -24,9 +25,9 @@ namespace smartdb {
 
     static int max_length(int pStrLen);
 
-    std::vector<char>& contents();
+    std::shared_ptr<std::vector<char>> contents(); // sometimes page contents should be alive after the death of page instance　(ここがただのポインタを返してしまうと, pageが死んだあとnullになる)
     
   private:
-    std::vector<char> mByteBuffer;
+    std::shared_ptr<std::vector<char>> mByteBuffer; // ここがただのポインタだと開放するのを忘れてしまう恐れがあり. コンストラクタでもできるので.
   };
 }

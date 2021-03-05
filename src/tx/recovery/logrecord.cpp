@@ -4,22 +4,24 @@
 namespace smartdb {
   log_record::~log_record() {}
   
-  std::shared_ptr<log_record> log_record::create_log_record(std::vector<char> &pByteVec) {
-    std::shared_ptr<page> p(new page(pByteVec));
-    operation oper = static_cast<operation>(p->get_int(0));
+  std::shared_ptr<log_record> log_record::create_log_record(const std::vector<char> &pByteVec) {
+    auto byteVec = std::make_shared<std::vector<char>>(pByteVec);
+    page p(byteVec);
+    // std::shared_ptr<page> p(new page(pByteVec));
+    operation oper = static_cast<operation>(p.get_int(0));
     switch (oper) {
     case checkpoint:
       return std::shared_ptr<log_record>(new checkpoint_record);
     case start:
-      return std::shared_ptr<log_record>(new start_record(p));
+      return std::shared_ptr<log_record>(new start_record(&p));
     case commit:
-      return std::shared_ptr<log_record>(new commit_record(p));
+      return std::shared_ptr<log_record>(new commit_record(&p));
     case rollback:
-      return std::shared_ptr<log_record>(new rollback_record(p));
+      return std::shared_ptr<log_record>(new rollback_record(&p));
     case setint:
-      return std::shared_ptr<log_record>(new set_int_record(p));
+      return std::shared_ptr<log_record>(new set_int_record(&p));
     case setstring:
-      return std::shared_ptr<log_record>(new set_string_record(p));
+      return std::shared_ptr<log_record>(new set_string_record(&p));
     default:
       return std::shared_ptr<log_record>(nullptr);
     }
@@ -46,14 +48,16 @@ namespace smartdb {
   }
 
   int checkpoint_record::write_to_log(log_manager* pLM) {
-    std::vector<char> byteVec(sizeof(int), 0);
-    std::shared_ptr<page> p(new page(byteVec));
-    p->set_int(0, checkpoint);
-    std::vector<char> rec = p->contents();
-    return pLM->append(rec);
+    auto byteVec = std::make_shared<std::vector<char>>(sizeof(int), 0);
+    //std::vector<char> byteVec(sizeof(int), 0);
+    //std::shared_ptr<page> p(new page(byteVec));
+    page p(byteVec);
+    p.set_int(0, checkpoint);
+    // std::vector<char> rec = p->contents();
+    return pLM->append(*byteVec);
   }
   
-  start_record::start_record(std::shared_ptr<page> pPage) {
+  start_record::start_record(page* pPage) {
     int tPos = sizeof(int);
     mTxNum = pPage->get_int(tPos);
   }
@@ -78,15 +82,17 @@ namespace smartdb {
                                  const int &pTxNum) {
     int tPos = sizeof(int);
     int recLen = tPos + sizeof(int);
-    std::vector<char> byteVec(recLen, 0);
-    std::shared_ptr<page> p(new page(byteVec));
-    p->set_int(0, start);
-    p->set_int(tPos, pTxNum);
-    std::vector<char> rec = p->contents();
-    return pLM->append(rec);
+    //std::vector<char> byteVec(recLen, 0);
+    auto byteVec = std::make_shared<std::vector<char>>(recLen, 0);
+    //std::shared_ptr<page> p(new page(byteVec));
+    page p(byteVec);
+    p.set_int(0, start);
+    p.set_int(tPos, pTxNum);
+    //std::vector<char> rec = p->contents();
+    return pLM->append(*byteVec);
   }
 
-  commit_record::commit_record(std::shared_ptr<page> pPage) {
+  commit_record::commit_record(page* pPage) {
     int tPos = sizeof(int);
     mTxNum = pPage->get_int(tPos);
   }
@@ -111,15 +117,17 @@ namespace smartdb {
                                   const int &pTxNum) {
     int tPos = sizeof(int);
     int recLen = tPos + sizeof(int);
-    std::vector<char> byteVec(recLen, 0);
-    std::shared_ptr<page> p(new page(byteVec));
-    p->set_int(0, start);
-    p->set_int(tPos, pTxNum);
-    std::vector<char> rec = p->contents();
-    return pLM->append(rec);
+    auto byteVec = std::make_shared<std::vector<char>>(recLen, 0);
+    //std::vector<char> byteVec(recLen, 0);
+    //std::shared_ptr<page> p(new page(byteVec));
+    page p(byteVec);
+    p.set_int(0, start);
+    p.set_int(tPos, pTxNum);
+    //std::vector<char> rec = p->contents();
+    return pLM->append(*byteVec);
   }
 
-  rollback_record::rollback_record(std::shared_ptr<page> pPage) {
+  rollback_record::rollback_record(page* pPage) {
     int tPos = sizeof(int);
     mTxNum = pPage->get_int(tPos);
   }
@@ -144,15 +152,17 @@ namespace smartdb {
                                     const int &pTxNum) {
     int tPos = sizeof(int);
     int recLen = tPos + sizeof(int);
-    std::vector<char> byteVec(recLen, 0);
-    std::shared_ptr<page> p(new page(byteVec));
-    p->set_int(0, start);
-    p->set_int(tPos, pTxNum);
-    std::vector<char> rec = p->contents();
-    return pLM->append(rec);
+    //std::vector<char> byteVec(recLen, 0);
+    auto byteVec = std::make_shared<std::vector<char>>(recLen, 0);
+    //std::shared_ptr<page> p(new page(byteVec));
+    page p(byteVec);
+    p.set_int(0, start);
+    p.set_int(tPos, pTxNum);
+    //std::vector<char> rec = p->contents();
+    return pLM->append(*byteVec);
   }
 
-  set_int_record::set_int_record(std::shared_ptr<page> pPage) {
+  set_int_record::set_int_record(page* pPage) {
     int tPos = sizeof(int);
     mTxNum = pPage->get_int(tPos);
     int fPos = tPos + sizeof(int);
@@ -195,19 +205,21 @@ namespace smartdb {
     int oPos = bPos + sizeof(int);
     int vPos = oPos + sizeof(int);
     int recLen = vPos + sizeof(int);
-    std::vector<char> byteVec(recLen, 0);
-    std::shared_ptr<page> p(new page(byteVec));
-    p->set_int(0, setint);
-    p->set_int(tPos, pTxNum);
-    p->set_string(fPos, pBlockId.file_name());
-    p->set_int(bPos, pBlockId.number());
-    p->set_int(oPos, pOffset);
-    p->set_int(vPos, pVal);
-    std::vector<char> rec = p->contents();
-    return pLM->append(rec);
+    //std::vector<char> byteVec(recLen, 0);
+    auto byteVec = std::make_shared<std::vector<char>>(recLen, 0);
+    //std::shared_ptr<page> p(new page(byteVec));
+    page p(byteVec);
+    p.set_int(0, setint);
+    p.set_int(tPos, pTxNum);
+    p.set_string(fPos, pBlockId.file_name());
+    p.set_int(bPos, pBlockId.number());
+    p.set_int(oPos, pOffset);
+    p.set_int(vPos, pVal);
+    //std::vector<char> rec = p->contents();
+    return pLM->append(*byteVec);
   }
 
-  set_string_record::set_string_record(std::shared_ptr<page> pPage) {
+  set_string_record::set_string_record(page* pPage) {
     int tPos = sizeof(int);
     mTxNum = pPage->get_int(tPos);
     int fPos = tPos + sizeof(int);
@@ -250,15 +262,17 @@ namespace smartdb {
     int oPos = bPos + sizeof(int);
     int vPos = oPos + sizeof(int);
     int recLen = vPos + page::max_length(pVal.size());
-    std::vector<char> byteVec(recLen, 0);
-    std::shared_ptr<page> p(new page(byteVec));
-    p->set_int(0, setstring);
-    p->set_int(tPos, pTxNum);
-    p->set_string(fPos, pBlockId.file_name());
-    p->set_int(bPos, pBlockId.number());
-    p->set_int(oPos, pOffset);
-    p->set_string(vPos, pVal);
-    std::vector<char> rec = p->contents();
-    return pLM->append(rec);
+    //std::vector<char> byteVec(recLen, 0);
+    auto byteVec = std::make_shared<std::vector<char>>(recLen, 0);
+    //std::shared_ptr<page> p(new page(byteVec));
+    page p(byteVec);
+    p.set_int(0, setstring);
+    p.set_int(tPos, pTxNum);
+    p.set_string(fPos, pBlockId.file_name());
+    p.set_int(bPos, pBlockId.number());
+    p.set_int(oPos, pOffset);
+    p.set_string(vPos, pVal);
+    //std::vector<char> rec = p->contents();
+    return pLM->append(*byteVec);
   }  
 }

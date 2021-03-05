@@ -39,7 +39,7 @@ namespace smartdb {
     // }
     
     fileIO->seekp(offset, std::ios::beg);
-    fileIO->read(&(pPage.contents()[0]), mBlockSize);
+    fileIO->read(&((*pPage.contents())[0]), mBlockSize);
     if (fileIO->bad()) {
       throw std::runtime_error("I/O error while reading");
     }
@@ -47,7 +47,7 @@ namespace smartdb {
     if (readCount < mBlockSize) {
       std::cerr << "Read less than a page" << std::endl;
       fileIO->clear();
-      memset(&(pPage.contents()[readCount]), 0, mBlockSize-readCount);
+      memset(&((*pPage.contents())[readCount]), 0, mBlockSize-readCount);
     }
   }
 
@@ -60,7 +60,7 @@ namespace smartdb {
     
     size_t offset = pBlockId.number() * mBlockSize;
     fileIO->seekp(offset, std::ios::beg);
-    fileIO->write(&(pPage.contents()[0]), mBlockSize);
+    fileIO->write(&((*pPage.contents())[0]), mBlockSize);
     if (fileIO->bad()) {
       throw std::runtime_error("I/O error while write");
     }

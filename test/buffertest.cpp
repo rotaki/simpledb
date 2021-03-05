@@ -8,9 +8,9 @@
 #include "gtest/gtest.h"
 
 namespace smartdb {
-  TEST(buffertest, pintest) {
+  TEST(buffer, buffer) {
     smartdb db("buffertest", 400, 3); // three buffers
-    buffer_manager* bM = db.new_bm();
+    buffer_manager* bM = db.buffer_mgr();
 
     std::string testFile = "testfile";
     buffer* buff1 = bM->pin(block_id(testFile, 1));

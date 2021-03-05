@@ -26,7 +26,7 @@ namespace smartdb {
     virtual int op() = 0;
     virtual int tx_number() = 0;
     virtual void undo(transaction* pTx) = 0;
-    static std::shared_ptr<log_record> create_log_record(std::vector<char> &pByteVec);
+    static std::shared_ptr<log_record> create_log_record(const std::vector<char> &pByteVec);
   };
 
   class checkpoint_record: public log_record {
@@ -41,7 +41,7 @@ namespace smartdb {
 
   class start_record: public log_record {
   public:
-    start_record(std::shared_ptr<page> pPage);
+    start_record(page* pPage);
     int op() override;
     int tx_number() override;
     std::string to_string();
@@ -54,7 +54,7 @@ namespace smartdb {
 
   class commit_record: public log_record {
   public:
-    commit_record(std::shared_ptr<page> pPage);
+    commit_record(page* pPage);
     int op() override;
     int tx_number() override;
     std::string to_string();
@@ -67,7 +67,7 @@ namespace smartdb {
 
   class rollback_record: public log_record {
   public:
-    rollback_record(std::shared_ptr<page> pPage);
+    rollback_record(page* pPage);
     int op() override;
     int tx_number() override;
     std::string to_string();
@@ -81,7 +81,7 @@ namespace smartdb {
   
   class set_int_record: public log_record {
   public:
-    set_int_record(std::shared_ptr<page> pPgae);
+    set_int_record(page* pPgae);
     int op() override;
     int tx_number() override;
     std::string to_string();
@@ -100,7 +100,7 @@ namespace smartdb {
 
   class set_string_record: public log_record {
   public:
-    set_string_record(std::shared_ptr<page> pPage);
+    set_string_record(page* pPage);
     int op() override;
     int tx_number() override;
     std::string to_string();

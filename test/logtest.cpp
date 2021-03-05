@@ -10,7 +10,7 @@ namespace smartdb {
     std::cout << msg << std::endl;
     log_manager::log_iterator iter = lM->iterator();
     while (iter.has_next()) {
-      std::vector<char> rec = iter.next();
+      auto rec = std::make_shared<std::vector<char>>(iter.next());
       page p(rec);
       std::string s = p.get_string(0);
       int npos = page::max_length(s.size());
@@ -23,12 +23,11 @@ namespace smartdb {
   std::vector<char> create_log_record(std::string s, int n) {
     int spos = 0;
     int npos = spos + page::max_length(s.size());
-    std::vector<char> b(npos+sizeof(int));
+    auto b = std::make_shared<std::vector<char>>(npos+sizeof(int));
     page p(b);
     p.set_string(spos, s);
     p.set_int(npos, n);
-    b = p.contents();
-    return b;
+    return *b;
   }
 
   void create_records(log_manager* lM, int start, int end) {
@@ -43,7 +42,7 @@ namespace smartdb {
     
   TEST(log, logtest) {
     smartdb db("logtest", 400, 8);
-    log_manager* lM = db.new_lm();
+    log_manager* lM = db.log_mgr();
     print_log_records(lM, "The initial empty log file: ");
     std::cout << "done" << std::endl;
     create_records(lM, 1, 35);

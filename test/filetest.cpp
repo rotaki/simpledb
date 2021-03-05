@@ -9,7 +9,7 @@
 namespace smartdb {
   TEST(file, filetest) {
     smartdb db("filetest", 400, 8);
-    file_manager* fM = db.new_fm();
+    file_manager* fM = db.file_mgr();
     block_id blk("testfile", 2);
     int pos1 = 88;
 

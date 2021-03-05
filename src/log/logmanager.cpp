@@ -5,7 +5,8 @@ namespace smartdb {
     mFileManager(pFileManager), mLogFile(pLogFile)
   {
     int logSize = mFileManager->length(mLogFile);
-    std::vector<char> byteVec(mFileManager->block_size(), 0);
+    auto byteVec = std::make_shared<std::vector<char>>(mFileManager->block_size(), 0);
+    //std::vector<char> byteVec(mFileManager->block_size(), 0);
     mLogPage = std::make_unique<page>(byteVec);
     if (logSize == 0) {
       mCurrentBlk = append_new_block();
@@ -43,7 +44,9 @@ namespace smartdb {
   }
   
   log_manager::log_iterator::log_iterator(file_manager* ppFileManager, const block_id &ppBlockId) : mmFileManager(ppFileManager), mmBlockId(ppBlockId) {
-    std::vector<char> byteVec(mmFileManager->block_size(), 0);
+    
+    //std::vector<char> byteVec(mmFileManager->block_size(), 0);
+    auto byteVec = std::make_shared<std::vector<char>>(mmFileManager->block_size(), 0);
     mmPage = std::make_unique<page>(byteVec);
     // mmPage = std::shared_ptr<page>(new page(byteVec));
     move_to_block(mmBlockId);
