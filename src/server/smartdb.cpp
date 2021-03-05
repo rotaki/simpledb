@@ -41,23 +41,23 @@ namespace smartdb {
     return txPtr;
   }
 
-  std::shared_ptr<metadata_manager> smartdb::new_mm() {
+  std::shared_ptr<metadata_manager> smartdb::md_mgr() {
     return mMM;
   }
   
-  file_manager* smartdb::new_fm() {
+  file_manager* smartdb::file_mgr() {
     return mFM.get();
   }
 
-  std::shared_ptr<planner> smartdb::new_planner() {
+  std::shared_ptr<planner> smartdb::plnr() {
     return mP;
   }
 
-  log_manager* smartdb::new_lm() {
+  log_manager* smartdb::log_mgr() {
     return mLM.get();
   }
 
-  buffer_manager* smartdb::new_bm() {
+  buffer_manager* smartdb::buffer_mgr() {
     return mBM.get();
   }
 }

@@ -179,9 +179,9 @@ namespace smartdb {
   }
 
   void set_int_record::undo(transaction* pTx) {
-    pTx->pin(std::make_shared<block_id>(mBlockId));
-    pTx->set_int(std::make_shared<block_id>(mBlockId), mOffset, mVal, false);
-    pTx->unpin(std::make_shared<block_id>(mBlockId));
+    pTx->pin(mBlockId);
+    pTx->set_int(mBlockId, mOffset, mVal, false);
+    pTx->unpin(mBlockId);
   }
 
   int set_int_record::write_to_log(log_manager* pLM,
@@ -234,9 +234,9 @@ namespace smartdb {
   }
 
   void set_string_record::undo(transaction* pTx) {
-    pTx->pin(std::make_shared<block_id>(mBlockId));
-    pTx->set_string(std::make_shared<block_id>(mBlockId), mOffset, mVal, false);
-    pTx->unpin(std::make_shared<block_id>(mBlockId)); // todo fix
+    pTx->pin(mBlockId);
+    pTx->set_string(mBlockId, mOffset, mVal, false);
+    pTx->unpin(mBlockId); 
   }
 
   int set_string_record::write_to_log(log_manager* pLM,

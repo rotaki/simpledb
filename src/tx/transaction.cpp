@@ -36,32 +36,32 @@ namespace smartdb {
     mRM->recover();
   }
 
-  void transaction::pin(std::shared_ptr<block_id> pBlockId) { // todo fix func param
-    mBL->pin(*pBlockId);
+  void transaction::pin(const block_id & pBlockId) { // todo fix func param
+    mBL->pin(pBlockId);
   }
 
-  void transaction::unpin(std::shared_ptr<block_id> pBlockId) { // todo fix func param
-    mBL->unpin(*pBlockId);
+  void transaction::unpin(const block_id & pBlockId) { // todo fix func param
+    mBL->unpin(pBlockId);
   }
 
-  int transaction::get_int(std::shared_ptr<block_id> pBlockId, const int& pOffset) { // todo fix func param
-    mCM->slock(*pBlockId);
-    buffer* buff = mBL->get_buffer(*pBlockId); // 
+  int transaction::get_int(const block_id & pBlockId, const int& pOffset) { // todo fix func param
+    mCM->slock(pBlockId);
+    buffer* buff = mBL->get_buffer(pBlockId); // 
     return buff->contents()->get_int(pOffset);
   }
 
-  std::string transaction::get_string(std::shared_ptr<block_id> pBlockId, const int& pOffset) {
-    mCM->slock(*pBlockId);
-    buffer* buff = mBL->get_buffer(*pBlockId);
+  std::string transaction::get_string(const block_id & pBlockId, const int& pOffset) {
+    mCM->slock(pBlockId);
+    buffer* buff = mBL->get_buffer(pBlockId);
     return buff->contents()->get_string(pOffset);
   }
 
-  void transaction::set_int(std::shared_ptr<block_id> pBlockId,
+  void transaction::set_int(const block_id & pBlockId,
                             const int& pOffset,
                             const int& pVal,
                             const bool& pOkToLog) { // todo fix blockid
-    mCM->xlock(*pBlockId);
-    buffer* buff = mBL->get_buffer(*pBlockId);
+    mCM->xlock(pBlockId);
+    buffer* buff = mBL->get_buffer(pBlockId);
     int lsn = -1;
     if (pOkToLog) {
       lsn = mRM->set_int(buff, pOffset, pVal);
@@ -71,12 +71,12 @@ namespace smartdb {
     buff->set_modified(mTxNum, lsn);
   }
 
-  void transaction::set_string(std::shared_ptr<block_id> pBlockId,
+  void transaction::set_string(const block_id & pBlockId,
                                const int &pOffset,
                                const std::string &pVal,
                                const bool &pOkToLog) {
-    mCM->xlock(*pBlockId);
-    buffer* buff = mBL->get_buffer(*pBlockId);
+    mCM->xlock(pBlockId);
+    buffer* buff = mBL->get_buffer(pBlockId);
     int lsn = -1;
     if (pOkToLog) {
       lsn = mRM->set_string(buff, pOffset, pVal);
@@ -92,10 +92,10 @@ namespace smartdb {
     return mFM->length(pFileName);
   }
 
-  std::shared_ptr<block_id> transaction::append(const std::string &pFileName) {
+  block_id transaction::append(const std::string &pFileName) {
     block_id dummyBlockId(pFileName, mEndOfFile);
     mCM->xlock(dummyBlockId);
-    return std::make_shared<block_id>(mFM->append(pFileName)); // todo fix
+    return mFM->append(pFileName);
   }
 
   int transaction::block_size() {

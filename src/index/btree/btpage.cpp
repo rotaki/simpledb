@@ -4,7 +4,7 @@ namespace smartdb {
   bt_page::bt_page(std::shared_ptr<transaction> pTx, std::shared_ptr<block_id> pCurrentBlk, std::shared_ptr<layout> pLt):
     mTx(pTx), mCurrentBlk(pCurrentBlk), mLt(pLt)
   {
-    mTx->pin(mCurrentBlk);
+    mTx->pin(*mCurrentBlk);      // todo fix
   }
 
 
@@ -18,7 +18,7 @@ namespace smartdb {
 
   void bt_page::close() {
     if (mCurrentBlk) {
-      mTx->unpin(mCurrentBlk);
+      mTx->unpin(*mCurrentBlk);
     }
     mCurrentBlk = std::shared_ptr<block_id>(nullptr);
   }
@@ -41,23 +41,23 @@ namespace smartdb {
   }
 
   int bt_page::get_flag() {
-    return mTx->get_int(mCurrentBlk, 0);
+    return mTx->get_int(*mCurrentBlk, 0);
   }
 
   void bt_page::set_flag(const int &pVal) {
-    mTx->set_int(mCurrentBlk, 0, pVal, true);
+    mTx->set_int(*mCurrentBlk, 0, pVal, true);
   }
 
   std::shared_ptr<block_id> bt_page::append_new(const int &pFlag) {
-    std::shared_ptr<block_id> blk = mTx->append(mCurrentBlk->file_name());
-    mTx->pin(blk);
+    std::shared_ptr<block_id> blk = std::make_shared<block_id>(mTx->append(mCurrentBlk->file_name())); // todo fix
+    mTx->pin(*blk);
     format(blk, pFlag);
     return blk;
   }
 
   void bt_page::format(std::shared_ptr<block_id> pBlk, const int &pFlag) {
-    mTx->set_int(pBlk, 0, pFlag, false);
-    mTx->set_int(pBlk, sizeof(int), 0, false);
+    mTx->set_int(*pBlk, 0, pFlag, false);
+    mTx->set_int(*pBlk, sizeof(int), 0, false);
     int recSize = mLt->slot_size();
     for (int pos=2*sizeof(int); pos + recSize <= mTx->block_size(); pos += recSize) {
       make_default_record(pBlk, pos);
@@ -68,9 +68,9 @@ namespace smartdb {
     for (const std::string &pFldName: mLt->get_schema()->fields()) {
       int offset = mLt->offset(pFldName);
       if (mLt->get_schema()->type(pFldName) == schema::integer) {
-        mTx->set_int(pBlk, pPos + offset, 0, false);
+        mTx->set_int(*pBlk, pPos + offset, 0, false);
       } else {
-        mTx->set_string(pBlk, pPos + offset, "", false);
+        mTx->set_string(*pBlk, pPos + offset, "", false);
       }
     }
   }
@@ -107,18 +107,18 @@ namespace smartdb {
   }
 
   int bt_page::get_num_recs() {
-    return mTx->get_int(mCurrentBlk, sizeof(int));
+    return mTx->get_int(*mCurrentBlk, sizeof(int));
   }
 
   // private methods
   int bt_page::get_int(const int &pSlot, const std::string &pFldName) {
     int pos = fld_pos(pSlot, pFldName);
-    return mTx->get_int(mCurrentBlk, pos);
+    return mTx->get_int(*mCurrentBlk, pos);
   }
 
   std::string bt_page::get_string(const int &pSlot, const std::string &pFldName) {
     int pos = fld_pos(pSlot, pFldName);
-    return mTx->get_string(mCurrentBlk, pos);
+    return mTx->get_string(*mCurrentBlk, pos);
   }
 
   constant bt_page::get_val(const int &pSlot, const std::string &pFldName) {
@@ -132,12 +132,12 @@ namespace smartdb {
 
   void bt_page::set_int(const int &pSlot, const std::string &pFldName, const int &pVal) {
     int pos = fld_pos(pSlot, pFldName);
-    mTx->set_int(mCurrentBlk, pos, pVal, true);
+    mTx->set_int(*mCurrentBlk, pos, pVal, true);
   }
 
   void bt_page::set_string(const int &pSlot, const std::string &pFldName, const std::string &pVal) {
     int pos = fld_pos(pSlot, pFldName);
-    mTx->set_string(mCurrentBlk, pos, pVal, true);
+    mTx->set_string(*mCurrentBlk, pos, pVal, true);
   }
 
   void bt_page::set_val(const int &pSlot, const std::string &pFldName, const constant &pVal) {
@@ -150,7 +150,7 @@ namespace smartdb {
   }
 
   void bt_page::set_num_recs(const int &pN) {
-    mTx->set_int(mCurrentBlk, sizeof(int), pN, true);
+    mTx->set_int(*mCurrentBlk, sizeof(int), pN, true);
   }
 
   void bt_page::insert(const int &pSlot) {

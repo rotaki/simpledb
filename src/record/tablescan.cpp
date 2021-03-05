@@ -53,7 +53,7 @@ namespace smartdb {
 
   void table_scan::close() {
     if (mRP) {
-      mTx->unpin(mRP->block());
+      mTx->unpin(*(mRP->block())); // todo fix
     }
   }
 
@@ -110,7 +110,7 @@ namespace smartdb {
 
   void table_scan::move_to_new_block() {
     close();
-    std::shared_ptr<block_id> blockId = mTx->append(mFileName);
+    std::shared_ptr<block_id> blockId = std::make_shared<block_id>(mTx->append(mFileName)); // todo fix
     mRP = std::shared_ptr<record_page>(new record_page(mTx, blockId, mLt));
     mRP->format();
     mCurrentSlot = -1;

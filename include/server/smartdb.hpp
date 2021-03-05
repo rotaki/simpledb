@@ -18,11 +18,11 @@ namespace smartdb {
     smartdb(const std::string &pDirname);
 
     std::unique_ptr<transaction> new_tx();
-    std::shared_ptr<metadata_manager> new_mm();
-    std::shared_ptr<planner> new_planner();
-    file_manager* new_fm();
-    log_manager* new_lm();
-    buffer_manager* new_bm();
+    std::shared_ptr<metadata_manager> md_mgr();
+    std::shared_ptr<planner> plnr();
+    file_manager* file_mgr();
+    log_manager* log_mgr();
+    buffer_manager* buffer_mgr();
     
   private:
     std::unique_ptr<file_manager> mFM;

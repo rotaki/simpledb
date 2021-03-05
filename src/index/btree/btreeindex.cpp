@@ -11,7 +11,7 @@ namespace smartdb {
     // deal with leaves
     mLeafTbl = pIdxName + "leaf";
     if (mTx->size(mLeafTbl) == 0) {
-      std::shared_ptr<block_id> blk = mTx->append(mLeafTbl);
+      std::shared_ptr<block_id> blk = std::make_shared<block_id>(mTx->append(mLeafTbl));
       std::shared_ptr<bt_page> node(new bt_page(mTx, blk, mLeafLayout));
       node->format(blk, -1);
     }
