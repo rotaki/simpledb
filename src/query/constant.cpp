@@ -3,46 +3,64 @@
 #include "query/constant.hpp"
 
 namespace simpledb {
-  bool operator==(const constant &pLhs, const constant &pRhs) {
-    return (pLhs.mIVal ? *(pLhs.mIVal) == *(pRhs.mIVal) : *(pLhs.mSVal) == *(pRhs.mSVal));
+bool operator==(const constant &pLhs, const constant &pRhs) {
+  return (pLhs.mIVal ? *(pLhs.mIVal) == *(pRhs.mIVal)
+                     : *(pLhs.mSVal) == *(pRhs.mSVal));
+}
+
+bool operator!=(const constant &pLhs, const constant &pRhs) {
+  if (pLhs == pRhs) {
+    return false;
+  } else {
+    return true;
   }
+}
 
-  bool operator!=(const constant &pLhs, const constant &pRhs) {
-    if (pLhs == pRhs) {
-      return false;
-    } else {
-      return true;
-    }
+bool operator<(const constant &pLhs, const constant &pRhs) {
+  return (pLhs.mIVal ? *(pLhs.mIVal) < *(pRhs.mIVal)
+                     : *(pLhs.mSVal) < *(pRhs.mSVal));
+}
+
+bool operator>(const constant &pLhs, const constant &pRhs) {
+  return (pLhs.mIVal ? *(pLhs.mIVal) > *(pRhs.mIVal)
+                     : *(pLhs.mSVal) > *(pRhs.mSVal));
+}
+
+bool operator<=(const constant &pLhs, const constant &pRhs) {
+  if (pLhs > pRhs) {
+    return false;
+  } else {
+    return true;
   }
+}
 
-  bool operator<(const constant &pLhs, const constant &pRhs) {
-    return (pLhs.mIVal ? *(pLhs.mIVal) < *(pRhs.mIVal) : *(pLhs.mSVal) < *(pRhs.mSVal));
+bool operator>=(const constant &pLhs, const constant &pRhs) {
+  if (pLhs < pRhs) {
+    return false;
+  } else {
+    return true;
   }
+}
 
+constant::constant() {}
 
-  bool operator>(const constant &pLhs, const constant &pRhs) {
-    return (pLhs.mIVal ? *(pLhs.mIVal) > *(pRhs.mIVal) : *(pLhs.mSVal) > *(pRhs.mSVal));
+constant::constant(const constant &pVal) {
+  if (pVal.mIVal) {
+    mIVal = std::make_unique<int>(*(pVal.mIVal));
   }
-
-  bool operator<=(const constant &pLhs, const constant &pRhs) {
-    if (pLhs > pRhs) {
-      return false;
-    } else {
-      return true;
-    }
+  if (pVal.mSVal) {
+    mSVal = std::make_unique<std::string>(*(pVal.mSVal));
   }
+}
 
-  bool operator>=(const constant &pLhs, const constant &pRhs) {
-    if (pLhs < pRhs) {
-      return false;
-    } else {
-      return true;
-    }
-  }
+constant::constant(const int &pVal) { mIVal = std::make_unique<int>(pVal); }
 
-  constant::constant(){}
-  
-  constant::constant(const constant &pVal) {
+constant::constant(const std::string &pVal) {
+  mSVal = std::make_unique<std::string>(pVal);
+}
+
+constant &constant::operator=(const constant &pVal) {
+  if (this != &pVal) {
     if (pVal.mIVal) {
       mIVal = std::make_unique<int>(*(pVal.mIVal));
     }
@@ -50,48 +68,26 @@ namespace simpledb {
       mSVal = std::make_unique<std::string>(*(pVal.mSVal));
     }
   }
+  return *this;
+}
 
-  constant::constant(const int &pVal) {
-    mIVal = std::make_unique<int>(pVal);
-  }
+int constant::as_int() const { return *mIVal; }
 
-  constant::constant(const std::string &pVal) {
-    mSVal = std::make_unique<std::string>(pVal);
-  }
+std::string constant::as_string() const { return *mSVal; }
 
-  constant &constant::operator=(const constant &pVal) {
-    if (this != &pVal) {
-      if (pVal.mIVal) {
-        mIVal = std::make_unique<int>(*(pVal.mIVal));
-      }
-      if (pVal.mSVal) {
-        mSVal = std::make_unique<std::string>(*(pVal.mSVal));
-      }
-    }
-    return *this;
-  }
+std::string constant::to_string() const {
+  return (mIVal ? std::to_string(*mIVal) : *mSVal);
+}
 
-  int constant::as_int() const {
-    return *mIVal;
-  }
+int constant::hash_code() const {
+  return (mIVal ? std::hash<int>{}(*mIVal) : std::hash<std::string>{}(*mSVal));
+}
 
-  std::string constant::as_string() const {
-    return *mSVal;
-  }
-
-  std::string constant::to_string() const {
-    return (mIVal ? std::to_string(*mIVal) : *mSVal);
-  }
-
-  int constant::hash_code() const {
-    return (mIVal ? std::hash<int>{}(*mIVal) : std::hash<std::string>{}(*mSVal));
-  }
-
-  bool constant::is_null() const {
-    if (mIVal || mSVal) {
-      return false;
-    } else {
-      return true;
-    }
+bool constant::is_null() const {
+  if (mIVal || mSVal) {
+    return false;
+  } else {
+    return true;
   }
 }
+} // namespace simpledb

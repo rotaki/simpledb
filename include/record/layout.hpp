@@ -5,25 +5,25 @@
 #include "record/schema.hpp"
 
 namespace simpledb {
-  class layout {
-  public:
-    layout();
-    layout(const layout &pLt);
-    
-    layout(const schema &pSchema);
-    layout(const schema &pSchema, const std::map<std::string, int> &pOffsets, int pSlotSize);
+class layout {
+public:
+  layout();
+  layout(const layout &pLt);
 
-    layout& operator=(const layout &pLt);
-    schema get_schema() const;
-    int offset(const std::string &pFldName);
-    int slot_size() const;
-      
-  private:
-    schema mSchema;
-    std::map<std::string, int> mOffsets;
-    int mSlotSize;
+  layout(const schema &pSchema);
+  layout(const schema &pSchema, const std::map<std::string, int> &pOffsets,
+         int pSlotSize);
 
-    int length_in_bytes(const std::string &pFldName);
+  layout &operator=(const layout &pLt);
+  schema get_schema() const;
+  int offset(const std::string &pFldName);
+  int slot_size() const;
 
-  };
-}
+private:
+  schema mSchema;
+  std::map<std::string, int> mOffsets;
+  int mSlotSize;
+
+  int length_in_bytes(const std::string &pFldName);
+};
+} // namespace simpledb

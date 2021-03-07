@@ -1,25 +1,18 @@
 #include "parse/modifydata.hpp"
 
 namespace simpledb {
-  int modify_data::op()  {
-    return modify;
-  }
-    
-  modify_data::modify_data(const std::string &pTblName, const std::string &pFldName, const expression &pNewVal, const predicate &pPred): mTblName(pTblName), mFldName(pFldName), mNewVal(pNewVal), mPred(pPred) {}
+int modify_data::op() { return modify; }
 
-  std::string modify_data::table_name() const {
-    return mTblName;
-  }
+modify_data::modify_data(const std::string &pTblName,
+                         const std::string &pFldName, const expression &pNewVal,
+                         const predicate &pPred)
+    : mTblName(pTblName), mFldName(pFldName), mNewVal(pNewVal), mPred(pPred) {}
 
-  std::string modify_data::target_field() const {
-    return mFldName;
-  }
+std::string modify_data::table_name() const { return mTblName; }
 
-  expression modify_data::new_value() const {
-    return mNewVal;
-  }
+std::string modify_data::target_field() const { return mFldName; }
 
-  predicate modify_data::pred() const {
-    return mPred;
-  }
-}
+expression modify_data::new_value() const { return mNewVal; }
+
+predicate modify_data::pred() const { return mPred; }
+} // namespace simpledb

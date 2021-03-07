@@ -1,33 +1,38 @@
 #pragma once
 
+#include <memory>
 #include <string>
 #include <vector>
-#include <memory>
 
 namespace simpledb {
-  class page {
-  public:
-    page(const int &pBlockSize);
-    
-    page(const std::shared_ptr<std::vector<char>> &pByteBuffer);
+class page {
+public:
+  page(const int &pBlockSize);
 
-    int get_int(const int &pOffset) const;
+  page(const std::shared_ptr<std::vector<char>> &pByteBuffer);
 
-    void set_int(const int &pOffset, const int &n);
+  int get_int(const int &pOffset) const;
 
-    std::vector<char> get_bytes(const int &pOffset) const;
+  void set_int(const int &pOffset, const int &n);
 
-    void set_bytes(const int &pOffset, const std::vector<char> &pByteBuffer);
+  std::vector<char> get_bytes(const int &pOffset) const;
 
-    std::string get_string(const int &pOffset) const;
+  void set_bytes(const int &pOffset, const std::vector<char> &pByteBuffer);
 
-    void set_string(const int &pOffset, const std::string &pString);
+  std::string get_string(const int &pOffset) const;
 
-    static int max_length(int pStrLen);
+  void set_string(const int &pOffset, const std::string &pString);
 
-    std::shared_ptr<std::vector<char>> contents(); // sometimes page contents should be alive after the death of page instance　(ここがただのポインタを返してしまうと, pageが死んだあとnullになる)
-    
-  private:
-    std::shared_ptr<std::vector<char>> mByteBuffer; // ここがただのポインタだと開放するのを忘れてしまう恐れがあり. コンストラクタでもできるので.
-  };
-}
+  static int max_length(int pStrLen);
+
+  std::shared_ptr<std::vector<char>>
+  contents(); // sometimes page contents should be alive after the death of page
+              // instance　(ここがただのポインタを返してしまうと,
+              // pageが死んだあとnullになる)
+
+private:
+  std::shared_ptr<std::vector<char>>
+      mByteBuffer; // ここがただのポインタだと開放するのを忘れてしまう恐れがあり.
+                   // コンストラクタでもできるので.
+};
+} // namespace simpledb

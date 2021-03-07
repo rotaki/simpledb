@@ -71,7 +71,7 @@ set(LOG_LEVEL
   "1"
   CACHE STRING "Log level. 0(off) 1(error) 2(warn) 3(into) 4(debug) 5(trace) 6(all)")
 
-# set(BUILD_SUPPORT_DIR "${CMAKE_SOURCE_DIR}/build_support")
+set(BUILD_SUPPORT_DIR "${CMAKE_SOURCE_DIR}/build_support")
 # set(BUILD_SUPPORT_DATA_DIR "${BUILD_SUPPORT_DIR}/data")
 
 # Everything else in this section will populate the following global variables.
@@ -320,82 +320,83 @@ set_target_properties(
 # unset(${CPPLINT_BIN})
 
 
-# ###############################################################################
-# #                                 Clang-format                                #
-# ###############################################################################
+###############################################################################
+#                                 Clang-format                                #
+###############################################################################
 
-# find_program(CLANG_FORMAT_BIN clang-format)
-# if ("${CLANG_FORMAT_BIN}" STREQUAL "CLANG_FORMAT_BIN-NOTFOUND")
-#   message(STATUS "[MISSING] clang-format not found, no check-format")
-# else()
-#   string(CONCAT FORMAT_DIRS
-#     "${CMAKE_CURRENT_SOURCE_DIR}/app,"
-#     "${CMAKE_CURRENT_SOURCE_DIR}/src,"
-#     "${CMAKE_CURRENT_SOURCE_DIR}/include,"
-#     "${CMAKE_CURRENT_SOURCE_DIR}/test"
-#     )
+find_program(CLANG_FORMAT_BIN clang-format)
+if ("${CLANG_FORMAT_BIN}" STREQUAL "CLANG_FORMAT_BIN-NOTFOUND")
+  message(STATUS "[MISSING] clang-format not found, no check-format")
+else()
+  string(CONCAT FORMAT_DIRS
+    "${CMAKE_CURRENT_SOURCE_DIR}/app "
+    "${CMAKE_CURRENT_SOURCE_DIR}/src "
+    "${CMAKE_CURRENT_SOURCE_DIR}/include "
+    "${CMAKE_CURRENT_SOURCE_DIR}/test"
+    )
 
-#   # target format is only build when `make format` is issued
-#   add_custom_target(format
-#     COMMENT "Running: format"
-#     COMMAND ${BUILD_SUPPORT_DIR}/run_clang_format.py
-#     ${CLANG_FORMAT_BIN}
-#     ${BUILD_SUPPORT_DATA_DIR}/clangformat_suppressions.txt
-#     --source_dirs ${FORMAT_DIRS}
-#     --fix
-#     --quiet
-#     USES_TERMINAL
-#     )
+  # target format is only build when `make format` is issued
+  add_custom_target(format
+    COMMENT "Running: format"
+    COMMAND ${BUILD_SUPPORT_DIR}/run-clang-format.py
+    --clang-format-executable ${CLANG_FORMAT_BIN}
+    -r ${CMAKE_CURRENT_SOURCE_DIR}/app
+    ${CMAKE_CURRENT_SOURCE_DIR}/src
+    ${CMAKE_CURRENT_SOURCE_DIR}/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/test
+    -i                          # format file instead of printing diff
+    -q
+    USES_TERMINAL
+    )
 
-#   add_custom_target(check-format
-#     COMMENT "Running: check-format"
-#     COMMAND ${BUILD_SUPPORT_DIR}/run_clang_format.py
-#     ${CLANG_FORMAT_BIN}
-#     ${BUILD_SUPPORT_DATA_DIR}/clangformat_suppressions.txt
-#     --source_dirs ${FORMAT_DIRS}
-#     --quiet
-#     USES_TERMINAL
-#     )
+  add_custom_target(check-format ALL
+    COMMENT "Running: check-format"
+    COMMAND ${BUILD_SUPPORT_DIR}/run-clang-format.py
+    --clang-format-executable ${CLANG_FORMAT_BIN}
+    -r ${CMAKE_CURRENT_SOURCE_DIR}/app
+    ${CMAKE_CURRENT_SOURCE_DIR}/src
+    ${CMAKE_CURRENT_SOURCE_DIR}/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/test
+    USES_TERMINAL
+    )
 
-#   message(STATUS "[ADDED] format and check-format (${CLANG_FORMAT_BIN})")
-#   unset(FORMAT_DIRS)
+  message(STATUS "[ADDED] format and check-format (${CLANG_FORMAT_BIN})")
+  unset(FORMAT_DIRS)
   
-# endif()
-# unset(CLANG_FORMAT_BIN)
+endif()
+unset(CLANG_FORMAT_BIN)
 
-# ###############################################################################
-# #                                  Clang-tidy                                 #
-# ###############################################################################
+###############################################################################
+#                                  Clang-tidy                                 #
+###############################################################################
 
-# find_program(CLANG_TIDY_BIN clang-tidy)
-# if ("${CLANG_TIDY_BIN}" STREQUAL "CLANG_TIDY_BIN-NOTFOUND")
-#   message(STATUS "[MISSING] clang-tidy not found, no check-clang-tidy")
-# else()
-#   # target clang-tidy is only build when `make clang-tidy` is issued
-#   add_custom_target(check-tidy
-#     COMMENT "Running clang-tidy"
-#     COMMAND ${BUILD_SUPPORT_DIR}/run-clang-tidy.py
-#     -clang-tidy-binary ${CLANG_TIDY_BIN}
-#     -p ${CMAKE_BINARY_DIR}
-#     USES_TERMINAL)
-#   # gtest is issued before check-clang-tidy
-#   add_custom_command(TARGET check-tidy DEPENDS gtest)
-#   message(STATUS "[ADDED] check-tidy (${CLANG_TIDY_BIN})")
-# endif()
-# unset(CLANG_TIDY_BIN)
+find_program(CLANG_TIDY_BIN clang-tidy)
+if ("${CLANG_TIDY_BIN}" STREQUAL "CLANG_TIDY_BIN-NOTFOUND")
+  message(STATUS "[MISSING] clang-tidy not found, no check-clang-tidy")
+else()
+  # target clang-tidy is only build when `make clang-tidy` is issued
+  add_custom_target(check-tidy
+    COMMENT "Running clang-tidy"
+    COMMAND ${BUILD_SUPPORT_DIR}/run-clang-tidy.py
+    -clang-tidy-binary ${CLANG_TIDY_BIN}
+    -p ${CMAKE_BINARY_DIR}
+    USES_TERMINAL)
+  # gtest is issued before check-clang-tidy
+  add_custom_command(TARGET check-tidy DEPENDS gtest)
+  message(STATUS "[ADDED] check-tidy (${CLANG_TIDY_BIN})")
+endif()
+unset(CLANG_TIDY_BIN)
 
-# ###############################################################################
-# #             Apply +x permissions to all scripts in build_support            #
-# ###############################################################################
+###############################################################################
+#             Apply +x permissions to all scripts in build_support            #
+###############################################################################
 
-# file(GLOB_RECURSE
-#         BUILD_SUPPORT_SCRIPTS
-#         CONFIGURE_DEPENDS
-#         ${BUILD_SUPPORT_DIR}/*.pl
-#         ${BUILD_SUPPORT_DIR}/*.py
-#         ${BUILD_SUPPORT_DIR}/*.sh
-#         )
+file(GLOB_RECURSE
+        BUILD_SUPPORT_SCRIPTS
+        CONFIGURE_DEPENDS
+        ${BUILD_SUPPORT_DIR}/*.py
+        )
 
-# foreach (_var IN LISTS BUILD_SUPPORT_SCRIPTS)
-#     execute_process(COMMAND chmod +x "${_var}")
-# endforeach ()
+foreach (_var IN LISTS BUILD_SUPPORT_SCRIPTS)
+    execute_process(COMMAND chmod +x "${_var}")
+endforeach ()
