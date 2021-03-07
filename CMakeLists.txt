@@ -4,11 +4,11 @@
 ###############################################################################
 
 cmake_minimum_required(VERSION 3.16)
-set(SMARTDB_DESCRIPTION "simpledb is a tiny relational DBMS for experiment")
+set(SIMPLEDB_DESCRIPTION "simpledb is a tiny relational DBMS for experiment")
 project(
   simpledb
   VERSION 1.0.0.0
-  DESCRIPTION "${SMARTDB_DESCRIPTION}"
+  DESCRIPTION "${SIMPLEDB_DESCRIPTION}"
   )
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_C_COMPILER_ID "Clang")
@@ -59,7 +59,7 @@ print_sys_info("OS_NAME;OS_RELEASE;OS_VERSION;OS_PLATFORM")
 #  Debug (default), Release, RelWithDebInfo, FastDebug.
 #  In practice people only use Debug or Release
 #
-# CMake options, specify with -DSMARTDB_{option}=ON.
+# CMake options, specify with -DSIMPLEDB_{option}=ON.
 #  LOG_LEVEL: Enable logging. Default 6.
 ###############################################################################
 
@@ -75,23 +75,23 @@ set(BUILD_SUPPORT_DIR "${CMAKE_SOURCE_DIR}/build_support")
 # set(BUILD_SUPPORT_DATA_DIR "${BUILD_SUPPORT_DIR}/data")
 
 # Everything else in this section will populate the following global variables.
-set(SMARTDB_COMPILE_OPTIONS "")
-set(SMARTDB_LINK_LIBRARIES "")
-set(SMARTDB_LINK_OPTIONS "")
-set(SMARTDB_INCLUDE_DIRECTORIES "")
+set(SIMPLEDB_COMPILE_OPTIONS "")
+set(SIMPLEDB_LINK_LIBRARIES "")
+set(SIMPLEDB_LINK_OPTIONS "")
+set(SIMPLEDB_INCLUDE_DIRECTORIES "")
 
-# Add compilation flags to SMARTDB_COMPILE_OPTIONS based on the current CMAKE_BUILD_TYPE.
+# Add compilation flags to SIMPLEDB_COMPILE_OPTIONS based on the current CMAKE_BUILD_TYPE.
 string(TOUPPER ${CMAKE_BUILD_TYPE} CMAKE_BUILD_TYPE)
 if ("${CMAKE_BUILD_TYPE}" STREQUAL "DEBUG")
-    list(APPEND SMARTDB_COMPILE_OPTIONS "-ggdb" "-O0" "-fno-omit-frame-pointer" "-fno-optimize-sibling-calls")
+    list(APPEND SIMPLEDB_COMPILE_OPTIONS "-ggdb" "-O0" "-fno-omit-frame-pointer" "-fno-optimize-sibling-calls")
 elseif ("${CMAKE_BUILD_TYPE}" STREQUAL "FASTDEBUG")
-    list(APPEND SMARTDB_COMPILE_OPTIONS "-ggdb" "-O1" "-fno-omit-frame-pointer" "-fno-optimize-sibling-calls")
+    list(APPEND SIMPLEDB_COMPILE_OPTIONS "-ggdb" "-O1" "-fno-omit-frame-pointer" "-fno-optimize-sibling-calls")
 elseif ("${CMAKE_BUILD_TYPE}" STREQUAL "RELEASE")
-    list(APPEND SMARTDB_COMPILE_DEFINITIONS "-DNDEBUG")
-    list(APPEND SMARTDB_COMPILE_OPTIONS "-O3")
+    list(APPEND SIMPLEDB_COMPILE_DEFINITIONS "-DNDEBUG")
+    list(APPEND SIMPLEDB_COMPILE_OPTIONS "-O3")
 elseif ("${CMAKE_BUILD_TYPE}" STREQUAL "RELWITHDEBINFO")
-    list(APPEND SMARTDB_COMPILE_DEFINITIONS "-DNDEBUG")
-    list(APPEND SMARTDB_COMPILE_OPTIONS "-ggdb" "-O2")
+    list(APPEND SIMPLEDB_COMPILE_DEFINITIONS "-DNDEBUG")
+    list(APPEND SIMPLEDB_COMPILE_OPTIONS "-ggdb" "-O2")
 else ()
     message(FATAL_ERROR "Unknown build type: ${CMAKE_BUILD_TYPE}")
 endif ()
@@ -99,7 +99,7 @@ endif ()
 message(STATUS "CMAKE_BUILD_TYPE: ${CMAKE_BUILD_TYPE}")
 
 #log
-list(APPEND SMARTDB_COMPILE_DEFINITIONS "-DLOG_LEVEL=${LOG_LEVEL}")
+list(APPEND SIMPLEDB_COMPILE_DEFINITIONS "-DLOG_LEVEL=${LOG_LEVEL}")
 if ("${LOG_LEVEL}" STREQUAL "0")
   message(STATUS "LOG_LEVEL: ${LOG_LEVEL} (NONE)")
 elseif ("${LOG_LEVEL}" STREQUAL "1")
@@ -164,27 +164,27 @@ endfunction()
 add_simpledb_dep(googletest https://github.com/google/googletest.git release-1.10.0)
 
 ###############################################################################
-#                             Smartdb Libraries                            #
+#                             Simpledb Libraries                            #
 ###############################################################################
 
 file(GLOB_RECURSE
-  SMARTDB_SRCS
+  SIMPLEDB_SRCS
   ${PROJECT_SOURCE_DIR}/src/*.cpp
   ${PROJECT_SOURCE_DIR}/include/*.hpp)
 
-list(REMOVE_ITEM SMARTDB_SRCS ${PROJECT_SOURCE_DIR}/src/main/simpledb.cpp)
+list(REMOVE_ITEM SIMPLEDB_SRCS ${PROJECT_SOURCE_DIR}/src/main/simpledb.cpp)
 
 # create OBJECT library (used for creating both static and shared library)
-add_library(simpledb_objlib OBJECT ${SMARTDB_SRCS})
+add_library(simpledb_objlib OBJECT ${SIMPLEDB_SRCS})
 
 target_compile_definitions(simpledb_objlib PUBLIC #PUBLIC: all consumers of the library inherit the following
-  ${SMARTDB_COMPILE_DEFINITIONS}
+  ${SIMPLEDB_COMPILE_DEFINITIONS}
   )
 
 target_compile_options(simpledb_objlib PUBLIC
   # "-march=native"               # enable machine-specific instruction sets and optimization
   "-mcx16"                      # allow CMPXCHG16B (16-byte compare and exchange)
-  ${SMARTDB_COMPILE_OPTIONS}
+  ${SIMPLEDB_COMPILE_OPTIONS}
   )
 
 # option and definition difference
@@ -204,11 +204,11 @@ target_include_directories(simpledb_objlib PUBLIC
 
 
 target_include_directories(simpledb_objlib SYSTEM PUBLIC # SYSTEM PUBLIC: inherit without error checking
-  ${SMARTDB_INCLUDE_DIRECTORIES}
+  ${SIMPLEDB_INCLUDE_DIRECTORIES}
   )
 
 target_link_options(simpledb_objlib PUBLIC
-  ${SMARTDB_LINK_OPTIONS}
+  ${SIMPLEDB_LINK_OPTIONS}
   )
 
 
@@ -244,11 +244,11 @@ set_target_properties(simpledb PROPERTIES CXX_EXTENTIONS OFF ENABLE_EXPORTS ON)
 include(GoogleTest)             # use gtest_add_tests
 
 file(GLOB_RECURSE
-  SMARTDB_TEST_SRCS
+  SIMPLEDB_TEST_SRCS
   ${PROJECT_SOURCE_DIR}/test/*.cpp
   )
 
-add_executable(simpledb_test ${SMARTDB_TEST_SRCS})
+add_executable(simpledb_test ${SIMPLEDB_TEST_SRCS})
 target_link_libraries(simpledb_test PRIVATE simpledb_shared gtest)
 
 gtest_add_tests(TARGET simpledb_test)
