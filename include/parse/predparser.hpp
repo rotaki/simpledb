@@ -14,6 +14,6 @@ namespace smartdb {
     void term();
     void predicate();
   private:
-    std::shared_ptr<lexer> mLex;
+    lexer mLex;
   };
 }

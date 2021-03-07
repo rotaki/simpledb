@@ -12,9 +12,9 @@ namespace smartdb {
                            buffer_manager* pBM):
     mFM(pFM),mLM(pLM), mBM(pBM) {
     mTxNum = next_tx_number();
-    mRM = std::shared_ptr<recovery_manager>(new recovery_manager(this, mTxNum, mLM, mBM));
-    mCM = std::shared_ptr<concurrency_manager>(new concurrency_manager);
-    mBL = std::shared_ptr<buffer_list>(new buffer_list(mBM));
+    mRM = std::make_unique<recovery_manager>(this, mTxNum, mLM, mBM);
+    mCM = std::make_unique<concurrency_manager>();
+    mBL = std::make_unique<buffer_list>(mBM);
   }
 
   void transaction::commit() {
@@ -36,17 +36,17 @@ namespace smartdb {
     mRM->recover();
   }
 
-  void transaction::pin(const block_id & pBlockId) { // todo fix func param
+  void transaction::pin(const block_id & pBlockId) { 
     mBL->pin(pBlockId);
   }
 
-  void transaction::unpin(const block_id & pBlockId) { // todo fix func param
+  void transaction::unpin(const block_id & pBlockId) {
     mBL->unpin(pBlockId);
   }
 
-  int transaction::get_int(const block_id & pBlockId, const int& pOffset) { // todo fix func param
+  int transaction::get_int(const block_id & pBlockId, const int& pOffset) {
     mCM->slock(pBlockId);
-    buffer* buff = mBL->get_buffer(pBlockId); // 
+    buffer* buff = mBL->get_buffer(pBlockId);
     return buff->contents()->get_int(pOffset);
   }
 
@@ -59,7 +59,7 @@ namespace smartdb {
   void transaction::set_int(const block_id & pBlockId,
                             const int& pOffset,
                             const int& pVal,
-                            const bool& pOkToLog) { // todo fix blockid
+                            const bool& pOkToLog) {
     mCM->xlock(pBlockId);
     buffer* buff = mBL->get_buffer(pBlockId);
     int lsn = -1;

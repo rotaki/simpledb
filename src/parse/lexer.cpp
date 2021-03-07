@@ -6,7 +6,7 @@ namespace smartdb {
   lexer::lexer(const std::string &pS) {
     init_keywords();
     std::stringstream sS(pS);
-    mTok = std::shared_ptr<stream_tokenizer>(new stream_tokenizer(sS));
+    mTok = std::make_unique<stream_tokenizer>(sS);
     mTok->ordinary_char('.');
     mTok->word_chars('_', '_');
     mTok->lower_case_mode(true);

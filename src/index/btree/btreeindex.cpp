@@ -18,10 +18,10 @@ namespace smartdb {
 
     // deal with the directory
     std::shared_ptr<schema> dirSch(new schema());
-    dirSch->add("block", mLeafLayout->get_schema());
-    dirSch->add("dataval", mLeafLayout->get_schema());
+    dirSch->add("block", mLeafLayout->get_schema()); // todo fix
+    dirSch->add("dataval", mLeafLayout->get_schema()); // todo fix
     std::string dirTbl = pIdxName + "dir";
-    mDirLayout = std::shared_ptr<layout>(new layout(dirSch));
+    mDirLayout = std::shared_ptr<layout>(new layout(*dirSch)); // todo fix
     mRootBlk = std::shared_ptr<block_id>(new block_id(dirTbl, 0));
     if (mTx->size(dirTbl) == 0) {
       // create new root block

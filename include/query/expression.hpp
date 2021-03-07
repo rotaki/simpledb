@@ -18,8 +18,8 @@ namespace smartdb {
     bool is_field_name() const;
     constant as_constant() const;
     std::string as_field_name() const;
-    constant evaluate(std::shared_ptr<scan> pS) const;
-    bool applies_to(std::shared_ptr<schema> pSch) const;
+    constant evaluate(scan* pS) const;
+    bool applies_to(const schema &pSch) const;
     std::string to_string() const;
   private:
     constant mVal;

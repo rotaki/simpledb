@@ -13,6 +13,6 @@ namespace smartdb {
     virtual int blocks_accessed() = 0;
     virtual int records_output() = 0;
     virtual int distinct_values(const std::string &pFldName) = 0;
-    virtual std::shared_ptr<schema> get_schema() = 0;
+    virtual schema get_schema() = 0;
   };
 }

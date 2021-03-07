@@ -44,11 +44,10 @@ namespace smartdb {
     log_manager* mLM;
     buffer_manager* mBM;
     int mTxNum;
-    std::shared_ptr<recovery_manager> mRM;
-    std::shared_ptr<concurrency_manager> mCM;
-    std::shared_ptr<buffer_list> mBL;
-
-
+    std::unique_ptr<recovery_manager> mRM;
+    std::unique_ptr<concurrency_manager> mCM;
+    std::unique_ptr<buffer_list> mBL;
+    
     static int next_tx_number();
   };
 }

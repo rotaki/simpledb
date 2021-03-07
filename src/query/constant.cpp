@@ -42,21 +42,31 @@ namespace smartdb {
 
   constant::constant(){}
   
-  constant::constant(const constant &pVal):
-    mIVal(pVal.mIVal), mSVal(pVal.mSVal) {}
+  constant::constant(const constant &pVal) {
+    if (pVal.mIVal) {
+      mIVal = std::make_unique<int>(*(pVal.mIVal));
+    }
+    if (pVal.mSVal) {
+      mSVal = std::make_unique<std::string>(*(pVal.mSVal));
+    }
+  }
 
   constant::constant(const int &pVal) {
-    mIVal = std::shared_ptr<int>(new int(pVal));
+    mIVal = std::make_unique<int>(pVal);
   }
 
   constant::constant(const std::string &pVal) {
-    mSVal = std::shared_ptr<std::string>(new std::string(pVal));
+    mSVal = std::make_unique<std::string>(pVal);
   }
 
   constant &constant::operator=(const constant &pVal) {
     if (this != &pVal) {
-      mIVal = pVal.mIVal;
-      mSVal = pVal.mSVal;
+      if (pVal.mIVal) {
+        mIVal = std::make_unique<int>(*(pVal.mIVal));
+      }
+      if (pVal.mSVal) {
+        mSVal = std::make_unique<std::string>(*(pVal.mSVal));
+      }
     }
     return *this;
   }

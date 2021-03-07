@@ -5,7 +5,7 @@
 namespace smartdb {
   int hash_index::mNumBuckets = 100;
   
-  hash_index::hash_index(std::shared_ptr<transaction> pTx, const std::string &pIdxName, std::shared_ptr<layout> pLt):
+  hash_index::hash_index(transaction* pTx, const std::string &pIdxName, const layout &pLt):
     mTx(pTx), mIdxName(pIdxName), mLt(pLt) {}
 
   void hash_index::before_first(const constant &pSearchKey) {
@@ -13,7 +13,7 @@ namespace smartdb {
     mSearchKey = pSearchKey;
     int bucket = mSearchKey.hash_code() % mNumBuckets;
     std::string tblName = mIdxName + std::to_string(bucket);
-    mTS = std::shared_ptr<table_scan>(new table_scan(mTx, tblName, mLt));
+    mTS = std::make_unique<table_scan>(mTx, tblName, mLt); // todo fix
   }
 
   bool hash_index::next() {

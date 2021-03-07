@@ -8,7 +8,7 @@
 namespace smartdb {
   class index_join_scan: public scan {
   public:
-    index_join_scan(std::shared_ptr<scan> pLhs, std::shared_ptr<index> pIdx, const std::string &pJoinFld, std::shared_ptr<table_scan> pRhs);
+    index_join_scan(const std::shared_ptr<scan> &pLhs, const std::shared_ptr<index> &pIdx, const std::string &pJoinFld, const std::shared_ptr<table_scan> &pRhs);
     void before_first();
     bool next();
     int get_int(const std::string &pFldName);

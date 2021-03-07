@@ -4,10 +4,23 @@
 
 namespace smartdb {
   schema::schema() {}
+
+  schema::schema(const schema &pSch) {
+    mFields = pSch.mFields;
+    mInfo = pSch.mInfo;
+  }
+
+  schema &schema::operator=(const schema &pSch) {
+    if (this != &pSch) {
+      mFields = pSch.mFields;
+      mInfo = pSch.mInfo;
+    }
+    return *this;
+  }
   
   void schema::add_field(const std::string &pFldName, const int &pType, const int &pLength) {
     mFields.emplace_back(pFldName);
-    mInfo[pFldName] = std::shared_ptr<schema::field_info>(new schema::field_info(pType, pLength));
+    mInfo[pFldName] = schema::field_info(pType, pLength);
   }
 
   void schema::add_int_field(const std::string &pFldName) {
@@ -18,39 +31,39 @@ namespace smartdb {
     add_field(pFldName, varchar, length);
   }
 
-  void schema::add(const std::string &pFldName, std::shared_ptr<schema> pSchema) {
-    int type = pSchema->type(pFldName);
-    int length = pSchema->length(pFldName);
+  void schema::add(const std::string &pFldName, const schema &pSchema) {
+    int type = pSchema.type(pFldName);
+    int length = pSchema.length(pFldName);
     add_field(pFldName, type, length);
   }
 
-  void schema::add_all(std::shared_ptr<schema> pSchema) {
-    for (const std::string &fldName: pSchema->fields()) {
+  void schema::add_all(const schema &pSchema) {
+    for (const std::string &fldName: pSchema.fields()) {
       add(fldName, pSchema);
     }
   }
 
-  std::vector<std::string> schema::fields() {
+  std::vector<std::string> schema::fields() const {
     return mFields;
   }
 
-  bool schema::has_field(const std::string &fldName) {
+  bool schema::has_field(const std::string &fldName) const{
     return (std::find(mFields.begin(), mFields.end(), fldName) != mFields.end());
   }
 
-  int schema::type(const std::string &pFldName) {
+  int schema::type(const std::string &pFldName) const {
     if (mInfo.find(pFldName) == mInfo.end()) {
       throw std::runtime_error("field info (" + pFldName+ ") not found");
     } else {
-      return mInfo[pFldName]->type();
+      return mInfo.at(pFldName).type();
     }
   }
 
-  int schema::length(const std::string &pFldName) {
+  int schema::length(const std::string &pFldName) const {
     if (mInfo.find(pFldName) == mInfo.end()) {
       throw std::runtime_error("field info (" + pFldName+ ") not found");
     } else {
-      return mInfo[pFldName]->length();
+      return mInfo.at(pFldName).length();
     }
   }
 
@@ -58,11 +71,11 @@ namespace smartdb {
     mType(pType), mLength(pLength) {
   }
 
-  int schema::field_info::type() {
+  int schema::field_info::type() const{
     return mType;
   }
 
-  int schema::field_info::length() {
+  int schema::field_info::length() const{
     return mLength;
   }
   

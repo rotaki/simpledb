@@ -9,11 +9,11 @@
 namespace smartdb {
   class view_manager {
   public:
-    view_manager(bool pIsNew, std::shared_ptr<table_manager> pTM, std::shared_ptr<transaction> pTx);
-    void create_view(const std::string &pVName, const std::string &pVDef, std::shared_ptr<transaction> pTx);
-    std::string get_view_def(const std::string &pVName, std::shared_ptr<transaction> pTx);
+    view_manager(bool pIsNew, table_manager* pTM, transaction* pTx);
+    void create_view(const std::string &pVName, const std::string &pVDef, transaction* pTx);
+    std::string get_view_def(const std::string &pVName, transaction* pTx);
   private:
     const int mMaxViewDiff = 100; // max view def chars
-    std::shared_ptr<table_manager> mTM;
+    table_manager* mTM;
   };
 }

@@ -65,9 +65,9 @@ namespace smartdb {
   }
 
   void bt_page::make_default_record(std::shared_ptr<block_id> pBlk, const int &pPos) {
-    for (const std::string &pFldName: mLt->get_schema()->fields()) {
+    for (const std::string &pFldName: mLt->get_schema().fields()) {
       int offset = mLt->offset(pFldName);
-      if (mLt->get_schema()->type(pFldName) == schema::integer) {
+      if (mLt->get_schema().type(pFldName) == schema::integer) {
         mTx->set_int(*pBlk, pPos + offset, 0, false);
       } else {
         mTx->set_string(*pBlk, pPos + offset, "", false);
@@ -122,7 +122,7 @@ namespace smartdb {
   }
 
   constant bt_page::get_val(const int &pSlot, const std::string &pFldName) {
-    int type = mLt->get_schema()->type(pFldName);
+    int type = mLt->get_schema().type(pFldName);
     if (type == schema::integer) {
       return constant(get_int(pSlot, pFldName));
     } else {
@@ -141,7 +141,7 @@ namespace smartdb {
   }
 
   void bt_page::set_val(const int &pSlot, const std::string &pFldName, const constant &pVal) {
-    int type = mLt->get_schema()->type(pFldName);
+    int type = mLt->get_schema().type(pFldName);
     if (type == schema::integer) {
       set_int(pSlot, pFldName, pVal.as_int());
     } else {
@@ -161,7 +161,7 @@ namespace smartdb {
   }
 
   void bt_page::copy_record(const int &pFrom, const int &pTo) {
-    std::shared_ptr<schema> sch = mLt->get_schema();
+    std::shared_ptr<schema> sch = std::make_shared<schema>(mLt->get_schema()); // todo fix
     for (const std::string &fldName: sch->fields()) {
       set_val(pTo, fldName, get_val(pFrom, fldName));
     }
@@ -171,7 +171,7 @@ namespace smartdb {
     int destSlot = 0;
     while (pSlot < get_num_recs()) {
       pDest->insert(destSlot);
-      std::shared_ptr<schema> sch = mLt->get_schema();
+      std::shared_ptr<schema> sch = std::make_shared<schema>(mLt->get_schema()); // todo fix
       for (const std::string &fldName: sch->fields()) {
         pDest->set_val(destSlot, fldName, get_val(pSlot, fldName));
         remove(pSlot);

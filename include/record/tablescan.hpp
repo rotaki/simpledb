@@ -12,7 +12,7 @@
 namespace smartdb {
   class table_scan: public update_scan {
   public:
-    table_scan(std::shared_ptr<transaction> pTx, const std::string &pTableName, std::shared_ptr<layout> pLayout);
+    table_scan(transaction* pTx, const std::string &pTableName, const layout &pLayout);
     ~table_scan();
     void before_first() override;
     bool next() override;
@@ -31,9 +31,9 @@ namespace smartdb {
     void move_to_rid(const rid &pRID) override;
 
   private:
-    std::shared_ptr<transaction> mTx;
-    std::shared_ptr<layout> mLt;
-    std::shared_ptr<record_page> mRP;
+    transaction* mTx;
+    layout mLt;
+    std::unique_ptr<record_page> mRP;
     std::string mFileName;
     int mCurrentSlot;
     

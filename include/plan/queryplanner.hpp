@@ -7,6 +7,6 @@ namespace smartdb {
   class query_planner {
   public:
     virtual ~query_planner() {}
-    virtual std::shared_ptr<plan> create_plan(std::shared_ptr<query_data> pQD, std::shared_ptr<transaction> pTx) = 0;
+    virtual std::shared_ptr<plan> create_plan(query_data* pQD, transaction* pTx) = 0;
   };
 } 

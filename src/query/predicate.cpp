@@ -26,7 +26,7 @@ namespace smartdb {
     mTerms.insert(mTerms.end(), pP.mTerms.begin(), pP.mTerms.end());
   }
 
-  bool predicate::is_satisfied(std::shared_ptr<scan> pS) const {
+  bool predicate::is_satisfied(scan* pS) const {
     for (const term &t: mTerms) {
       if (!t.is_satisfied(pS)) {
         return false;
@@ -35,7 +35,7 @@ namespace smartdb {
     return true;
   }
 
-  int predicate::reduction_factor(std::shared_ptr<plan> pPlan) const {
+  int predicate::reduction_factor(plan* pPlan) const {
     int factor = 1;
     for (const term &t: mTerms) {
       factor *= t.reduction_factor(pPlan);
@@ -44,7 +44,7 @@ namespace smartdb {
   }
 
 
-  predicate predicate::select_sub_pred(std::shared_ptr<schema> pSch) const {
+  predicate predicate::select_sub_pred(const schema &pSch) const {
     predicate result;
     for (const term &t: mTerms) {
       if (t.applies_to(pSch)) {
@@ -55,11 +55,11 @@ namespace smartdb {
   }
 
 
-  predicate predicate::join_sub_pred(std::shared_ptr<schema> pSch1, std::shared_ptr<schema> pSch2) const {
+  predicate predicate::join_sub_pred(const schema &pSch1, const schema &pSch2) const {
     predicate result;
-    std::shared_ptr<schema> newSch(new schema);
-    newSch->add_all(pSch1);
-    newSch->add_all(pSch2);
+    schema newSch;
+    newSch.add_all(pSch1);
+    newSch.add_all(pSch2);
     for (const term &t: mTerms) {
       if (!t.applies_to(pSch1) && !t.applies_to(pSch2) && t.applies_to(newSch)) {
         result.mTerms.emplace_back(t);

@@ -2,12 +2,12 @@
 #include "query/selectscan.hpp"
 
 namespace smartdb {
-  select_plan::select_plan(std::shared_ptr<plan> pPlan, const predicate &pPred):
+  select_plan::select_plan(const std::shared_ptr<plan> &pPlan, const predicate &pPred):
     mPlan(pPlan), mPred(pPred) {}
 
   std::shared_ptr<scan> select_plan::open() {
     std::shared_ptr<scan> s = mPlan->open();
-    return std::static_pointer_cast<scan>(std::shared_ptr<select_scan>(new select_scan(s, mPred)));
+    return std::static_pointer_cast<scan>(std::make_shared<select_scan>(s, mPred));
   }
 
   int select_plan::blocks_accessed() {
@@ -15,7 +15,7 @@ namespace smartdb {
   }
 
   int select_plan::records_output() {
-    return mPlan->records_output() / mPred.reduction_factor(mPlan);
+    return mPlan->records_output() / mPred.reduction_factor(mPlan.get());
   }
 
   int select_plan::distinct_values(const std::string &pFldName) {
@@ -31,7 +31,7 @@ namespace smartdb {
     }
   }
 
-  std::shared_ptr<schema> select_plan::get_schema() {
+  schema select_plan::get_schema() {
     return mPlan->get_schema();
   }
 }

@@ -24,7 +24,7 @@ namespace smartdb {
     int hash_code() const;
     bool is_null() const;
   private:
-    std::shared_ptr<int> mIVal = std::shared_ptr<int>(nullptr);
-    std::shared_ptr<std::string> mSVal = std::shared_ptr<std::string>(nullptr);
+    std::unique_ptr<int> mIVal;
+    std::unique_ptr<std::string> mSVal;
   };
 }

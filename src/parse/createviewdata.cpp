@@ -5,8 +5,8 @@ namespace smartdb {
     return createview;
   }
   
-  create_view_data::create_view_data(const std::string &pViewName, std::shared_ptr<query_data> pQD):
-    mViewName(pViewName), mQD(pQD) {}
+  create_view_data::create_view_data(const std::string &pViewName, std::unique_ptr<query_data> pQD):
+    mViewName(pViewName), mQD(std::move(pQD)) {}
 
   std::string create_view_data::view_name() const {
     return mViewName;

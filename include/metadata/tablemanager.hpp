@@ -9,11 +9,11 @@
 namespace smartdb {
   class table_manager {
   public:
-    table_manager(bool pIsNew, std::shared_ptr<transaction> pTx) ;
-    void create_table(const std::string &pTblName, std::shared_ptr<schema> pSch, std::shared_ptr<transaction> pTx);
-    std::shared_ptr<layout> get_layout(const std::string &pTblName, std::shared_ptr<transaction> pTx);
+    table_manager(bool pIsNew, transaction* pTx) ;
+    void create_table(const std::string &pTblName, const schema &pSch, transaction* pTx);
+    layout get_layout(const std::string &pTblName, transaction* pTx);
     const int mMaxName = 16;
   private:
-    std::shared_ptr<layout> mTCatLayout, mFCatLayout;
+    layout mTCatLayout, mFCatLayout;
   };
 }

@@ -9,7 +9,7 @@
 namespace smartdb {
   class hash_index: public index {
   public:
-    hash_index(std::shared_ptr<transaction> pTx, const std::string &pIdxName, std::shared_ptr<layout> pLt);
+    hash_index(transaction* pTx, const std::string &pIdxName, const layout &pLt);
     void before_first(const constant &pSearckKey) override;
     bool next() override;
     rid get_data_rid() override;
@@ -19,10 +19,10 @@ namespace smartdb {
     static int search_cost(const int &pNumBlocks, const int &pRPB);
     static int mNumBuckets;
   private:
-    std::shared_ptr<transaction> mTx;
+    transaction* mTx;
     std::string mIdxName;
-    std::shared_ptr<layout> mLt;
+    layout mLt;
     constant mSearchKey;
-    std::shared_ptr<table_scan> mTS;
+    std::unique_ptr<table_scan> mTS;
   };
 }

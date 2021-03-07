@@ -9,7 +9,7 @@
 namespace smartdb {
   class project_scan: public scan {
   public:
-    project_scan(std::shared_ptr<scan> pS, const std::vector<std::string> &pFieldList);
+    project_scan(const std::shared_ptr<scan> &pS, const std::vector<std::string> &pFieldList);
     
     void before_first() override;
     bool next() override;
@@ -21,7 +21,7 @@ namespace smartdb {
 
   private:
     std::shared_ptr<scan> mS;
-    std::vector<std::string > mFieldList;
+    std::vector<std::string> mFieldList;
   };
 }
 

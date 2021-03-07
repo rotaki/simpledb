@@ -95,7 +95,7 @@ namespace smartdb {
   }
   
   std::shared_ptr<std::fstream> file_manager::get_file(const std::string &pFileName) {
-    std::shared_ptr<std::fstream> fileIO(new std::fstream);
+    auto fileIO = std::make_shared<std::fstream>();
     std::filesystem::path path = mDbDirectory / pFileName;
     
     if (mOpenFiles.find(path) != mOpenFiles.end()) {

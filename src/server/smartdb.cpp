@@ -13,15 +13,13 @@ namespace smartdb {
   
   smartdb::smartdb(const std::string &pDirName, const int &pBlockSize, const int &pBuffSize) {
     auto path = std::filesystem::current_path() / pDirName;
-    mFM = std::make_unique<file_manager>(path, pBlockSize); // todo unique
+    mFM = std::make_unique<file_manager>(path, pBlockSize);
     mLM = std::make_unique<log_manager>(mFM.get(), mLogFile);
     mBM = std::make_unique<buffer_manager>(mFM.get(), mLM.get(), pBuffSize);
   }
 
   smartdb::smartdb(const std::string &pDirName): smartdb(pDirName, mBlockSize, mBufferSize) {
-    //std::unique_ptr<transaction> tx = transaction::create(mFM.get(), mLM.get(), mBM.get());
-    auto tx = std::make_shared<transaction>(mFM.get(), mLM.get(), mBM.get());
-    //auto tx = std::make_unique<transaction>(mFM.get(), mLM.get(), mBM.get());
+    auto tx = std::make_unique<transaction>(mFM.get(), mLM.get(), mBM.get());
     bool isNew = mFM->is_new();
     if (isNew) {
       std::cout << "creating new database" << std::endl;
@@ -29,10 +27,10 @@ namespace smartdb {
       std::cout << "recovering existing database" << std::endl;
       tx->recover();
     }
-    mMM = std::shared_ptr<metadata_manager>(new metadata_manager(isNew, tx));
-    std::shared_ptr<query_planner> qP(new basic_query_planner(mMM));
-    std::shared_ptr<update_planner> uP(new basic_update_planner(mMM));
-    mP = std::shared_ptr<planner>(new planner(qP, uP));
+    mMM = std::make_unique<metadata_manager>(isNew, tx.get());
+    auto qP = std::make_unique<basic_query_planner>(mMM.get());
+    auto uP = std::make_unique<basic_update_planner>(mMM.get());
+    mP = std::make_unique<planner>(std::move(qP), std::move(uP));
     tx->commit();
   }
 
@@ -41,16 +39,16 @@ namespace smartdb {
     return txPtr;
   }
 
-  std::shared_ptr<metadata_manager> smartdb::md_mgr() {
-    return mMM;
+  metadata_manager* smartdb::md_mgr() {
+    return mMM.get();
   }
   
   file_manager* smartdb::file_mgr() {
     return mFM.get();
   }
 
-  std::shared_ptr<planner> smartdb::plnr() {
-    return mP;
+  planner* smartdb::plnr() {
+    return mP.get();
   }
 
   log_manager* smartdb::log_mgr() {

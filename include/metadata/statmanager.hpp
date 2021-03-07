@@ -9,7 +9,10 @@
 namespace smartdb {
   class stat_info {
   public:
+    stat_info();
+    stat_info(const stat_info &pSI);
     stat_info(const int &pNumBlocks, const int &pNumRecs);
+    stat_info& operator=(const stat_info &pSI);
     int blocks_accessed();
     int records_output();
     int distinct_values(const std::string &pFldName);
@@ -20,16 +23,16 @@ namespace smartdb {
   
   class stat_manager {
   public:
-    stat_manager(std::shared_ptr<table_manager> pTM, std::shared_ptr<transaction> pTx);
-    std::shared_ptr<stat_info> get_stat_info(const std::string &pTblName, std::shared_ptr<layout> pLt, std::shared_ptr<transaction> pTx);
+    stat_manager(table_manager* pTM, transaction* pTx);
+    stat_info get_stat_info(const std::string &pTblName, const layout &pLt, transaction* pTx);
     
   private:
-    std::shared_ptr<table_manager> mTM;
-    std::map<std::string, std::shared_ptr<stat_info>> mTableStats;
+    table_manager* mTM;
+    std::map<std::string, stat_info> mTableStats;
     int mNumCalls;
     std::recursive_mutex mMutex;
     
-    void refresh_statistics(std::shared_ptr<transaction> pTx);
-    std::shared_ptr<stat_info> calc_table_stats(const std::string &pTblName, std::shared_ptr<layout> pLt, std::shared_ptr<transaction> pTx);
+    void refresh_statistics(transaction* pTx);
+    stat_info calc_table_stats(const std::string &pTblName, const layout &pLt, transaction* pTx);
   };
 }

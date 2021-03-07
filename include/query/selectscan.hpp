@@ -2,15 +2,15 @@
 
 #include <memory>
 
-#include "constant.hpp"
-#include "scan.hpp"
-#include "updatescan.hpp"
-#include "predicate.hpp"
+#include "query/constant.hpp"
+#include "query/scan.hpp"
+#include "query/updatescan.hpp"
+#include "query/predicate.hpp"
 
 namespace smartdb {
   class select_scan: public update_scan {
   public:
-    select_scan(std::shared_ptr<scan> pS, const predicate &pP);
+    select_scan(const std::shared_ptr<scan> &pS, const predicate &pP);
 
     void before_first() override;
     bool next() override;

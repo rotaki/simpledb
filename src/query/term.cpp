@@ -19,17 +19,17 @@ namespace smartdb {
     return *this;
   }
 
-  bool term::is_satisfied(std::shared_ptr<scan> pS) const {
+  bool term::is_satisfied(scan* pS) const {
     constant lhsVal = mLhs.evaluate(pS);
     constant rhsVal = mRhs.evaluate(pS);
     return rhsVal == lhsVal;
   }
 
-  bool term::applies_to(std::shared_ptr<schema> pSch) const {
+  bool term::applies_to(const schema &pSch) const {
     return mLhs.applies_to(pSch) && mRhs.applies_to(pSch);
   }
 
-  int term::reduction_factor(std::shared_ptr<plan> pPlan) const {
+  int term::reduction_factor(plan* pPlan) const {
     std::string lhsName, rhsName;
     if (mLhs.is_field_name() && mRhs.is_field_name()) {
       lhsName = mLhs.as_field_name();

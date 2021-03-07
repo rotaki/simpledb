@@ -25,8 +25,9 @@ namespace smartdb {
     virtual ~log_record();
     virtual int op() = 0;
     virtual int tx_number() = 0;
+    virtual std::string to_string() = 0;
     virtual void undo(transaction* pTx) = 0;
-    static std::shared_ptr<log_record> create_log_record(const std::vector<char> &pByteVec);
+    static std::unique_ptr<log_record> create_log_record(const std::vector<char> &pByteVec);
   };
 
   class checkpoint_record: public log_record {
@@ -34,7 +35,7 @@ namespace smartdb {
     checkpoint_record();
     int op() override;
     int tx_number() override;
-    std::string to_string();
+    std::string to_string() override;
     void undo(transaction* pTx) override;
     static int write_to_log(log_manager* pLM);
   };
@@ -44,7 +45,7 @@ namespace smartdb {
     start_record(page* pPage);
     int op() override;
     int tx_number() override;
-    std::string to_string();
+    std::string to_string() override;
     void undo(transaction* pTx) override;
     static int write_to_log(log_manager* pLM,
                             const int &pTxNum);
@@ -57,7 +58,7 @@ namespace smartdb {
     commit_record(page* pPage);
     int op() override;
     int tx_number() override;
-    std::string to_string();
+    std::string to_string() override;
     void undo(transaction* pTx) override;
     static int write_to_log(log_manager* pLM,
                             const int &pTxNum);
@@ -70,7 +71,7 @@ namespace smartdb {
     rollback_record(page* pPage);
     int op() override;
     int tx_number() override;
-    std::string to_string();
+    std::string to_string() override;
     void undo(transaction* pTx) override;
     static int write_to_log(log_manager* pLM,
                             const int &pTxNum);
@@ -84,7 +85,7 @@ namespace smartdb {
     set_int_record(page* pPgae);
     int op() override;
     int tx_number() override;
-    std::string to_string();
+    std::string to_string() override;
     void undo(transaction* pTx) override;
     static int write_to_log(log_manager* pLM,
                             const int &pTxNum,
@@ -103,7 +104,7 @@ namespace smartdb {
     set_string_record(page* pPage);
     int op() override;
     int tx_number() override;
-    std::string to_string();
+    std::string to_string() override;
     void undo(transaction* pTx) override;
     static int write_to_log(log_manager* pLM,
                             const int &pTxNum,

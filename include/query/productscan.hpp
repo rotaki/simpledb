@@ -7,7 +7,7 @@
 namespace smartdb {
   class product_scan: public scan {
   public:
-    product_scan(std::shared_ptr<scan> pS1, std::shared_ptr<scan> pS2);
+    product_scan(const std::shared_ptr<scan> &pS1, const std::shared_ptr<scan> &pS2);
     
     void before_first() override;
     bool next() override;

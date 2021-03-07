@@ -53,7 +53,7 @@ namespace smartdb {
     log_manager::log_iterator iter = mLM->iterator();
     while (iter.has_next()) {
       std::vector<char> byteVec = iter.next();
-      std::shared_ptr<log_record> rec = log_record::create_log_record(byteVec);
+      auto rec = log_record::create_log_record(byteVec);
       if (rec->tx_number() == mTxNum) {
         if (rec->op() == log_record::start) {
           return;
@@ -69,7 +69,7 @@ namespace smartdb {
     log_manager::log_iterator iter = mLM->iterator();
     while (iter.has_next()) {
       std::vector<char> byteVec = iter.next();
-      std::shared_ptr<log_record> rec = log_record::create_log_record(byteVec);
+      auto rec = log_record::create_log_record(byteVec);
       if (rec->op() == log_record::checkpoint) {
         return;
       }

@@ -1,12 +1,11 @@
-#include <iostream>
-
 #include "query/expression.hpp"
 
 namespace smartdb {
   expression::expression() {}
   
   expression::expression(const expression &pE):
-    mVal(pE.mVal), mFldName(pE.mFldName) {}
+    mVal(pE.mVal), mFldName(pE.mFldName) {
+  }
   
   expression::expression(const constant &pVal):
     mVal(pVal) {}
@@ -34,12 +33,12 @@ namespace smartdb {
     return mFldName;
   }
 
-  constant expression::evaluate(std::shared_ptr<scan> pS) const{
+  constant expression::evaluate(scan* pS) const{
     return (mVal.is_null() ? pS->get_val(mFldName) : mVal);
   }
 
-  bool expression::applies_to(std::shared_ptr<schema> pSch) const {
-    return (mVal.is_null() ? pSch->has_field(mFldName) : true);
+  bool expression::applies_to(const schema &pSch) const {
+    return (mVal.is_null() ? pSch.has_field(mFldName) : true);
   }
 
   std::string expression::to_string() const {

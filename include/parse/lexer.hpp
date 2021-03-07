@@ -22,7 +22,7 @@ namespace smartdb {
     std::string eat_id();
   private:
     std::set<std::string> mKeywords;
-    std::shared_ptr<stream_tokenizer> mTok;
+    std::unique_ptr<stream_tokenizer> mTok;
 
     void next_token();
     void init_keywords();

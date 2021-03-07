@@ -7,7 +7,6 @@ namespace smartdb {
   buffer::buffer(file_manager* pFileManager, log_manager* pLogManager):
     mFileManager(pFileManager), mLogManager(pLogManager)
   {
-    //mContents = std::shared_ptr<page>(new page(mFileManager->block_size()));
     mContents = std::make_unique<page>(mFileManager->block_size());
   }
 
@@ -62,7 +61,6 @@ namespace smartdb {
     for (int i = 0; i < pNumBuffs; i++) {
       auto bufferPtr = std::make_unique<buffer>(pFileManager, pLogManager);
       mBufferPool.emplace_back(std::move(bufferPtr));
-      // mBufferPool.emplace_back(std::shared_ptr<buffer>(new buffer(pFileManager, pLogManager)));
     }
   }
 

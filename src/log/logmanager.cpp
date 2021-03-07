@@ -6,13 +6,11 @@ namespace smartdb {
   {
     int logSize = mFileManager->length(mLogFile);
     auto byteVec = std::make_shared<std::vector<char>>(mFileManager->block_size(), 0);
-    //std::vector<char> byteVec(mFileManager->block_size(), 0);
     mLogPage = std::make_unique<page>(byteVec);
     if (logSize == 0) {
       mCurrentBlk = append_new_block();
     } else {
       mCurrentBlk = block_id(mLogFile, logSize-1);
-      // mCurrentBlk = std::shared_ptr<block_id>(new block_id(mLogFile, logSize-1));
       mFileManager->read(mCurrentBlk, *mLogPage);
     }
   }
@@ -45,10 +43,8 @@ namespace smartdb {
   
   log_manager::log_iterator::log_iterator(file_manager* ppFileManager, const block_id &ppBlockId) : mmFileManager(ppFileManager), mmBlockId(ppBlockId) {
     
-    //std::vector<char> byteVec(mmFileManager->block_size(), 0);
     auto byteVec = std::make_shared<std::vector<char>>(mmFileManager->block_size(), 0);
     mmPage = std::make_unique<page>(byteVec);
-    // mmPage = std::shared_ptr<page>(new page(byteVec));
     move_to_block(mmBlockId);
   }
 
@@ -59,7 +55,6 @@ namespace smartdb {
   std::vector<char> log_manager::log_iterator::next() {
     if (mmCurrentPos == mmFileManager->block_size()) {
       mmBlockId = block_id(mmBlockId.file_name(), mmBlockId.number()-1);
-      // mmBlockId = std::shared_ptr<block_id>(new block_id(mmBlockId->file_name(), mmBlockId->number()-1));
       move_to_block(mmBlockId);
     }
     std::vector<char> rec = mmPage->get_bytes(mmCurrentPos);

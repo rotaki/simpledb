@@ -32,48 +32,54 @@ namespace smartdb {
 
 
     // methods for parsing queries
-    std::shared_ptr<query_data> query();
+    std::unique_ptr<query_data> query();
     
     // methods for parsing the varioud update commands
-    std::shared_ptr<object> update_cmd();
+    std::unique_ptr<object> update_cmd();
 
     // methods for parsing remove commands
-    std::shared_ptr<delete_data> remove();
+    std::unique_ptr<delete_data> remove();
 
     // methods for parsing insert commands
-    std::shared_ptr<insert_data> insert();
+    std::unique_ptr<insert_data> insert();
 
     // methods for parsing modify commands
-    std::shared_ptr<modify_data> modify();
+    std::unique_ptr<modify_data> modify();
 
     // method for parsing create table commands
-    std::shared_ptr<create_table_data> create_table();
+    std::unique_ptr<create_table_data> create_table();
 
     // method for parsing create view commands
-    std::shared_ptr<create_view_data> create_view();
+    std::unique_ptr<create_view_data> create_view();
 
     // method for parsing creaete index commands
-    std::shared_ptr<create_index_data> create_index();
+    std::unique_ptr<create_index_data> create_index();
 
 
   private:
-    std::shared_ptr<lexer> lex;
+    lexer lex;
     
     // methods for parsing queries
     std::vector<std::string> select_list();
     std::set<std::string> table_list();
 
     // methods for parsing the various update commands
-    std::shared_ptr<object> create();
+    std::unique_ptr<object> create();
 
     // methods for parsing insert commands
     std::vector<std::string> field_list();
     std::vector<constant> const_list();
 
     // method for parsing create table commands
-    std::shared_ptr<schema> field_defs();
-    std::shared_ptr<schema> field_def();
-    std::shared_ptr<schema> field_type(const std::string &pFldName);
+    schema field_defs();
+    schema field_def();
+    schema field_type(const std::string &pFldName);
+
+    template<typename TO, typename FROM>
+    std::unique_ptr<TO> static_unique_pointer_cast (std::unique_ptr<FROM>&& old){
+      return std::unique_ptr<TO>{static_cast<TO*>(old.release())};
+    //conversion: unique_ptr<FROM>->FROM*->TO*->unique_ptr<TO>
+    }
 
   };
 }
