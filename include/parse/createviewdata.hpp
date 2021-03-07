@@ -6,7 +6,7 @@
 #include "parse/querydata.hpp"
 #include "parse/object.hpp"
 
-namespace smartdb {
+namespace simpledb {
   class create_view_data: public object {
   public:
     int op() override;

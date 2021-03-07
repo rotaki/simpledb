@@ -9,7 +9,7 @@
 #include "index/btree/direntry.hpp"
 #include "index/btree/btpage.hpp"
 
-namespace smartdb {
+namespace simpledb {
   class btree_leaf {
   public:
     btree_leaf(std::shared_ptr<transaction> pTx, std::shared_ptr<block_id> pBlk, std::shared_ptr<layout> pLt, const constant &pSeachKey);

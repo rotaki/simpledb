@@ -1,6 +1,6 @@
 #include "record/rid.hpp"
 
-namespace smartdb {
+namespace simpledb {
   bool operator==(const rid &pLhs, const rid &pRhs) {
     return (pLhs.mBlockNum == pRhs.mBlockNum) && (pLhs.mSlot == pRhs.mSlot);
   }

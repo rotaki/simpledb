@@ -1,6 +1,6 @@
 #include "query/expression.hpp"
 
-namespace smartdb {
+namespace simpledb {
   expression::expression() {}
   
   expression::expression(const expression &pE):

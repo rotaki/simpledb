@@ -6,7 +6,7 @@
 
 #include "parse/pushbackreader.hpp"
 
-namespace smartdb {
+namespace simpledb {
   class stream_tokenizer {
   public:
     static int mTT_EOF;

@@ -1,7 +1,7 @@
 #include "tx/recovery/logrecord.hpp"
 #include "tx/transaction.hpp"
 
-namespace smartdb {
+namespace simpledb {
   log_record::~log_record() {}
   
   std::unique_ptr<log_record> log_record::create_log_record(const std::vector<char> &pByteVec) {

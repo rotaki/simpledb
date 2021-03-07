@@ -1,7 +1,7 @@
 #include <iostream>
 #include "query/productscan.hpp"
 
-namespace smartdb {
+namespace simpledb {
   product_scan::product_scan(const std::shared_ptr<scan> &pS1, const std::shared_ptr<scan> &pS2):
     mS1(pS1), mS2(pS2) {
     before_first();

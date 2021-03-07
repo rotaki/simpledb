@@ -4,7 +4,7 @@
 #include "parse/streamtokenizer.hpp"
 #include "parse/pushbackreader.hpp"
 
-namespace smartdb {
+namespace simpledb {
   int stream_tokenizer::mTT_EOF = -1;
   int stream_tokenizer::mTT_EOL = '\n';
   int stream_tokenizer::mTT_NUMBER = -2;

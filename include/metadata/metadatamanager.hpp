@@ -12,7 +12,7 @@
 #include "metadata/statmanager.hpp"
 #include "metadata/indexmanager.hpp"
 
-namespace smartdb {
+namespace simpledb {
   class metadata_manager {
   public:
     metadata_manager(const bool &pIsNew, transaction* pTx);

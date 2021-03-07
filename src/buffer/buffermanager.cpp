@@ -3,7 +3,7 @@
 
 #include "buffer/buffermanager.hpp"
 
-namespace smartdb {
+namespace simpledb {
   buffer::buffer(file_manager* pFileManager, log_manager* pLogManager):
     mFileManager(pFileManager), mLogManager(pLogManager)
   {

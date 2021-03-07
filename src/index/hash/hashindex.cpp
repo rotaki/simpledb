@@ -2,7 +2,7 @@
 #include "query/constant.hpp"
 #include "record/rid.hpp"
 
-namespace smartdb {
+namespace simpledb {
   int hash_index::mNumBuckets = 100;
   
   hash_index::hash_index(transaction* pTx, const std::string &pIdxName, const layout &pLt):

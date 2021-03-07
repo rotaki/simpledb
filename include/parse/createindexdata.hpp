@@ -4,7 +4,7 @@
 
 #include "parse/object.hpp"
 
-namespace smartdb {
+namespace simpledb {
   class create_index_data: public object {
   public:
     int op() override;

@@ -4,7 +4,7 @@
 #include "record/layout.hpp"
 
 
-namespace smartdb {
+namespace simpledb {
   index_info::index_info() {}
   index_info::index_info(const index_info &pII):
     mIdxName(pII.mIdxName), mFldName(pII.mFldName), mTx(pII.mTx), mTblSchema(pII.mTblSchema), mSI(pII.mSI), mIdxLayout(pII.mIdxLayout){}

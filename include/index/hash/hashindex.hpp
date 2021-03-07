@@ -6,7 +6,7 @@
 #include "query/constant.hpp"
 #include "record/tablescan.hpp"
 
-namespace smartdb {
+namespace simpledb {
   class hash_index: public index {
   public:
     hash_index(transaction* pTx, const std::string &pIdxName, const layout &pLt);

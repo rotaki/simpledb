@@ -6,7 +6,7 @@
 #include "query/constant.hpp"
 #include "record/rid.hpp"
 
-namespace smartdb {
+namespace simpledb {
   class update_scan: public scan {
   public:
     virtual ~update_scan() = default;

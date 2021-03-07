@@ -8,7 +8,7 @@
 #include "file/page.hpp"
 #include "file/blockid.hpp"
 
-namespace smartdb {
+namespace simpledb {
   class file_manager {
   public:
     file_manager(const std::filesystem::path &pDbDirectory, const int &pBlockSize);

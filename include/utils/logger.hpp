@@ -3,7 +3,7 @@
 #include <ctime>
 #include <string>
 
-namespace smartdb {
+namespace simpledb {
 #define LOG_LOG_TIME_FORMAT "%Y-%m-%d %H:%M:%S"
 #define LOG_OUTPUT_STREAM stderr
 

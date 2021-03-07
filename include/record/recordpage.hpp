@@ -5,7 +5,7 @@
 #include "tx/transaction.hpp"
 #include "record/layout.hpp"
 
-namespace smartdb {
+namespace simpledb {
   class record_page {
   public:
     const int empty = 0;

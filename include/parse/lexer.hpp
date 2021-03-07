@@ -6,7 +6,7 @@
 
 #include "parse/streamtokenizer.hpp"
 
-namespace smartdb {
+namespace simpledb {
   class lexer {
   public:
     lexer(const std::string &pS);

@@ -1,7 +1,7 @@
 #include "record/layout.hpp"
 #include "gtest/gtest.h"
 
-namespace smartdb {
+namespace simpledb {
   TEST(record, layout) {
     schema sch;
     sch.add_int_field("A");

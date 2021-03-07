@@ -1,11 +1,11 @@
 #include <iostream>
 
 #include "log/logmanager.hpp"
-#include "server/smartdb.hpp"
+#include "server/simpledb.hpp"
 #include "file/page.hpp"
 #include "gtest/gtest.h"
 
-namespace smartdb {
+namespace simpledb {
   void print_log_records(log_manager* lM, std::string msg) {
     std::cout << msg << std::endl;
     log_manager::log_iterator iter = lM->iterator();
@@ -41,7 +41,7 @@ namespace smartdb {
   }
     
   TEST(log, logtest) {
-    smartdb db("logtest", 400, 8);
+    simpledb db("logtest", 400, 8);
     log_manager* lM = db.log_mgr();
     print_log_records(lM, "The initial empty log file: ");
     std::cout << "done" << std::endl;

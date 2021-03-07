@@ -6,7 +6,7 @@
 #include "query/constant.hpp"
 #include "parse/object.hpp"
 
-namespace smartdb {
+namespace simpledb {
   class insert_data: public object{
   public:
     int op() override;

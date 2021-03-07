@@ -2,7 +2,7 @@
 
 #include "record/schema.hpp"
 
-namespace smartdb {
+namespace simpledb {
   schema::schema() {}
 
   schema::schema(const schema &pSch) {

@@ -5,7 +5,7 @@
 #include "plan/plan.hpp"
 #include "query/predicate.hpp"
 
-namespace smartdb {
+namespace simpledb {
   class select_plan: public plan {
   public:
     select_plan(const std::shared_ptr<plan> &pPlan, const predicate &pPred);

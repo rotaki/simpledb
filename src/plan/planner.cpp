@@ -4,7 +4,7 @@
 #include "parse/object.hpp"
 #include "parse/parser.hpp"
 
-namespace smartdb {
+namespace simpledb {
   planner::planner(std::unique_ptr<query_planner> pQP, std::unique_ptr<update_planner> pUP):
     mQP(std::move(pQP)), mUP(std::move(pUP)) {}
 

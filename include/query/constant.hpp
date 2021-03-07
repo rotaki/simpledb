@@ -3,7 +3,7 @@
 #include <string>
 #include <memory>
 
-namespace smartdb {
+namespace simpledb {
   class constant {
     friend bool operator==(const constant &pLhs, const constant &pRhs);
     friend bool operator!=(const constant &pLhs, const constant &pRhs);

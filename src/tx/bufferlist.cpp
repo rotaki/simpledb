@@ -2,7 +2,7 @@
 
 #include "tx/bufferlist.hpp"
 
-namespace smartdb {
+namespace simpledb {
   buffer_list::buffer_list(buffer_manager* pBM): mBM(pBM) {}
 
   buffer* buffer_list::get_buffer(const block_id &pBlockId) 

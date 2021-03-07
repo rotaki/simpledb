@@ -2,7 +2,7 @@
 
 #include "query/constant.hpp"
 
-namespace smartdb {
+namespace simpledb {
   bool operator==(const constant &pLhs, const constant &pRhs) {
     return (pLhs.mIVal ? *(pLhs.mIVal) == *(pRhs.mIVal) : *(pLhs.mSVal) == *(pRhs.mSVal));
   }

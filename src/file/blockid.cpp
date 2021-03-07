@@ -2,7 +2,7 @@
 
 #include "file/blockid.hpp"
 
-namespace smartdb {
+namespace simpledb {
   bool operator==(const block_id &pLhs, const block_id &pRhs) {
     return (pLhs.mFileName == pRhs.mFileName) && (pLhs.mBlockNum == pRhs.mBlockNum);
   }

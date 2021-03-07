@@ -1,6 +1,6 @@
 #include "parse/parser.hpp"
 
-namespace smartdb {
+namespace simpledb {
   parser::parser(const std::string &pS):
     lex(pS) {}
 

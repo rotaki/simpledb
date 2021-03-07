@@ -1,6 +1,6 @@
 #include "tx/concurrency/concurrencymanager.hpp"
 
-namespace smartdb {
+namespace simpledb {
   // instantiate static member
   lock_table concurrency_manager::mLockTable; 
   

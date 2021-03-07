@@ -1,6 +1,6 @@
 #include "record/tablescan.hpp"
 
-namespace smartdb {
+namespace simpledb {
   table_scan::table_scan(transaction* pTx, const std::string &pTableName, const layout &pLt):
     mTx(pTx), mLt(pLt)
   {

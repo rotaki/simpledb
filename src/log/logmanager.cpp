@@ -1,6 +1,6 @@
 #include "log/logmanager.hpp"
 
-namespace smartdb {
+namespace simpledb {
   log_manager::log_manager(file_manager* pFileManager, const std::string &pLogFile):
     mFileManager(pFileManager), mLogFile(pLogFile)
   {

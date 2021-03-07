@@ -3,7 +3,7 @@
 #include "tx/recovery/recoverymanager.hpp"
 #include "tx/recovery/logrecord.hpp"
 
-namespace smartdb {
+namespace simpledb {
   recovery_manager::recovery_manager(transaction* pTx,
                                      const int &pTxNum,
                                      log_manager* pLM,

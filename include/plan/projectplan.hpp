@@ -6,7 +6,7 @@
 
 #include "plan/plan.hpp"
 
-namespace smartdb {
+namespace simpledb {
   class project_plan: public plan {
   public:
     project_plan(const std::shared_ptr<plan> &pP, const std::vector<std::string> &pFieldList);

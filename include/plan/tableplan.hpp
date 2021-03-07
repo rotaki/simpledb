@@ -7,7 +7,7 @@
 #include "metadata/metadatamanager.hpp"
 #include "query/predicate.hpp"
 
-namespace smartdb {
+namespace simpledb {
   class table_plan: public plan {
   public:
     table_plan(transaction* pTx, const std::string &pTblName, metadata_manager* pMM);

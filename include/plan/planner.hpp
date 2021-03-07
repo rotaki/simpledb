@@ -5,7 +5,7 @@
 #include "plan/queryplanner.hpp"
 #include "plan/updateplanner.hpp"
 
-namespace smartdb {
+namespace simpledb {
   class planner {
   public:
     planner(std::unique_ptr<query_planner> pQP, std::unique_ptr<update_planner> pUP);

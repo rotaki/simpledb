@@ -5,7 +5,7 @@
 #include <vector>
 #include <map>
 
-namespace smartdb {
+namespace simpledb {
   class schema {
   public:
     enum type {

@@ -2,7 +2,7 @@
 
 #include "parse/pushbackreader.hpp"
 
-namespace smartdb {
+namespace simpledb {
   push_back_reader::push_back_reader(std::istream &pIS):
     mCurrentPos(0)
   {

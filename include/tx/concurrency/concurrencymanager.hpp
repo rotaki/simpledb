@@ -5,7 +5,7 @@
 #include "file/blockid.hpp"
 #include "tx/concurrency/locktable.hpp"
 
-namespace smartdb {
+namespace simpledb {
   class concurrency_manager{
   public:
     void slock(const block_id &pBlockId);

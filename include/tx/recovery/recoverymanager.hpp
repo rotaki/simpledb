@@ -6,7 +6,7 @@
 #include "buffer/buffermanager.hpp"
 
 
-namespace smartdb {
+namespace simpledb {
   class transaction;
 
   class recovery_manager {

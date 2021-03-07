@@ -4,7 +4,7 @@
 
 #include "record/schema.hpp"
 
-namespace smartdb {
+namespace simpledb {
   class layout {
   public:
     layout();

@@ -1,6 +1,6 @@
 #include "parse/createindexdata.hpp"
 
-namespace smartdb {
+namespace simpledb {
   int create_index_data::op() {
     return createindex;
   }

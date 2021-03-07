@@ -8,7 +8,7 @@
 #include "index/index.hpp"
 #include "index/btree/btreeleaf.hpp"
 
-namespace smartdb {
+namespace simpledb {
   class btree_index: public index {
   public:
     btree_index(std::shared_ptr<transaction> pTx, const std::string &pIdxName, std::shared_ptr<layout> mLt);

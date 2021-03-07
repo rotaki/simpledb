@@ -2,7 +2,7 @@
 
 #include "query/constant.hpp"
 
-namespace smartdb {
+namespace simpledb {
   class dir_entry {
   public:
     dir_entry();

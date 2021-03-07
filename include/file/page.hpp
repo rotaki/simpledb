@@ -4,7 +4,7 @@
 #include <vector>
 #include <memory>
 
-namespace smartdb {
+namespace simpledb {
   class page {
   public:
     page(const int &pBlockSize);

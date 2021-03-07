@@ -4,7 +4,7 @@
 #include "parse/lexer.hpp"
 #include "gtest/gtest.h"
 
-namespace smartdb {
+namespace simpledb {
   TEST(parse, lexertest) {
     std::string s = "";
     std::stringstream sS("A=1 \n 3=A");

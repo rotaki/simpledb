@@ -3,7 +3,7 @@
 #include "plan/plan.hpp"
 #include "metadata/indexmanager.hpp"
 
-namespace smartdb {
+namespace simpledb {
   class index_select_plan: public plan {
   public:
     index_select_plan(std::shared_ptr<plan> pP, const index_info &pII, const constant &pVal);

@@ -2,7 +2,7 @@
 
 #include "query/term.hpp"
 
-namespace smartdb {
+namespace simpledb {
   term::term() {}
   
   term::term(const term &pT):

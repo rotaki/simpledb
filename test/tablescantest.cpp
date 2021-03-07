@@ -1,13 +1,13 @@
 #include <iostream>
 #include <random>
 
-#include "server/smartdb.hpp"
+#include "server/simpledb.hpp"
 #include "record/tablescan.hpp"
 #include "gtest/gtest.h"
 
-namespace smartdb {
+namespace simpledb {
   TEST(record, tablescan) {
-    smartdb db("tabletest", 400, 8);
+    simpledb db("tabletest", 400, 8);
     auto tx = db.new_tx();
     schema sch;
     sch.add_int_field("A");

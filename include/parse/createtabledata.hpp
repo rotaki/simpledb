@@ -6,7 +6,7 @@
 #include "record/schema.hpp"
 #include "parse/object.hpp"
 
-namespace smartdb {
+namespace simpledb {
   class create_table_data: public object {
   public:
     int op() override;

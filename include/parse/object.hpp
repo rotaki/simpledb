@@ -1,7 +1,7 @@
 #pragma once
 #include <ostream>
 
-namespace smartdb {
+namespace simpledb {
   class object {
   public:
     enum operation {

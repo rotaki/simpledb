@@ -1,15 +1,15 @@
 #include <iostream>
 
 #include "buffer/buffermanager.hpp"
-#include "server/smartdb.hpp"
+#include "server/simpledb.hpp"
 #include "file/blockid.hpp"
 #include "file/filemanager.hpp"
 #include "file/page.hpp"
 #include "gtest/gtest.h"
 
-namespace smartdb {
+namespace simpledb {
   TEST(buffer, buffermanager) {
-    smartdb db("buffermgrtest", 400, 3); // three buffers
+    simpledb db("buffermgrtest", 400, 3); // three buffers
     buffer_manager* bM = db.buffer_mgr();
     
     std::vector<buffer*> buff(6);

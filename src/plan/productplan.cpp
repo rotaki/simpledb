@@ -1,7 +1,7 @@
 #include "plan/productplan.hpp"
 #include "query/productscan.hpp"
 
-namespace smartdb {
+namespace simpledb {
   product_plan::product_plan(const std::shared_ptr<plan> &pP1, const std::shared_ptr<plan> &pP2):
     mP1(pP1), mP2(pP2)
   {

@@ -8,7 +8,7 @@
 #include "record/schema.hpp"
 #include "plan/plan.hpp"
 
-namespace smartdb {
+namespace simpledb {
   class predicate {
   public:
     predicate();

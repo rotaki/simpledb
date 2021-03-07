@@ -2,7 +2,7 @@
 #include "index/query/indexjoinscan.hpp"
 #include "record/tablescan.hpp"
 
-namespace smartdb {
+namespace simpledb {
   index_join_plan::index_join_plan(const std::shared_ptr<plan> &pP1, const std::shared_ptr<plan> &pP2, const index_info &pII, const std::string &pJoinField):
     mP1(pP1), mP2(pP2), mII(pII), mJoinField(pJoinField)
   {

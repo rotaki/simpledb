@@ -1,13 +1,13 @@
 #include <iostream>
 #include <random>
 
-#include "server/smartdb.hpp"
+#include "server/simpledb.hpp"
 #include "metadata/tablemanager.hpp"
 #include "gtest/gtest.h"
 
-namespace smartdb {
+namespace simpledb {
   TEST(metadata, metadatamanager) {
-    smartdb db("metadatamgrtest", 400, 8);
+    simpledb db("metadatamgrtest", 400, 8);
     auto tx = db.new_tx();
     metadata_manager mdM(true, tx.get());
     schema sch;

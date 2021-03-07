@@ -8,7 +8,7 @@
 #include "file/filemanager.hpp"
 #include "tx/bufferlist.hpp"
 
-namespace smartdb {
+namespace simpledb {
   class transaction {
   public:
     transaction(file_manager* pFM,

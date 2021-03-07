@@ -3,7 +3,7 @@
 #include "plan/updateplanner.hpp"
 #include "metadata/metadatamanager.hpp"
 
-namespace smartdb {
+namespace simpledb {
   class index_update_planner: public update_planner {
   public:
     index_update_planner(metadata_manager* pMM);

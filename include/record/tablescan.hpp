@@ -9,7 +9,7 @@
 #include "record/rid.hpp"
 #include "query/updatescan.hpp"
 
-namespace smartdb {
+namespace simpledb {
   class table_scan: public update_scan {
   public:
     table_scan(transaction* pTx, const std::string &pTableName, const layout &pLayout);

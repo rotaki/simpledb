@@ -1,6 +1,6 @@
 #include "index/btree/btreeleaf.hpp"
 
-namespace smartdb {
+namespace simpledb {
   btree_leaf::btree_leaf(std::shared_ptr<transaction> pTx, std::shared_ptr<block_id> pBlk, std::shared_ptr<layout> pLt, const constant &pSearchKey):
     mTx(pTx), mLt(pLt), mSearchKey(pSearchKey) {
     mContents = std::shared_ptr<bt_page>(new bt_page(mTx, pBlk, mLt));

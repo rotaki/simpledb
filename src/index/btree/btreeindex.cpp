@@ -4,7 +4,7 @@
 #include "index/btree/btreedir.hpp"
 #include "index/btree/btreeindex.hpp"
 
-namespace smartdb {
+namespace simpledb {
   btree_index::btree_index(std::shared_ptr<transaction> pTx, const std::string &pIdxName, std::shared_ptr<layout> pLeafLayout):
     mTx(pTx), mLeafLayout(pLeafLayout)
   {

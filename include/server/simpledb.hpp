@@ -7,15 +7,15 @@
 #include "metadata/metadatamanager.hpp"
 #include "plan/planner.hpp"
 
-namespace smartdb {
-  class smartdb {
+namespace simpledb {
+  class simpledb {
   public:
     static int mBlockSize;
     static int mBufferSize;
     static std::string mLogFile;
     
-    smartdb(const std::string &pDirname, const int &pBlockSize, const int &pBuffSize);
-    smartdb(const std::string &pDirname);
+    simpledb(const std::string &pDirname, const int &pBlockSize, const int &pBuffSize);
+    simpledb(const std::string &pDirname);
 
     std::unique_ptr<transaction> new_tx();
     metadata_manager* md_mgr();

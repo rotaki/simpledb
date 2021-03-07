@@ -1,14 +1,14 @@
 #include <iostream>
 #include <random>
 
-#include "server/smartdb.hpp"
+#include "server/simpledb.hpp"
 #include "tx/transaction.hpp"
 #include "query/scan.hpp"
 #include "gtest/gtest.h"
 
-namespace smartdb {
+namespace simpledb {
   TEST(plan, plannertest2) {
-    smartdb db("plannertest2");
+    simpledb db("plannertest2");
     auto tx = db.new_tx();
     planner* plnr = db.plnr();
     

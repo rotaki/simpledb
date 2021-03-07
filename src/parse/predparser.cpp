@@ -1,6 +1,6 @@
 #include "parse/predparser.hpp"
 
-namespace smartdb {
+namespace simpledb {
   pred_parser::pred_parser(const std::string &pS):
     mLex(pS)
   {

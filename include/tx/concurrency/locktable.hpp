@@ -8,7 +8,7 @@
 
 #include "file/blockid.hpp"
 
-namespace smartdb {
+namespace simpledb {
   class lock_table {
   public:
     lock_table();

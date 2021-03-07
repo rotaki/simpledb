@@ -3,7 +3,7 @@
 #include "record/recordpage.hpp"
 #include "utils/logger.hpp"
 
-namespace smartdb {
+namespace simpledb {
   record_page::record_page(transaction* pTx,
                            const block_id &pBlockId,
                            const layout &pLayout):

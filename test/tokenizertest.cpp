@@ -3,7 +3,7 @@
 #include "parse/streamtokenizer.hpp"
 #include "gtest/gtest.h"
 
-namespace smartdb {
+namespace simpledb {
   void print_current_token(const std::set<std::string> &keywords, stream_tokenizer* tok) {
     
     if (tok->mTType == stream_tokenizer::mTT_NUMBER) {

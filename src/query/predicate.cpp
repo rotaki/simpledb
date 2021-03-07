@@ -1,7 +1,7 @@
 #include <iostream>
 #include "query/predicate.hpp"
 
-namespace smartdb {
+namespace simpledb {
   predicate::predicate(){};
 
   predicate::predicate(const predicate &pPred):

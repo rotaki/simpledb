@@ -2,7 +2,7 @@
 
 #include "query/selectscan.hpp"
 
-namespace smartdb {
+namespace simpledb {
   select_scan::select_scan(const std::shared_ptr<scan> &pS, const predicate &pP) :
     mS(pS), mP(pP)
   {}

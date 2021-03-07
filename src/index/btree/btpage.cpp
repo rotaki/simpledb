@@ -1,6 +1,6 @@
 #include "index/btree/btpage.hpp"
 
-namespace smartdb {
+namespace simpledb {
   bt_page::bt_page(std::shared_ptr<transaction> pTx, std::shared_ptr<block_id> pCurrentBlk, std::shared_ptr<layout> pLt):
     mTx(pTx), mCurrentBlk(pCurrentBlk), mLt(pLt)
   {

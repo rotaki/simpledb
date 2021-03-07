@@ -7,7 +7,7 @@
 
 #include "query/predicate.hpp"
 
-namespace smartdb {
+namespace simpledb {
   class query_data {
   public:
     query_data(const std::vector<std::string> pFields, const std::set<std::string> &pTables, const predicate &pPred);

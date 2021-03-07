@@ -10,7 +10,7 @@
 #include "index/btree/direntry.hpp"
 #include "index/btree/btpage.hpp"
 
-namespace smartdb {
+namespace simpledb {
   class btree_dir {
   public:
     btree_dir(std::shared_ptr<transaction>  pTx, std::shared_ptr<block_id> pBlk, std::shared_ptr<layout> pLt);

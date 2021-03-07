@@ -3,7 +3,7 @@
 #include <istream>
 #include <vector>
 
-namespace smartdb {
+namespace simpledb {
   class push_back_reader {
   public:
     push_back_reader(std::istream &pIS);

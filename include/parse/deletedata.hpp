@@ -6,7 +6,7 @@
 #include "query/predicate.hpp"
 #include "parse/object.hpp"
 
-namespace smartdb {
+namespace simpledb {
   class delete_data: public object {
   public:
     int op() override;

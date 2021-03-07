@@ -3,7 +3,7 @@
 #include "tx/transaction.hpp"
 #include "utils/logger.hpp"
 
-namespace smartdb {
+namespace simpledb {
   int transaction::mNextTxNum = 0;
   std::mutex transaction::mMutex;
   

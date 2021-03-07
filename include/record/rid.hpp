@@ -2,7 +2,7 @@
 
 #include <string>
 
-namespace smartdb {
+namespace simpledb {
   class rid {
     friend bool operator==(const rid &pLhs, const rid &pRhs);
   public:

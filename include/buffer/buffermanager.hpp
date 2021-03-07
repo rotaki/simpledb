@@ -7,7 +7,7 @@
 #include "file/filemanager.hpp"
 #include "log/logmanager.hpp"
 
-namespace smartdb {
+namespace simpledb {
   class buffer {
   public:
     buffer(file_manager* pFileManager, log_manager* pLogManager);

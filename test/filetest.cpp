@@ -1,14 +1,14 @@
 #include <iostream>
 
-#include "server/smartdb.hpp"
+#include "server/simpledb.hpp"
 #include "file/blockid.hpp"
 #include "file/filemanager.hpp"
 #include "file/page.hpp"
 #include "gtest/gtest.h"
 
-namespace smartdb {
+namespace simpledb {
   TEST(file, filetest) {
-    smartdb db("filetest", 400, 8);
+    simpledb db("filetest", 400, 8);
     file_manager* fM = db.file_mgr();
     block_id blk("testfile", 2);
     int pos1 = 88;

@@ -1,10 +1,10 @@
-#include "server/smartdb.hpp"
+#include "server/simpledb.hpp"
 #include "file/blockid.hpp"
 #include "file/filemanager.hpp"
 #include "file/page.hpp"
 #include "gtest/gtest.h"
 
-namespace smartdb {
+namespace simpledb {
   class tx_recovery: public ::testing::Test {
   public:
     tx_recovery(): mDb("recoverytest", 400, 8), mTestFile("testfile") {
@@ -84,7 +84,7 @@ namespace smartdb {
     }
 
   private:
-    smartdb mDb;
+    simpledb mDb;
     std::string mTestFile;
     file_manager* mFM;
     buffer_manager* mBM;

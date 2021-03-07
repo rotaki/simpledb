@@ -1,6 +1,6 @@
 #include "parse/modifydata.hpp"
 
-namespace smartdb {
+namespace simpledb {
   int modify_data::op()  {
     return modify;
   }

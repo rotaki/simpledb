@@ -1,6 +1,6 @@
 #include "index/query/indexselectscan.hpp"
 
-namespace smartdb {
+namespace simpledb {
   index_select_scan::index_select_scan(std::shared_ptr<table_scan> pTS, std::shared_ptr<index> pIdx, const constant &pVal):
     mTS(pTS), mIdx(pIdx), mVal(pVal) {
     before_first();

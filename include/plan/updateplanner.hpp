@@ -8,7 +8,7 @@
 #include "parse/createviewdata.hpp"
 #include "parse/createindexdata.hpp"
 
-namespace smartdb {
+namespace simpledb {
 class update_planner {
   public:
     virtual ~update_planner() {}

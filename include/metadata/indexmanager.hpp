@@ -7,7 +7,7 @@
 #include "metadata/statmanager.hpp"
 #include "index/index.hpp"
 
-namespace smartdb {
+namespace simpledb {
   class index_manager;
   
   class index_info {

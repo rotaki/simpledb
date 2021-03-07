@@ -7,7 +7,7 @@
 #include "query/scan.hpp"
 #include "record/schema.hpp"
 
-namespace smartdb {
+namespace simpledb {
   class expression {
   public:
     expression();

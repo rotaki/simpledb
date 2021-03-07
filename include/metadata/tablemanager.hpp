@@ -6,7 +6,7 @@
 #include "record/schema.hpp"
 #include "record/layout.hpp"
 
-namespace smartdb {
+namespace simpledb {
   class table_manager {
   public:
     table_manager(bool pIsNew, transaction* pTx) ;

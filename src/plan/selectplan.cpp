@@ -1,7 +1,7 @@
 #include "plan/selectplan.hpp"
 #include "query/selectscan.hpp"
 
-namespace smartdb {
+namespace simpledb {
   select_plan::select_plan(const std::shared_ptr<plan> &pPlan, const predicate &pPred):
     mPlan(pPlan), mPred(pPred) {}
 

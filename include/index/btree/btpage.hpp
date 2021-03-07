@@ -8,7 +8,7 @@
 #include "query/constant.hpp"
 #include "record/rid.hpp"
 
-namespace smartdb {
+namespace simpledb {
   class bt_page {
   public:
     bt_page(std::shared_ptr<transaction> pTx, std::shared_ptr<block_id> pCurrentBlk, std::shared_ptr<layout> pLt);

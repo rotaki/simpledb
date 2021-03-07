@@ -1,6 +1,6 @@
 #include "index/btree/btreedir.hpp"
 
-namespace smartdb {
+namespace simpledb {
   btree_dir::btree_dir(std::shared_ptr<transaction> pTx,
                        std::shared_ptr<block_id> pBlk,
                        std::shared_ptr<layout> pLt):

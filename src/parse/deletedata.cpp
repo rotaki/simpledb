@@ -1,6 +1,6 @@
 #include "parse/deletedata.hpp"
 
-namespace smartdb {
+namespace simpledb {
   int delete_data::op() {
     return remove;
   }

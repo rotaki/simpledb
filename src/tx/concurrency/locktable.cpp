@@ -1,6 +1,6 @@
 #include "tx/concurrency/locktable.hpp"
 
-namespace smartdb {
+namespace simpledb {
   lock_table::lock_table() {
     
   }

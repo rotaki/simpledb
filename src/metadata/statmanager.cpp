@@ -1,7 +1,7 @@
 #include "metadata/statmanager.hpp"
 #include "record/tablescan.hpp"
 
-namespace smartdb {
+namespace simpledb {
   stat_info::stat_info() {}
 
   stat_info::stat_info(const stat_info &pSI) {

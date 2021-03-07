@@ -2,7 +2,7 @@
 
 #include "parse/lexer.hpp"
 
-namespace smartdb {
+namespace simpledb {
   lexer::lexer(const std::string &pS) {
     init_keywords();
     std::stringstream sS(pS);

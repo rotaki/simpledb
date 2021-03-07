@@ -8,7 +8,7 @@
 #include "file/page.hpp"
 #include "log/logmanager.hpp"
 
-namespace smartdb {
+namespace simpledb {
 
   class transaction;
   

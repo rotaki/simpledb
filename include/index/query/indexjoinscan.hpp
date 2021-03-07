@@ -5,7 +5,7 @@
 #include "index/index.hpp"
 #include "record/tablescan.hpp"
 
-namespace smartdb {
+namespace simpledb {
   class index_join_scan: public scan {
   public:
     index_join_scan(const std::shared_ptr<scan> &pLhs, const std::shared_ptr<index> &pIdx, const std::string &pJoinFld, const std::shared_ptr<table_scan> &pRhs);

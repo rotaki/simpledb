@@ -1,6 +1,6 @@
 #include "parse/querydata.hpp"
 
-namespace smartdb {  
+namespace simpledb {  
   query_data::query_data(const std::vector<std::string> pFields, const std::set<std::string> &pTables, const predicate &pPred):
     mFields(pFields), mTables(pTables), mPred(pPred) {}
   

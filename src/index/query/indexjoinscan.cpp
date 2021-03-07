@@ -1,6 +1,6 @@
 #include "index/query/indexjoinscan.hpp"
 
-namespace smartdb {
+namespace simpledb {
   index_join_scan::index_join_scan(const std::shared_ptr<scan> &pLhs, const std::shared_ptr<index> &pIdx, const std::string &pJoinFld, const std::shared_ptr<table_scan> &pRhs): mLhs(pLhs), mIdx(pIdx), mJoinField(pJoinFld), mRhs(pRhs)
     
   {

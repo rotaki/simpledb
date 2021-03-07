@@ -3,7 +3,7 @@
 #include "query/expression.hpp"
 #include "plan/plan.hpp"
 
-namespace smartdb {
+namespace simpledb {
   class term {
   public:
     term();

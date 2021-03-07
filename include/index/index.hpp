@@ -3,7 +3,7 @@
 #include "query/constant.hpp"
 #include "record/rid.hpp"
 
-namespace smartdb {
+namespace simpledb {
   class index {
   public:
     virtual ~index() {}

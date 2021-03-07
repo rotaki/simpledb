@@ -6,7 +6,7 @@
 #include "file/page.hpp"
 #include "utils/logger.hpp"
 
-namespace smartdb {
+namespace simpledb {
   page::page(const int &pBlockSize) {
     mByteBuffer = std::make_shared<std::vector<char>>(pBlockSize);
   }

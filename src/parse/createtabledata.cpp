@@ -1,6 +1,6 @@
 #include "parse/createtabledata.hpp"
 
-namespace smartdb {
+namespace simpledb {
   int create_table_data::op() {
     return createtable;
   }

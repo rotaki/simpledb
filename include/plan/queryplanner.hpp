@@ -3,7 +3,7 @@
 #include "tx/transaction.hpp"
 #include "parse/querydata.hpp"
 
-namespace smartdb {
+namespace simpledb {
   class query_planner {
   public:
     virtual ~query_planner() {}

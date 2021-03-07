@@ -7,7 +7,7 @@
 #include "metadata/indexmanager.hpp"
 #include "plan/selectplan.hpp"
 
-namespace smartdb {
+namespace simpledb {
   index_update_planner::index_update_planner(metadata_manager* pMM):
     mMM(pMM) {}
 

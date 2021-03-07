@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "server/smartdb.hpp"
+#include "server/simpledb.hpp"
 #include "buffer/buffermanager.hpp"
 #include "file/blockid.hpp"
 #include "file/filemanager.hpp"
@@ -8,9 +8,9 @@
 #include "log/logmanager.hpp"
 #include "gtest/gtest.h"
 
-namespace smartdb {
+namespace simpledb {
   TEST(tx, transactiontest) {
-    smartdb db("txtest", 400, 8);
+    simpledb db("txtest", 400, 8);
     file_manager* fM = db.file_mgr();
     log_manager* lM = db.log_mgr();
     buffer_manager* bM = db.buffer_mgr();

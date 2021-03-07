@@ -4,7 +4,7 @@
 
 #include "plan/plan.hpp"
 
-namespace smartdb {
+namespace simpledb {
   class product_plan:public plan {
   public:
     product_plan(const std::shared_ptr<plan> &pP1, const std::shared_ptr<plan> &pP2);

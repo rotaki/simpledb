@@ -6,7 +6,7 @@
 #include "metadata/tablemanager.hpp"
 #include "record/tablescan.hpp"
 
-namespace smartdb {
+namespace simpledb {
   class view_manager {
   public:
     view_manager(bool pIsNew, table_manager* pTM, transaction* pTx);

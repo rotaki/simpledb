@@ -4,7 +4,7 @@
 #include "plan/queryplanner.hpp"
 #include "metadata/metadatamanager.hpp"
 
-namespace smartdb {
+namespace simpledb {
   class basic_query_planner: public query_planner {
   public:
     basic_query_planner(metadata_manager* pMM);

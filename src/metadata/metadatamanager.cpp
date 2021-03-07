@@ -1,6 +1,6 @@
 #include "metadata/metadatamanager.hpp"
 
-namespace smartdb {
+namespace simpledb {
   std::unique_ptr<table_manager> metadata_manager::mTM;
   std::unique_ptr<view_manager> metadata_manager::mVM;
   std::unique_ptr<stat_manager> metadata_manager::mSM;

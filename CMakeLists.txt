@@ -4,9 +4,9 @@
 ###############################################################################
 
 cmake_minimum_required(VERSION 3.16)
-set(SMARTDB_DESCRIPTION "smartdb is a tiny relational DBMS for experiment")
+set(SMARTDB_DESCRIPTION "simpledb is a tiny relational DBMS for experiment")
 project(
-  smartdb
+  simpledb
   VERSION 1.0.0.0
   DESCRIPTION "${SMARTDB_DESCRIPTION}"
   )
@@ -29,7 +29,7 @@ endif()
 ###############################################################################
 
 message(STATUS
-  "Welcome to smartdb \n\
+  "Welcome to simpledb \n\
 Version: ${PROJECT_VERSION}
 ")
 
@@ -139,7 +139,7 @@ endfunction()
 
 include(FetchContent)           # FetchContent_ functions.
 
-function(add_smartdb_dep NAME GIT_URL GIT_TAG)
+function(add_simpledb_dep NAME GIT_URL GIT_TAG)
   string(TOLOWER "${NAME}" NAME_LOWER)
   FetchContent_Declare(${NAME}
     QUIET
@@ -161,7 +161,7 @@ function(add_smartdb_dep NAME GIT_URL GIT_TAG)
   message(STATUS "[FOUND] ${NAME} (${GIT_URL} ${GIT_TAG} ${GIT_LAST_COMMIT})")        # Print a success message.
 endfunction()
 
-add_smartdb_dep(googletest https://github.com/google/googletest.git release-1.10.0)
+add_simpledb_dep(googletest https://github.com/google/googletest.git release-1.10.0)
 
 ###############################################################################
 #                             Smartdb Libraries                            #
@@ -172,70 +172,70 @@ file(GLOB_RECURSE
   ${PROJECT_SOURCE_DIR}/src/*.cpp
   ${PROJECT_SOURCE_DIR}/include/*.hpp)
 
-list(REMOVE_ITEM SMARTDB_SRCS ${PROJECT_SOURCE_DIR}/src/main/smartdb.cpp)
+list(REMOVE_ITEM SMARTDB_SRCS ${PROJECT_SOURCE_DIR}/src/main/simpledb.cpp)
 
 # create OBJECT library (used for creating both static and shared library)
-add_library(smartdb_objlib OBJECT ${SMARTDB_SRCS})
+add_library(simpledb_objlib OBJECT ${SMARTDB_SRCS})
 
-target_compile_definitions(smartdb_objlib PUBLIC #PUBLIC: all consumers of the library inherit the following
+target_compile_definitions(simpledb_objlib PUBLIC #PUBLIC: all consumers of the library inherit the following
   ${SMARTDB_COMPILE_DEFINITIONS}
   )
 
-target_compile_options(smartdb_objlib PUBLIC
+target_compile_options(simpledb_objlib PUBLIC
   # "-march=native"               # enable machine-specific instruction sets and optimization
   "-mcx16"                      # allow CMPXCHG16B (16-byte compare and exchange)
   ${SMARTDB_COMPILE_OPTIONS}
   )
 
 # option and definition difference
-target_compile_options(smartdb_objlib PRIVATE
+target_compile_options(simpledb_objlib PRIVATE
   "-fPIC"
   "-Werror"
   "-Wall"
   )
 
-target_compile_features(smartdb_objlib PUBLIC
+target_compile_features(simpledb_objlib PUBLIC
   cxx_std_17
   )
 
-target_include_directories(smartdb_objlib PUBLIC
+target_include_directories(simpledb_objlib PUBLIC
   ${PROJECT_SOURCE_DIR}/include
   )
 
 
-target_include_directories(smartdb_objlib SYSTEM PUBLIC # SYSTEM PUBLIC: inherit without error checking
+target_include_directories(simpledb_objlib SYSTEM PUBLIC # SYSTEM PUBLIC: inherit without error checking
   ${SMARTDB_INCLUDE_DIRECTORIES}
   )
 
-target_link_options(smartdb_objlib PUBLIC
+target_link_options(simpledb_objlib PUBLIC
   ${SMARTDB_LINK_OPTIONS}
   )
 
 
 # create STATIC library
 
-add_library(smartdb_static STATIC $<TARGET_OBJECTS:smartdb_objlib>)
-target_link_libraries(smartdb_static PUBLIC smartdb_objlib)
-target_compile_options(smartdb_static PUBLIC
+add_library(simpledb_static STATIC $<TARGET_OBJECTS:simpledb_objlib>)
+target_link_libraries(simpledb_static PUBLIC simpledb_objlib)
+target_compile_options(simpledb_static PUBLIC
   "-fvisibility=hidden"
   )
-target_link_options(smartdb_static PUBLIC
+target_link_options(simpledb_static PUBLIC
   "-fvisibility=hidden"
   )
 
 #create SHARED library
 
-add_library(smartdb_shared SHARED $<TARGET_OBJECTS:smartdb_objlib>)
-target_link_libraries(smartdb_shared PUBLIC smartdb_objlib)
+add_library(simpledb_shared SHARED $<TARGET_OBJECTS:simpledb_objlib>)
+target_link_libraries(simpledb_shared PUBLIC simpledb_objlib)
 
 ###############################################################################
 #                                 Main binary                                 #
 ###############################################################################
 
-add_executable(smartdb ./app/main.cpp)
-target_compile_options(smartdb PRIVATE "-Werror" "-Wall")
-target_link_libraries(smartdb smartdb_static)
-set_target_properties(smartdb PROPERTIES CXX_EXTENTIONS OFF ENABLE_EXPORTS ON)
+add_executable(simpledb ./app/main.cpp)
+target_compile_options(simpledb PRIVATE "-Werror" "-Wall")
+target_link_libraries(simpledb simpledb_static)
+set_target_properties(simpledb PROPERTIES CXX_EXTENTIONS OFF ENABLE_EXPORTS ON)
 
 ###############################################################################
 #                                     Test                                    #
@@ -248,17 +248,17 @@ file(GLOB_RECURSE
   ${PROJECT_SOURCE_DIR}/test/*.cpp
   )
 
-add_executable(smartdb_test ${SMARTDB_TEST_SRCS})
-target_link_libraries(smartdb_test PRIVATE smartdb_shared gtest)
+add_executable(simpledb_test ${SMARTDB_TEST_SRCS})
+target_link_libraries(simpledb_test PRIVATE simpledb_shared gtest)
 
-gtest_add_tests(TARGET smartdb_test)
+gtest_add_tests(TARGET simpledb_test)
 
 ###############################################################################
 #                         Generated file destinations                         #
 ###############################################################################
 
 set_target_properties(
-  smartdb_static
+  simpledb_static
   PROPERTIES
   ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
   LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
@@ -266,7 +266,7 @@ set_target_properties(
   )
 
 set_target_properties(
-  smartdb_shared
+  simpledb_shared
   PROPERTIES
   ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
   LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
@@ -274,7 +274,7 @@ set_target_properties(
   )
 
 set_target_properties(
-  smartdb
+  simpledb
   PROPERTIES
   ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
   LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
@@ -282,7 +282,7 @@ set_target_properties(
   )
 
 set_target_properties(
-  smartdb_test
+  simpledb_test
   PROPERTIES
   ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
   LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"

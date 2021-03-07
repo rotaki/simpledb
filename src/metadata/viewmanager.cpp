@@ -1,6 +1,6 @@
 #include "metadata/viewmanager.hpp"
 
-namespace smartdb {
+namespace simpledb {
   view_manager::view_manager(bool pIsNew, table_manager* pTM, transaction* pTx):
     mTM(pTM)
   {

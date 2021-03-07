@@ -1,6 +1,6 @@
 #include "plan/tableplan.hpp"
 
-namespace smartdb {
+namespace simpledb {
   table_plan::table_plan(transaction* pTx, const std::string &pTblName, metadata_manager* pMM):
     mTx(pTx), mTblName(pTblName) {
     mLt = pMM->get_layout(mTblName, mTx);

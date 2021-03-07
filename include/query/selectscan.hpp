@@ -7,7 +7,7 @@
 #include "query/updatescan.hpp"
 #include "query/predicate.hpp"
 
-namespace smartdb {
+namespace simpledb {
   class select_scan: public update_scan {
   public:
     select_scan(const std::shared_ptr<scan> &pS, const predicate &pP);

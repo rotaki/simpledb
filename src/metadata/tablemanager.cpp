@@ -1,7 +1,7 @@
 #include "metadata/tablemanager.hpp"
 #include "record/tablescan.hpp"
 
-namespace smartdb {
+namespace simpledb {
   table_manager::table_manager(bool pIsNew, transaction* pTx) {
     schema tCatSchema;
     tCatSchema.add_string_field("tblname", mMaxName);

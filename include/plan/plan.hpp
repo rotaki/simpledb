@@ -5,7 +5,7 @@
 #include "record/schema.hpp"
 #include "query/scan.hpp"
 
-namespace smartdb {
+namespace simpledb {
   class plan {
   public:
     virtual ~plan() {}

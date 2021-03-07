@@ -18,7 +18,7 @@
 #include "query/predicate.hpp"
 #include "record/schema.hpp"
 
-namespace smartdb {
+namespace simpledb {
   class parser {
   public:
     parser(const std::string &pS);

@@ -4,7 +4,7 @@
 
 #include "file/filemanager.hpp"
 
-namespace smartdb {
+namespace simpledb {
   class log_manager {
   public:
     log_manager(file_manager* pFileManager, const std::string &pLogFile);

@@ -1,7 +1,7 @@
 #include "plan/projectplan.hpp"
 #include "query/projectscan.hpp"
 
-namespace smartdb {
+namespace simpledb {
   project_plan::project_plan(const std::shared_ptr<plan> &pP, const std::vector<std::string> &pFieldList):
     mP(pP)
   {

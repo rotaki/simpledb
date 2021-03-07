@@ -1,7 +1,7 @@
 #include <iostream>
 #include <thread>
 
-#include "server/smartdb.hpp"
+#include "server/simpledb.hpp"
 #include "file/blockid.hpp"
 #include "file/filemanager.hpp"
 #include "file/page.hpp"
@@ -12,7 +12,7 @@
 
 using namespace std::chrono_literals;
 
-namespace smartdb {
+namespace simpledb {
   void run_A(file_manager* fM, log_manager* lM, buffer_manager* bM) {
     try {
       auto txA = std::make_unique<transaction>(fM, lM, bM);
@@ -82,7 +82,7 @@ namespace smartdb {
 
   
   TEST(tx, concurrencytest) {
-    smartdb db("concurrencytest", 400, 8);
+    simpledb db("concurrencytest", 400, 8);
     file_manager* fM = db.file_mgr();
     log_manager* lM = db.log_mgr();
     buffer_manager* bM = db.buffer_mgr();

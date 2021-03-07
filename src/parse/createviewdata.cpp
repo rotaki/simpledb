@@ -1,6 +1,6 @@
 #include "parse/createviewdata.hpp"
 
-namespace smartdb {
+namespace simpledb {
   int create_view_data::op() {
     return createview;
   }

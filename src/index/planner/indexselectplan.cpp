@@ -2,7 +2,7 @@
 #include "index/query/indexselectscan.hpp"
 #include "record/tablescan.hpp"
 
-namespace smartdb {
+namespace simpledb {
   index_select_plan::index_select_plan(std::shared_ptr<plan> pP, const index_info &pII, const constant &pVal):
     mP(pP), mII(pII), mVal(pVal) {}
 

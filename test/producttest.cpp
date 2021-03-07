@@ -1,14 +1,14 @@
 #include <iostream>
 
-#include "server/smartdb.hpp"
+#include "server/simpledb.hpp"
 #include "tx/transaction.hpp"
 #include "record/layout.hpp"
 #include "query/productscan.hpp"
 #include "gtest/gtest.h"
 
-namespace smartdb {
+namespace simpledb {
   TEST(query, product) {
-    smartdb db("producttest");
+    simpledb db("producttest");
     auto tx = db.new_tx();
     schema sch1;
     sch1.add_int_field("A");

@@ -1,7 +1,7 @@
 #include "record/layout.hpp"
 #include "file/page.hpp"
 
-namespace smartdb {
+namespace simpledb {
   layout::layout() {}
 
   layout::layout(const layout &pLt):

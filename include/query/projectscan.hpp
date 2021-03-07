@@ -6,7 +6,7 @@
 
 #include "query/scan.hpp"
 
-namespace smartdb {
+namespace simpledb {
   class project_scan: public scan {
   public:
     project_scan(const std::shared_ptr<scan> &pS, const std::vector<std::string> &pFieldList);

@@ -4,7 +4,7 @@
 
 #include "query/scan.hpp"
 
-namespace smartdb {
+namespace simpledb {
   class product_scan: public scan {
   public:
     product_scan(const std::shared_ptr<scan> &pS1, const std::shared_ptr<scan> &pS2);

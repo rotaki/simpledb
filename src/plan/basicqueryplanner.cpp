@@ -5,7 +5,7 @@
 #include "plan/projectplan.hpp"
 #include "parse/parser.hpp"
 
-namespace smartdb {
+namespace simpledb {
   basic_query_planner::basic_query_planner(metadata_manager* pMM):
     mMM(pMM) {}
 

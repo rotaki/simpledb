@@ -4,7 +4,7 @@
 
 #include "query/constant.hpp"
 
-namespace smartdb {
+namespace simpledb {
   class scan {
   public:
     virtual ~scan() = default;

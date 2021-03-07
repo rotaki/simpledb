@@ -3,7 +3,7 @@
 
 #include "query/projectscan.hpp"
 
-namespace smartdb {
+namespace simpledb {
   project_scan::project_scan(const std::shared_ptr<scan> &pS, const std::vector<std::string> &pFieldList):
     mS(pS), mFieldList(pFieldList) {}
 

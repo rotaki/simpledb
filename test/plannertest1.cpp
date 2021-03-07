@@ -1,14 +1,14 @@
 #include <iostream>
 #include <random>
 
-#include "server/smartdb.hpp"
+#include "server/simpledb.hpp"
 #include "tx/transaction.hpp"
 #include "query/scan.hpp"
 #include "gtest/gtest.h"
 
-namespace smartdb {
+namespace simpledb {
   TEST(plan, plannertest1) {
-    smartdb db("plannertest1");
+    simpledb db("plannertest1");
     auto tx = db.new_tx();
     planner* plnr = db.plnr();
     std::string cmd = "create table T1(A int, B varchar(9))";

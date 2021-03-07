@@ -4,7 +4,7 @@
 #include "parse/parser.hpp"
 #include "gtest/gtest.h"
 
-namespace smartdb {
+namespace simpledb {
   TEST(parse, parsertestactions) {
     std::string s1 = "select    C from      T where A  =B";
     std::string s2 = "insert into   T(A,    B, C)   values('a'    , 'b', 'c')";

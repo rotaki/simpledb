@@ -1,6 +1,6 @@
 #include "index/btree/direntry.hpp"
 
-namespace smartdb {
+namespace simpledb {
   dir_entry::dir_entry() {}
   dir_entry::dir_entry(const dir_entry &pDE):
     mDataVal(pDE.mDataVal), mBlockNum(pDE.mBlockNum) {}

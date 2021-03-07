@@ -1,16 +1,16 @@
 #include <iostream>
 #include <random>
 
-#include "server/smartdb.hpp"
+#include "server/simpledb.hpp"
 #include "tx/transaction.hpp"
 #include "query/selectscan.hpp"
 #include "query/projectscan.hpp"
 #include "query/productscan.hpp"
 #include "gtest/gtest.h"
 
-namespace smartdb {
+namespace simpledb {
   TEST(query, scantest2) {
-    smartdb db("scantest2");
+    simpledb db("scantest2");
     auto tx = db.new_tx();
     
     schema sch1;

@@ -4,7 +4,7 @@
 #include "plan/tableplan.hpp"
 #include "plan/selectplan.hpp"
 
-namespace smartdb {
+namespace simpledb {
   basic_update_planner::basic_update_planner(metadata_manager* pMM):
     mMM(pMM) {}
   

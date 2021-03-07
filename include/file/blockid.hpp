@@ -2,7 +2,7 @@
 
 #include <string>
 
-namespace smartdb {
+namespace simpledb {
   class block_id {
     friend bool operator==(const block_id &pLhs, const block_id &pRhs);
     friend bool operator!=(const block_id &pLhs, const block_id &pRhs);

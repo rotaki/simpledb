@@ -6,7 +6,7 @@
 
 #include "metadata/tablemanager.hpp"
 
-namespace smartdb {
+namespace simpledb {
   class stat_info {
   public:
     stat_info();

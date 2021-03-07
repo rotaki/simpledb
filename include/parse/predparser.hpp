@@ -4,7 +4,7 @@
 
 #include "parse/lexer.hpp"
 
-namespace smartdb {
+namespace simpledb {
   class pred_parser {
   public:
     pred_parser(const std::string &pS);

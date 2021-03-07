@@ -1,6 +1,6 @@
 #include "parse/insertdata.hpp"
 
-namespace smartdb {
+namespace simpledb {
   int insert_data::op() {
     return insert;
   }

@@ -5,7 +5,7 @@
 #include "plan/plan.hpp"
 #include "metadata/indexmanager.hpp"
 
-namespace smartdb {
+namespace simpledb {
   class index_join_plan : public plan{
   public:
     index_join_plan(const std::shared_ptr<plan> &pP1, const std::shared_ptr<plan> &pP2, const index_info &pII, const std::string &pJoinField);

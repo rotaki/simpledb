@@ -5,7 +5,7 @@
 
 #include "buffer/buffermanager.hpp"
 
-namespace smartdb {
+namespace simpledb {
   class buffer_list {
   public:
     buffer_list(buffer_manager* pBM);

@@ -9,7 +9,7 @@
 #include "utils/logger.hpp"
 #include "file/filemanager.hpp"
 
-namespace smartdb {
+namespace simpledb {
   file_manager::file_manager(const std::filesystem::path &pDbDirectory, const int &pBlockSize):
     mDbDirectory(pDbDirectory), mBlockSize(pBlockSize)
   {
