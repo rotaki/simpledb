@@ -22,8 +22,8 @@ TEST(buffer, buffer) {
   bM->unpin(buff1);
 
   buffer *buff2 = bM->pin(block_id(testFile, 2));
-  buffer *buff3 = bM->pin(block_id(testFile, 3));
-  buffer *buff4 = bM->pin(block_id(testFile, 4));
+  bM->pin(block_id(testFile, 3));
+  bM->pin(block_id(testFile, 4));
 
   bM->unpin(buff2);
   buff2 = bM->pin(block_id(testFile, 1));

@@ -12,13 +12,13 @@ public:
                   const std::shared_ptr<index> &pIdx,
                   const std::string &pJoinFld,
                   const std::shared_ptr<table_scan> &pRhs);
-  void before_first();
-  bool next();
-  int get_int(const std::string &pFldName);
-  std::string get_string(const std::string &pFldName);
-  constant get_val(const std::string &pFldName);
-  bool has_field(const std::string &pFldName);
-  void close();
+  void before_first() override;
+  bool next() override;
+  int get_int(const std::string &pFldName) override;
+  std::string get_string(const std::string &pFldName) override;
+  constant get_val(const std::string &pFldName) override;
+  bool has_field(const std::string &pFldName) override;
+  void close() override;
   void reset_index();
 
 private:

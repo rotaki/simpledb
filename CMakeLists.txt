@@ -360,6 +360,9 @@ else()
     USES_TERMINAL
     )
 
+  add_custom_command(TARGET format DEPENDS gtest)
+  add_custom_command(TARGET check-format DEPENDS gtest)
+  
   message(STATUS "[ADDED] format and check-format (${CLANG_FORMAT_BIN})")
   unset(FORMAT_DIRS)
   

@@ -5,7 +5,7 @@ index_select_scan::index_select_scan(std::shared_ptr<table_scan> pTS,
                                      std::shared_ptr<index> pIdx,
                                      const constant &pVal)
     : mTS(pTS), mIdx(pIdx), mVal(pVal) {
-  before_first();
+  mIdx->before_first(mVal);
 }
 
 void index_select_scan::before_first() { mIdx->before_first(mVal); }

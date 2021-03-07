@@ -96,6 +96,8 @@ int transaction::block_size() { return mFM->block_size(); }
 
 int transaction::available_buffers() { return mBM->available(); }
 
+int transaction::num() const { return mTxNum; }
+
 int transaction::next_tx_number() {
   std::unique_lock<std::mutex> lock(mMutex);
   mNextTxNum++;

@@ -6,9 +6,16 @@ table_scan::table_scan(transaction *pTx, const std::string &pTableName,
     : mTx(pTx), mLt(pLt) {
   mFileName = pTableName + ".tbl";
   if (mTx->size(mFileName) == 0) {
-    move_to_new_block();
+    // move to new block
+    block_id blockId = mTx->append(mFileName);
+    mRP = std::make_unique<record_page>(mTx, blockId, mLt);
+    mRP->format();
+    mCurrentSlot = -1;
   } else {
-    move_to_block(0);
+    // move to block 0
+    block_id blockId(mFileName, 0);
+    mRP = std::make_unique<record_page>(mTx, blockId, mLt);
+    mCurrentSlot = -1;
   }
 }
 

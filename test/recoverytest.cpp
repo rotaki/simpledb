@@ -52,8 +52,8 @@ public:
     }
     tx3->set_string(mBlk0, 30, "uvw", true);
     tx4->set_string(mBlk1, 30, "xyz", true);
-    mBM->flush_all(3);
-    mBM->flush_all(4);
+    mBM->flush_all(tx3->num());
+    mBM->flush_all(tx4->num());
     print_values("After modification");
 
     tx3->rollback();

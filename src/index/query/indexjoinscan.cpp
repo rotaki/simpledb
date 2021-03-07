@@ -8,7 +8,9 @@ index_join_scan::index_join_scan(const std::shared_ptr<scan> &pLhs,
     : mLhs(pLhs), mIdx(pIdx), mJoinField(pJoinFld), mRhs(pRhs)
 
 {
-  before_first();
+  mLhs->before_first();
+  mLhs->next();
+  reset_index();
 }
 
 void index_join_scan::before_first() {

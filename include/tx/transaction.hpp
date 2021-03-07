@@ -28,6 +28,7 @@ public:
   block_id append(const std::string &pFileName);
   int block_size();
   int available_buffers();
+  int num() const;
 
 private:
   static int mNextTxNum;
