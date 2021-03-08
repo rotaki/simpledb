@@ -23,7 +23,6 @@ class parser {
 public:
   parser(const std::string &pS);
 
-  // todo is it ok to return pointer?
   std::string new_field();
   constant new_constant();
   expression new_expression();

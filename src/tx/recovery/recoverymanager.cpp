@@ -7,7 +7,7 @@ namespace simpledb {
 recovery_manager::recovery_manager(transaction *pTx, const int &pTxNum,
                                    log_manager *pLM, buffer_manager *pBM)
     : mTx(pTx), mTxNum(pTxNum), mLM(pLM), mBM(pBM) {
-  start_record::write_to_log(mLM, mTxNum); // todo fix
+  start_record::write_to_log(mLM, mTxNum);
 }
 
 void recovery_manager::commit() {

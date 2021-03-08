@@ -72,7 +72,6 @@ std::set<std::string> parser::table_list() {
   return L;
 }
 
-// todo udpate_cmd
 std::unique_ptr<object> parser::update_cmd() {
   if (lex.match_keyword("insert")) {
     return static_unique_pointer_cast<object>(insert());

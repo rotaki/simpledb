@@ -18,8 +18,8 @@ btree_index::btree_index(transaction *pTx, const std::string &pIdxName,
 
   // deal with the directory
   schema dirSch;
-  dirSch.add("block", mLeafLayout.get_schema());   // todo fix
-  dirSch.add("dataval", mLeafLayout.get_schema()); // todo fix
+  dirSch.add("block", mLeafLayout.get_schema());
+  dirSch.add("dataval", mLeafLayout.get_schema());
   std::string dirTbl = pIdxName + "dir";
   layout mDirLayout(dirSch);
   block_id mRootBlk(dirTbl, 0);

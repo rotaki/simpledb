@@ -14,7 +14,7 @@ void hash_index::before_first(const constant &pSearchKey) {
   mSearchKey = pSearchKey;
   int bucket = mSearchKey.hash_code() % mNumBuckets;
   std::string tblName = mIdxName + std::to_string(bucket);
-  mTS = std::make_unique<table_scan>(mTx, tblName, mLt); // todo fix
+  mTS = std::make_unique<table_scan>(mTx, tblName, mLt);
 }
 
 bool hash_index::next() {
