@@ -6,7 +6,7 @@
 namespace simpledb {
 class index_select_plan : public plan {
 public:
-  index_select_plan(std::shared_ptr<plan> pP, const index_info &pII,
+  index_select_plan(const std::shared_ptr<plan> &pP, const index_info &pII,
                     const constant &pVal);
   std::shared_ptr<scan> open() override;
   int blocks_accessed() override;

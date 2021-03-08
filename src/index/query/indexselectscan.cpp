@@ -1,8 +1,8 @@
 #include "index/query/indexselectscan.hpp"
 
 namespace simpledb {
-index_select_scan::index_select_scan(std::shared_ptr<table_scan> pTS,
-                                     std::shared_ptr<index> pIdx,
+index_select_scan::index_select_scan(const std::shared_ptr<table_scan> &pTS,
+                                     const std::shared_ptr<index> &pIdx,
                                      const constant &pVal)
     : mTS(pTS), mIdx(pIdx), mVal(pVal) {
   mIdx->before_first(mVal);

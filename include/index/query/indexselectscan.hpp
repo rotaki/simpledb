@@ -10,8 +10,8 @@
 namespace simpledb {
 class index_select_scan : public scan {
 public:
-  index_select_scan(std::shared_ptr<table_scan> pTS,
-                    std::shared_ptr<index> pIdx, const constant &pVal);
+  index_select_scan(const std::shared_ptr<table_scan> &pTS,
+                    const std::shared_ptr<index> &pIdx, const constant &pVal);
   void before_first() override;
   bool next() override;
   int get_int(const std::string &pFldName) override;
