@@ -5,50 +5,47 @@
 #include "index/btree/btreeindex.hpp"
 
 namespace simpledb {
-btree_index::btree_index(std::shared_ptr<transaction> pTx,
-                         const std::string &pIdxName,
-                         std::shared_ptr<layout> pLeafLayout)
+btree_index::btree_index(transaction *pTx, const std::string &pIdxName,
+                         const layout &pLeafLayout)
     : mTx(pTx), mLeafLayout(pLeafLayout) {
   // deal with leaves
   mLeafTbl = pIdxName + "leaf";
   if (mTx->size(mLeafTbl) == 0) {
-    std::shared_ptr<block_id> blk =
-        std::make_shared<block_id>(mTx->append(mLeafTbl));
-    std::shared_ptr<bt_page> node(new bt_page(mTx, blk, mLeafLayout));
-    node->format(blk, -1);
+    block_id blk = mTx->append(mLeafTbl);
+    bt_page node(mTx, blk, mLeafLayout);
+    node.format(blk, -1);
   }
 
   // deal with the directory
-  std::shared_ptr<schema> dirSch(new schema());
-  dirSch->add("block", mLeafLayout->get_schema());   // todo fix
-  dirSch->add("dataval", mLeafLayout->get_schema()); // todo fix
+  schema dirSch;
+  dirSch.add("block", mLeafLayout.get_schema());   // todo fix
+  dirSch.add("dataval", mLeafLayout.get_schema()); // todo fix
   std::string dirTbl = pIdxName + "dir";
-  mDirLayout = std::shared_ptr<layout>(new layout(*dirSch)); // todo fix
-  mRootBlk = std::shared_ptr<block_id>(new block_id(dirTbl, 0));
+  layout mDirLayout(dirSch);
+  block_id mRootBlk(dirTbl, 0);
   if (mTx->size(dirTbl) == 0) {
     // create new root block
     mTx->append(dirTbl);
-    std::shared_ptr<bt_page> node(new bt_page(mTx, mRootBlk, mDirLayout));
-    node->format(mRootBlk, 0);
+    bt_page node(mTx, mRootBlk, mDirLayout);
+    node.format(mRootBlk, 0);
 
     // insert initial directory entry
-    int fldType = dirSch->type("dataval");
+    int fldType = dirSch.type("dataval");
     constant minVal =
         (fldType == schema::integer ? constant(std::numeric_limits<int>::min())
                                     : constant(""));
-    node->insert_dir(0, minVal, 0);
-    node->close();
+    node.insert_dir(0, minVal, 0);
+    node.close();
   }
 }
 
 void btree_index::before_first(const constant &pSearchKey) {
   close();
-  std::shared_ptr<btree_dir> root(new btree_dir(mTx, mRootBlk, mDirLayout));
-  int blkNum = root->search(pSearchKey);
-  root->close();
-  std::shared_ptr<block_id> leafBlk(new block_id(mLeafTbl, blkNum));
-  mLeaf = std::shared_ptr<btree_leaf>(
-      new btree_leaf(mTx, leafBlk, mLeafLayout, pSearchKey));
+  btree_dir root(mTx, mRootBlk, mDirLayout);
+  int blkNum = root.search(pSearchKey);
+  root.close();
+  block_id leafBlk(mLeafTbl, blkNum);
+  mLeaf = std::make_unique<btree_leaf>(mTx, leafBlk, mLeafLayout, pSearchKey);
 }
 
 bool btree_index::next() { return mLeaf->next(); }
@@ -62,12 +59,12 @@ void btree_index::insert(const constant &pDataVal, const rid &pDataRID) {
   if (e.is_null()) {
     return;
   }
-  std::shared_ptr<btree_dir> root(new btree_dir(mTx, mRootBlk, mDirLayout));
-  dir_entry e2 = root->insert(e);
+  btree_dir root(mTx, mRootBlk, mDirLayout);
+  dir_entry e2 = root.insert(e);
   if (e2.is_null()) {
-    root->make_new_root(e2);
+    root.make_new_root(e2);
   }
-  root->close();
+  root.close();
 }
 
 void btree_index::remove(const constant &pDataVal, const rid &pDataRID) {

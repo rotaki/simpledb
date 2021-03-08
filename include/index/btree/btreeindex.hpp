@@ -11,8 +11,7 @@
 namespace simpledb {
 class btree_index : public index {
 public:
-  btree_index(std::shared_ptr<transaction> pTx, const std::string &pIdxName,
-              std::shared_ptr<layout> mLt);
+  btree_index(transaction *pTx, const std::string &pIdxName, const layout &mLt);
   void before_first(const constant &pSearchKey) override;
   bool next() override;
   rid get_data_rid() override;
@@ -22,10 +21,10 @@ public:
   static int search_cost(const int &pNumBlocks, const int &pRPB);
 
 private:
-  std::shared_ptr<transaction> mTx;
+  transaction *mTx;
   std::string mLeafTbl;
-  std::shared_ptr<layout> mDirLayout, mLeafLayout;
-  std::shared_ptr<btree_leaf> mLeaf;
-  std::shared_ptr<block_id> mRootBlk;
+  layout mDirLayout, mLeafLayout;
+  std::unique_ptr<btree_leaf> mLeaf;
+  block_id mRootBlk;
 };
 } // namespace simpledb

@@ -12,8 +12,8 @@
 namespace simpledb {
 class btree_leaf {
 public:
-  btree_leaf(std::shared_ptr<transaction> pTx, std::shared_ptr<block_id> pBlk,
-             std::shared_ptr<layout> pLt, const constant &pSeachKey);
+  btree_leaf(transaction *pTx, const block_id &pBlk, const layout &pLt,
+             const constant &pSeachKey);
   void close();
   bool next();
   rid get_data_rid();
@@ -22,10 +22,10 @@ public:
   bool try_overflow();
 
 private:
-  std::shared_ptr<transaction> mTx;
-  std::shared_ptr<layout> mLt;
+  transaction *mTx;
+  layout mLt;
   constant mSearchKey;
-  std::shared_ptr<bt_page> mContents;
+  std::unique_ptr<bt_page> mContents;
   int mCurrentSlot;
   std::string mFileName;
 };
