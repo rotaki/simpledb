@@ -349,7 +349,7 @@ else()
     USES_TERMINAL
     )
 
-  add_custom_target(check-format ALL
+  add_custom_target(check-format
     COMMENT "Running: check-format"
     COMMAND ${BUILD_SUPPORT_DIR}/run-clang-format.py
     --clang-format-executable ${CLANG_FORMAT_BIN}
