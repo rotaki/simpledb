@@ -16,7 +16,7 @@ log_manager::log_manager(file_manager *pFileManager,
   }
 }
 
-void log_manager::flush(const int &pLSN) {
+void log_manager::flush(int pLSN) {
   std::unique_lock<std::mutex> lock(mMutex);
   if (pLSN >= mLastSavedLSN) {
     flush();

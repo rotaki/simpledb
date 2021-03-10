@@ -24,7 +24,7 @@ stream_tokenizer::stream_tokenizer(std::istream &pIS)
   parse_numbers();
 }
 
-void stream_tokenizer::comment_char(const int &ch) {
+void stream_tokenizer::comment_char(int ch) {
   if (ch >= 0 && ch <= 255) {
     mComment[ch] = true;
     mWhitespace[ch] = false;
@@ -34,30 +34,28 @@ void stream_tokenizer::comment_char(const int &ch) {
   }
 }
 
-void stream_tokenizer::eol_is_significant(const bool &pFlag) {
+void stream_tokenizer::eol_is_significant(bool pFlag) {
   mEOLSignificant = pFlag;
 }
 
 int stream_tokenizer::line_no() { return mLineNumber; }
 
-void stream_tokenizer::lower_case_mode(const bool &pFlag) {
-  mLowerCase = pFlag;
-}
+void stream_tokenizer::lower_case_mode(bool pFlag) { mLowerCase = pFlag; }
 
-bool stream_tokenizer::is_whitespace(const int &pCh) {
+bool stream_tokenizer::is_whitespace(int pCh) {
   return (pCh >= 0 && pCh <= 255 && mWhitespace[pCh]);
 }
 
-bool stream_tokenizer::is_alphabetic(const int &pCh) {
+bool stream_tokenizer::is_alphabetic(int pCh) {
   return (pCh >= 0 && pCh <= 255 && mAlphabetic[pCh]);
 }
-bool stream_tokenizer::is_numeric(const int &pCh) {
+bool stream_tokenizer::is_numeric(int pCh) {
   return (pCh >= 0 && pCh <= 255 && mNumeric[pCh]);
 }
-bool stream_tokenizer::is_quote(const int &pCh) {
+bool stream_tokenizer::is_quote(int pCh) {
   return (pCh >= 0 && pCh <= 255 && mQuote[pCh]);
 }
-bool stream_tokenizer::is_comment(const int &pCh) {
+bool stream_tokenizer::is_comment(int pCh) {
   return (pCh >= 0 && pCh <= 255 && mComment[pCh]);
 }
 
@@ -273,7 +271,7 @@ int stream_tokenizer::next_token() {
   return mTType;
 }
 
-void stream_tokenizer::reset_char(const int &pCh) {
+void stream_tokenizer::reset_char(int pCh) {
   mWhitespace[pCh] = false;
   mAlphabetic[pCh] = false;
   mNumeric[pCh] = false;
@@ -281,13 +279,13 @@ void stream_tokenizer::reset_char(const int &pCh) {
   mComment[pCh] = false;
 }
 
-void stream_tokenizer::ordinary_char(const int &pCh) {
+void stream_tokenizer::ordinary_char(int pCh) {
   if (pCh >= 0 && pCh <= 255) {
     reset_char(pCh);
   }
 }
 
-void stream_tokenizer::ordinary_chars(const int &pLow, const int &pHi) {
+void stream_tokenizer::ordinary_chars(int pLow, int pHi) {
   int low = (pLow < 0 ? 0 : pLow);
   int hi = (pHi > 255 ? 255 : pHi);
   for (int i = low; i <= hi; i++) {
@@ -305,7 +303,7 @@ void stream_tokenizer::parse_numbers() {
 
 void stream_tokenizer::push_back() { mPushedBack = true; }
 
-void stream_tokenizer::quote_char(const int &pCh) {
+void stream_tokenizer::quote_char(int pCh) {
   if (pCh >= 0 && pCh <= 255) {
     mQuote[pCh] = true;
     mComment[pCh] = false;
@@ -317,13 +315,9 @@ void stream_tokenizer::quote_char(const int &pCh) {
 
 void stream_tokenizer::reset_syntax() { ordinary_chars(0x00, 0xFF); }
 
-void stream_tokenizer::slash_slash_comments(const bool &pFlag) {
-  mSlashSlash = pFlag;
-}
+void stream_tokenizer::slash_slash_comments(bool pFlag) { mSlashSlash = pFlag; }
 
-void stream_tokenizer::slash_star_comments(const bool &pFlag) {
-  mSlashStar = pFlag;
-}
+void stream_tokenizer::slash_star_comments(bool pFlag) { mSlashStar = pFlag; }
 
 std::string stream_tokenizer::to_string() {
   std::string tempStr;
@@ -345,7 +339,7 @@ std::string stream_tokenizer::to_string() {
   return "Token[" + tempStr + "], line " + std::to_string(line_no());
 }
 
-void stream_tokenizer::whitespace_chars(const int &pLow, const int &pHi) {
+void stream_tokenizer::whitespace_chars(int pLow, int pHi) {
   int low = (pLow < 0 ? 0 : pLow);
   int hi = (pHi > 255 ? 255 : pHi);
   for (int i = low; i <= hi; i++) {
@@ -354,7 +348,7 @@ void stream_tokenizer::whitespace_chars(const int &pLow, const int &pHi) {
   }
 }
 
-void stream_tokenizer::word_chars(const int &pLow, const int &pHi) {
+void stream_tokenizer::word_chars(int pLow, int pHi) {
   int low = (pLow < 0 ? 0 : pLow);
   int hi = (pHi > 255 ? 255 : pHi);
   for (int i = low; i <= hi; i++) {

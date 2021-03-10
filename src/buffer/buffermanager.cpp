@@ -13,7 +13,7 @@ page *buffer::contents() const { return mContents.get(); }
 
 block_id buffer::block() const { return mBlockId; }
 
-void buffer::set_modified(const int &pTxNum, const int &pLSN) {
+void buffer::set_modified(int pTxNum, int pLSN) {
   mTxNum = pTxNum;
   if (pLSN >= 0)
     mLSN = pLSN;
@@ -43,7 +43,7 @@ void buffer::pin() { mPins++; }
 void buffer::unpin() { mPins--; }
 
 buffer_manager::buffer_manager(file_manager *pFileManager,
-                               log_manager *pLogManager, const int &pNumBuffs) {
+                               log_manager *pLogManager, int pNumBuffs) {
   mNumAvailable = pNumBuffs;
   for (int i = 0; i < pNumBuffs; i++) {
     auto bufferPtr = std::make_unique<buffer>(pFileManager, pLogManager);
@@ -56,7 +56,7 @@ int buffer_manager::available() {
   return mNumAvailable;
 }
 
-void buffer_manager::flush_all(const int &pTxNum) {
+void buffer_manager::flush_all(int pTxNum) {
   std::unique_lock<std::mutex> lock(mMutex);
   for (auto &&buff : mBufferPool) {
     if (buff->modifying_tx() == pTxNum) {

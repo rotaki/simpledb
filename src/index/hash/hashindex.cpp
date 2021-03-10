@@ -56,7 +56,7 @@ void hash_index::close() {
   }
 }
 
-int hash_index::search_cost(const int &pNumBlocks, const int &pRPB) {
+int hash_index::search_cost(int pNumBlocks, int pRPB) {
   return pNumBlocks / mNumBuckets;
 }
 } // namespace simpledb

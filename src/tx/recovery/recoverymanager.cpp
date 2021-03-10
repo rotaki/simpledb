@@ -4,7 +4,7 @@
 #include "tx/recovery/recoverymanager.hpp"
 
 namespace simpledb {
-recovery_manager::recovery_manager(transaction *pTx, const int &pTxNum,
+recovery_manager::recovery_manager(transaction *pTx, int pTxNum,
                                    log_manager *pLM, buffer_manager *pBM)
     : mTx(pTx), mTxNum(pTxNum), mLM(pLM), mBM(pBM) {
   start_record::write_to_log(mLM, mTxNum);
@@ -30,14 +30,13 @@ void recovery_manager::recover() {
   mLM->flush(lsn);
 }
 
-int recovery_manager::set_int(buffer *pBuff, const int &pOffset,
-                              const int &pNewVal) {
+int recovery_manager::set_int(buffer *pBuff, int pOffset, int pNewVal) {
   int oldVal = pBuff->contents()->get_int(pOffset);
   block_id blockId = pBuff->block();
   return set_int_record::write_to_log(mLM, mTxNum, blockId, pOffset, oldVal);
 }
 
-int recovery_manager::set_string(buffer *pBuff, const int &pOffset,
+int recovery_manager::set_string(buffer *pBuff, int pOffset,
                                  const std::string &pNewVal) {
   std::string oldVal = pBuff->contents()->get_string(pOffset);
   block_id blockId = pBuff->block();

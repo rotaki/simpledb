@@ -11,8 +11,7 @@ int simpledb::mBlockSize = 400;
 int simpledb::mBufferSize = 8;
 std::string simpledb::mLogFile = "simpledb.log";
 
-simpledb::simpledb(const std::string &pDirName, const int &pBlockSize,
-                   const int &pBuffSize) {
+simpledb::simpledb(const std::string &pDirName, int pBlockSize, int pBuffSize) {
   auto path = std::filesystem::current_path() / pDirName;
   mFM = std::make_unique<file_manager>(path, pBlockSize);
   mLM = std::make_unique<log_manager>(mFM.get(), mLogFile);
@@ -40,7 +39,7 @@ std::unique_ptr<transaction> simpledb::new_tx() {
   auto txPtr = std::make_unique<transaction>(mFM.get(), mLM.get(), mBM.get());
   return txPtr;
 }
-
+// todo 参照
 metadata_manager *simpledb::md_mgr() { return mMM.get(); }
 
 file_manager *simpledb::file_mgr() { return mFM.get(); }

@@ -14,7 +14,7 @@ class block_id {
 public:
   block_id();
   block_id(const block_id &pBlk);
-  block_id(const std::string &pFileName, const int &pBlockNum);
+  block_id(const std::string &pFileName, int pBlockNum);
   block_id &operator=(const block_id &pBlk);
 
   bool is_null();

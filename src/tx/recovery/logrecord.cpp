@@ -67,7 +67,7 @@ void start_record::undo(transaction *pTx) {
   // do nothing
 }
 
-int start_record::write_to_log(log_manager *pLM, const int &pTxNum) {
+int start_record::write_to_log(log_manager *pLM, int pTxNum) {
   int tPos = sizeof(int);
   int recLen = tPos + sizeof(int);
   auto byteVec = std::make_shared<std::vector<char>>(recLen, 0);
@@ -94,7 +94,7 @@ void commit_record::undo(transaction *pTx) {
   // do nothing
 }
 
-int commit_record::write_to_log(log_manager *pLM, const int &pTxNum) {
+int commit_record::write_to_log(log_manager *pLM, int pTxNum) {
   int tPos = sizeof(int);
   int recLen = tPos + sizeof(int);
   auto byteVec = std::make_shared<std::vector<char>>(recLen, 0);
@@ -121,7 +121,7 @@ void rollback_record::undo(transaction *pTx) {
   // do nothing
 }
 
-int rollback_record::write_to_log(log_manager *pLM, const int &pTxNum) {
+int rollback_record::write_to_log(log_manager *pLM, int pTxNum) {
   int tPos = sizeof(int);
   int recLen = tPos + sizeof(int);
   auto byteVec = std::make_shared<std::vector<char>>(recLen, 0);
@@ -160,9 +160,9 @@ void set_int_record::undo(transaction *pTx) {
   pTx->unpin(mBlockId);
 }
 
-int set_int_record::write_to_log(log_manager *pLM, const int &pTxNum,
-                                 const block_id &pBlockId, const int &pOffset,
-                                 const int &pVal) {
+int set_int_record::write_to_log(log_manager *pLM, int pTxNum,
+                                 const block_id &pBlockId, int pOffset,
+                                 int pVal) {
   int tPos = sizeof(int);
   int fPos = tPos + sizeof(int);
   int bPos = fPos + page::max_length(pBlockId.file_name().size());
@@ -209,9 +209,8 @@ void set_string_record::undo(transaction *pTx) {
   pTx->unpin(mBlockId);
 }
 
-int set_string_record::write_to_log(log_manager *pLM, const int &pTxNum,
-                                    const block_id &pBlockId,
-                                    const int &pOffset,
+int set_string_record::write_to_log(log_manager *pLM, int pTxNum,
+                                    const block_id &pBlockId, int pOffset,
                                     const std::string &pVal) {
   int tPos = sizeof(int);
   int fPos = tPos + sizeof(int);

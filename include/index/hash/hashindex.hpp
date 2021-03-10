@@ -16,7 +16,7 @@ public:
   void insert(const constant &pDataVal, const rid &pDataRID) override;
   void remove(const constant &pDataVal, const rid &pDataRID) override;
   void close() override;
-  static int search_cost(const int &pNumBlocks, const int &pRPB);
+  static int search_cost(int pNumBlocks, int pRPB);
   static int mNumBuckets;
 
 private:

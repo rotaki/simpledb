@@ -14,8 +14,7 @@ public:
   static int mBufferSize;
   static std::string mLogFile;
 
-  simpledb(const std::string &pDirname, const int &pBlockSize,
-           const int &pBuffSize);
+  simpledb(const std::string &pDirname, int pBlockSize, int pBuffSize);
   simpledb(const std::string &pDirname);
 
   std::unique_ptr<transaction> new_tx();

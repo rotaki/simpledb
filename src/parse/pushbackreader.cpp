@@ -20,7 +20,7 @@ int push_back_reader::read() {
   return static_cast<int>(mV[mCurrentPos++]);
 }
 
-void push_back_reader::unread(const int &pCh) {
+void push_back_reader::unread(int pCh) {
   if (mCurrentPos == 0) {
     throw std::runtime_error("push back buffer is full");
   }

@@ -11,8 +11,7 @@
 namespace simpledb {
 class file_manager {
 public:
-  file_manager(const std::filesystem::path &pDbDirectory,
-               const int &pBlockSize);
+  file_manager(const std::filesystem::path &pDbDirectory, int pBlockSize);
   void read(const block_id &pBlockId, page &pPage);
   void write(const block_id &pBlockId, page &pPage);
   block_id append(const std::string &pFileName);

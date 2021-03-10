@@ -15,7 +15,7 @@
 namespace simpledb {
 class metadata_manager {
 public:
-  metadata_manager(const bool &pIsNew, transaction *pTx);
+  metadata_manager(bool pIsNew, transaction *pTx);
   void create_table(const std::string &pTblName, const schema &pSch,
                     transaction *pTx);
   layout get_layout(const std::string &pTblName, transaction *pTx);

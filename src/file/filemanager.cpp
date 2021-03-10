@@ -11,7 +11,7 @@
 
 namespace simpledb {
 file_manager::file_manager(const std::filesystem::path &pDbDirectory,
-                           const int &pBlockSize)
+                           int pBlockSize)
     : mDbDirectory(pDbDirectory), mBlockSize(pBlockSize) {
   std::filesystem::directory_entry dir(mDbDirectory);
   mIsNew = !dir.exists();

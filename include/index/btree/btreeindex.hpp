@@ -18,7 +18,7 @@ public:
   void insert(const constant &pDataVal, const rid &pDataRid) override;
   void remove(const constant &pDataVal, const rid &pDataRid) override;
   void close() override;
-  static int search_cost(const int &pNumBlocks, const int &pRPB);
+  static int search_cost(int pNumBlocks, int pRPB);
 
 private:
   transaction *mTx;

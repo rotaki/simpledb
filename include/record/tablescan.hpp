@@ -23,7 +23,7 @@ public:
   bool has_field(const std::string &pFldName) override;
   void close() override;
 
-  void set_int(const std::string &pFldName, const int &pVal) override;
+  void set_int(const std::string &pFldName, int pVal) override;
   void set_string(const std::string &pFldName,
                   const std::string &pVal) override;
   void set_val(const std::string &pFldName, const constant &pVal) override;
@@ -39,7 +39,7 @@ private:
   std::string mFileName;
   int mCurrentSlot;
 
-  void move_to_block(const int &pBlkNum);
+  void move_to_block(int pBlkNum);
   void move_to_new_block();
   bool at_last_block();
 };

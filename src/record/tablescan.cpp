@@ -61,7 +61,7 @@ void table_scan::close() {
   }
 }
 
-void table_scan::set_int(const std::string &pFldName, const int &pVal) {
+void table_scan::set_int(const std::string &pFldName, int pVal) {
   return mRP->set_int(mCurrentSlot, pFldName, pVal);
 }
 
@@ -101,7 +101,7 @@ void table_scan::move_to_rid(const rid &pRID) {
   mCurrentSlot = pRID.slot();
 }
 
-void table_scan::move_to_block(const int &pBlkNum) {
+void table_scan::move_to_block(int pBlkNum) {
   close();
   block_id blockId(mFileName, pBlkNum);
   mRP = std::make_unique<record_page>(mTx, blockId, mLt);

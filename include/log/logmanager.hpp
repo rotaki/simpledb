@@ -9,7 +9,7 @@ class log_manager {
 public:
   log_manager(file_manager *pFileManager, const std::string &pLogFile);
   int append(const std::vector<char> &pLogRecord);
-  void flush(const int &pLSN);
+  void flush(int pLSN);
 
   class log_iterator {
   public:

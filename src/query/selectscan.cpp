@@ -35,7 +35,7 @@ bool select_scan::has_field(const std::string &pFldName) {
 
 void select_scan::close() { mS->close(); }
 
-void select_scan::set_int(const std::string &pFldName, const int &pVal) {
+void select_scan::set_int(const std::string &pFldName, int pVal) {
   std::shared_ptr<update_scan> uS = std::dynamic_pointer_cast<update_scan>(mS);
   if (uS) {
     uS->set_int(pFldName, pVal);

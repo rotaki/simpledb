@@ -15,11 +15,10 @@ public:
 
   schema &operator=(const schema &pSch);
 
-  void add_field(const std::string &pFldName, const int &pType,
-                 const int &pLength);
+  void add_field(const std::string &pFldName, int pType, int pLength);
   void add_int_field(const std::string &pFldName);
 
-  void add_string_field(const std::string &pFldName, const int &pLength);
+  void add_string_field(const std::string &pFldName, int pLength);
 
   void add(const std::string &pFldName, const schema &pSchema);
 
@@ -36,7 +35,7 @@ public:
   class field_info {
   public:
     field_info() = default;
-    field_info(const int &pType, const int &pLength);
+    field_info(int pType, int pLength);
     int type() const;
     int length() const;
 

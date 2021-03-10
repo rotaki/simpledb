@@ -6,7 +6,7 @@ std::unique_ptr<view_manager> metadata_manager::mVM;
 std::unique_ptr<stat_manager> metadata_manager::mSM;
 std::unique_ptr<index_manager> metadata_manager::mIM;
 
-metadata_manager::metadata_manager(const bool &pIsNew, transaction *pTx) {
+metadata_manager::metadata_manager(bool pIsNew, transaction *pTx) {
   mTM = std::make_unique<table_manager>(pIsNew, pTx);
   mVM = std::make_unique<view_manager>(pIsNew, mTM.get(), pTx);
   mSM = std::make_unique<stat_manager>(mTM.get(), pTx);

@@ -11,7 +11,7 @@ class stat_info {
 public:
   stat_info();
   stat_info(const stat_info &pSI);
-  stat_info(const int &pNumBlocks, const int &pNumRecs);
+  stat_info(int pNumBlocks, int pNumRecs);
   stat_info &operator=(const stat_info &pSI);
   int blocks_accessed();
   int records_output();

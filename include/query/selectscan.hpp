@@ -20,7 +20,7 @@ public:
   bool has_field(const std::string &pFldName) override;
   void close() override;
 
-  void set_int(const std::string &pFldName, const int &pVal) override;
+  void set_int(const std::string &pFldName, int pVal) override;
   void set_string(const std::string &pFldName,
                   const std::string &pVal) override;
   void set_val(const std::string &pFldName, const constant &pVal) override;

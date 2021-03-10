@@ -15,7 +15,7 @@ class constant {
 public:
   constant();
   constant(const constant &pVal);
-  constant(const int &pVal);
+  constant(int pVal);
   constant(const std::string &pVal);
   constant &operator=(const constant &pVal);
   int as_int() const;

@@ -48,7 +48,7 @@ public:
   int tx_number() override;
   std::string to_string() override;
   void undo(transaction *pTx) override;
-  static int write_to_log(log_manager *pLM, const int &pTxNum);
+  static int write_to_log(log_manager *pLM, int pTxNum);
 
 private:
   int mTxNum;
@@ -61,7 +61,7 @@ public:
   int tx_number() override;
   std::string to_string() override;
   void undo(transaction *pTx) override;
-  static int write_to_log(log_manager *pLM, const int &pTxNum);
+  static int write_to_log(log_manager *pLM, int pTxNum);
 
 private:
   int mTxNum;
@@ -74,7 +74,7 @@ public:
   int tx_number() override;
   std::string to_string() override;
   void undo(transaction *pTx) override;
-  static int write_to_log(log_manager *pLM, const int &pTxNum);
+  static int write_to_log(log_manager *pLM, int pTxNum);
 
 private:
   int mTxNum;
@@ -87,9 +87,8 @@ public:
   int tx_number() override;
   std::string to_string() override;
   void undo(transaction *pTx) override;
-  static int write_to_log(log_manager *pLM, const int &pTxNum,
-                          const block_id &pBlockId, const int &pOffset,
-                          const int &pVal);
+  static int write_to_log(log_manager *pLM, int pTxNum,
+                          const block_id &pBlockId, int pOffset, int pVal);
 
 private:
   int mTxNum, mOffset;
@@ -104,8 +103,8 @@ public:
   int tx_number() override;
   std::string to_string() override;
   void undo(transaction *pTx) override;
-  static int write_to_log(log_manager *pLM, const int &pTxNum,
-                          const block_id &pBlockId, const int &pOffset,
+  static int write_to_log(log_manager *pLM, int pTxNum,
+                          const block_id &pBlockId, int pOffset,
                           const std::string &pVal);
 
 private:

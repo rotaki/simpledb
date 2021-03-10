@@ -13,7 +13,7 @@ public:
   buffer(file_manager *pFileManager, log_manager *pLogManager);
   page *contents() const;
   block_id block() const;
-  void set_modified(const int &pTxNum, const int &pLSN);
+  void set_modified(int pTxNum, int pLSN);
   bool is_pinned() const;
   int modifying_tx() const;
   void assign_to_block(const block_id &pBlockId);
@@ -34,10 +34,10 @@ private:
 class buffer_manager {
 public:
   buffer_manager(file_manager *pFileManager, log_manager *pLogManager,
-                 const int &pNumBuffs);
+                 int pNumBuffs);
 
   int available();
-  void flush_all(const int &pTxNum);
+  void flush_all(int pTxNum);
   void unpin(buffer *pBuff);
   buffer *pin(const block_id &pBlockId);
 

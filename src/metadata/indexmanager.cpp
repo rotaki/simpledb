@@ -61,8 +61,8 @@ layout index_info::create_idx_layout() {
   return layout(sch);
 }
 
-index_manager::index_manager(const bool &pIsNew, table_manager *pTM,
-                             stat_manager *pSM, transaction *pTx) {
+index_manager::index_manager(bool pIsNew, table_manager *pTM, stat_manager *pSM,
+                             transaction *pTx) {
   if (pIsNew) {
     schema sch;
     sch.add_string_field("indexname", pTM->mMaxName);

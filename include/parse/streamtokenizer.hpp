@@ -20,22 +20,22 @@ public:
   double mNVal;
 
   stream_tokenizer(std::istream &pIS);
-  void comment_char(const int &pCh);
-  void eol_is_significant(const bool &pFlag);
+  void comment_char(int pCh);
+  void eol_is_significant(bool pFlag);
   int line_no();
-  void lower_case_mode(const bool &pFlag);
+  void lower_case_mode(bool pFlag);
   int next_token();
-  void ordinary_char(const int &pCh);
-  void ordinary_chars(const int &pLow, const int &pHi);
+  void ordinary_char(int pCh);
+  void ordinary_chars(int pLow, int pHi);
   void parse_numbers();
   void push_back();
-  void quote_char(const int &pCh);
+  void quote_char(int pCh);
   void reset_syntax();
-  void slash_slash_comments(const bool &pFlag);
-  void slash_star_comments(const bool &pFlag);
+  void slash_slash_comments(bool pFlag);
+  void slash_star_comments(bool pFlag);
   std::string to_string();
-  void whitespace_chars(const int &pLow, const int &pHi);
-  void word_chars(const int &pLow, const int &pHi);
+  void whitespace_chars(int pLow, int pHi);
+  void word_chars(int pLow, int pHi);
 
 private:
   bool mEOLSignificant = false;
@@ -52,12 +52,12 @@ private:
   std::vector<bool> mQuote;
   std::vector<bool> mComment;
 
-  bool is_whitespace(const int &pCh);
-  bool is_alphabetic(const int &pCh);
-  bool is_numeric(const int &pCh);
-  bool is_quote(const int &pCh);
-  bool is_comment(const int &pCh);
+  bool is_whitespace(int pCh);
+  bool is_alphabetic(int pCh);
+  bool is_numeric(int pCh);
+  bool is_quote(int pCh);
+  bool is_comment(int pCh);
 
-  void reset_char(const int &pCh);
+  void reset_char(int pCh);
 };
 } // namespace simpledb

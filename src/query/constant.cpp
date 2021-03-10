@@ -53,7 +53,7 @@ constant::constant(const constant &pVal) {
   }
 }
 
-constant::constant(const int &pVal) { mIVal = std::make_unique<int>(pVal); }
+constant::constant(int pVal) { mIVal = std::make_unique<int>(pVal); }
 
 constant::constant(const std::string &pVal) {
   mSVal = std::make_unique<std::string>(pVal);

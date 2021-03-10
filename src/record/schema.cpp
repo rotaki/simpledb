@@ -18,8 +18,7 @@ schema &schema::operator=(const schema &pSch) {
   return *this;
 }
 
-void schema::add_field(const std::string &pFldName, const int &pType,
-                       const int &pLength) {
+void schema::add_field(const std::string &pFldName, int pType, int pLength) {
   mFields.emplace_back(pFldName);
   mInfo[pFldName] = schema::field_info(pType, pLength);
 }
@@ -28,7 +27,7 @@ void schema::add_int_field(const std::string &pFldName) {
   add_field(pFldName, integer, 0);
 }
 
-void schema::add_string_field(const std::string &pFldName, const int &length) {
+void schema::add_string_field(const std::string &pFldName, int length) {
   add_field(pFldName, varchar, length);
 }
 
@@ -66,7 +65,7 @@ int schema::length(const std::string &pFldName) const {
   }
 }
 
-schema::field_info::field_info(const int &pType, const int &pLength)
+schema::field_info::field_info(int pType, int pLength)
     : mType(pType), mLength(pLength) {}
 
 int schema::field_info::type() const { return mType; }

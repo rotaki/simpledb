@@ -9,7 +9,7 @@ stat_info::stat_info(const stat_info &pSI) {
   mNumRecs = pSI.mNumRecs;
 }
 
-stat_info::stat_info(const int &pNumBlocks, const int &pNumRecs)
+stat_info::stat_info(int pNumBlocks, int pNumRecs)
     : mNumBlocks(pNumBlocks), mNumRecs(pNumRecs) {}
 
 stat_info &stat_info::operator=(const stat_info &pSI) {

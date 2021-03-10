@@ -7,21 +7,21 @@
 namespace simpledb {
 class page {
 public:
-  page(const int &pBlockSize);
+  page(int pBlockSize);
 
   page(const std::shared_ptr<std::vector<char>> &pByteBuffer);
 
-  int get_int(const int &pOffset) const;
+  int get_int(int pOffset) const;
 
-  void set_int(const int &pOffset, const int &n);
+  void set_int(int pOffset, int n);
 
-  std::vector<char> get_bytes(const int &pOffset) const;
+  std::vector<char> get_bytes(int pOffset) const;
 
-  void set_bytes(const int &pOffset, const std::vector<char> &pByteBuffer);
+  void set_bytes(int pOffset, const std::vector<char> &pByteBuffer);
 
-  std::string get_string(const int &pOffset) const;
+  std::string get_string(int pOffset) const;
 
-  void set_string(const int &pOffset, const std::string &pString);
+  void set_string(int pOffset, const std::string &pString);
 
   static int max_length(int pStrLen);
 

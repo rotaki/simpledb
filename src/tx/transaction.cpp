@@ -41,21 +41,20 @@ void transaction::pin(const block_id &pBlockId) { mBL->pin(pBlockId); }
 
 void transaction::unpin(const block_id &pBlockId) { mBL->unpin(pBlockId); }
 
-int transaction::get_int(const block_id &pBlockId, const int &pOffset) {
+int transaction::get_int(const block_id &pBlockId, int pOffset) {
   mCM->slock(pBlockId);
   buffer *buff = mBL->get_buffer(pBlockId);
   return buff->contents()->get_int(pOffset);
 }
 
-std::string transaction::get_string(const block_id &pBlockId,
-                                    const int &pOffset) {
+std::string transaction::get_string(const block_id &pBlockId, int pOffset) {
   mCM->slock(pBlockId);
   buffer *buff = mBL->get_buffer(pBlockId);
   return buff->contents()->get_string(pOffset);
 }
 
-void transaction::set_int(const block_id &pBlockId, const int &pOffset,
-                          const int &pVal, const bool &pOkToLog) {
+void transaction::set_int(const block_id &pBlockId, int pOffset, int pVal,
+                          bool pOkToLog) {
   mCM->xlock(pBlockId);
   buffer *buff = mBL->get_buffer(pBlockId);
   int lsn = -1;
@@ -67,8 +66,8 @@ void transaction::set_int(const block_id &pBlockId, const int &pOffset,
   buff->set_modified(mTxNum, lsn);
 }
 
-void transaction::set_string(const block_id &pBlockId, const int &pOffset,
-                             const std::string &pVal, const bool &pOkToLog) {
+void transaction::set_string(const block_id &pBlockId, int pOffset,
+                             const std::string &pVal, bool pOkToLog) {
   mCM->xlock(pBlockId);
   buffer *buff = mBL->get_buffer(pBlockId);
   int lsn = -1;

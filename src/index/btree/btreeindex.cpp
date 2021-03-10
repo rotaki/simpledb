@@ -79,7 +79,7 @@ void btree_index::close() {
   }
 }
 
-int btree_index::search_cost(const int &pNumBlocks, const int &pRPB) {
+int btree_index::search_cost(int pNumBlocks, int pRPB) {
   return 1 + std::round(std::log(pNumBlocks) / std::log(pRPB));
 }
 } // namespace simpledb

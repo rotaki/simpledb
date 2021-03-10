@@ -53,7 +53,7 @@ block_id::block_id() {}
 block_id::block_id(const block_id &pBlk)
     : mFileName(pBlk.mFileName), mBlockNum(pBlk.mBlockNum) {}
 
-block_id::block_id(const std::string &pFileName, const int &pBlockNum)
+block_id::block_id(const std::string &pFileName, int pBlockNum)
     : mFileName(pFileName), mBlockNum(pBlockNum) {}
 
 bool block_id::is_null() { return mFileName.empty(); }

@@ -4,7 +4,7 @@ namespace simpledb {
 dir_entry::dir_entry() {}
 dir_entry::dir_entry(const dir_entry &pDE)
     : mDataVal(pDE.mDataVal), mBlockNum(pDE.mBlockNum) {}
-dir_entry::dir_entry(const constant &pDataVal, const int &pBlockNum)
+dir_entry::dir_entry(const constant &pDataVal, int pBlockNum)
     : mDataVal(pDataVal), mBlockNum(pBlockNum) {}
 dir_entry &dir_entry::operator=(const dir_entry &pDE) {
   if (this != &pDE) {

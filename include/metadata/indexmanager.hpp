@@ -37,7 +37,7 @@ class index_manager : public std::enable_shared_from_this<index_manager> {
   friend class index_info;
 
 public:
-  index_manager(const bool &pIsNew, table_manager *pTM, stat_manager *pSM,
+  index_manager(bool pIsNew, table_manager *pTM, stat_manager *pSM,
                 transaction *pTx);
   void create_index(const std::string &pIdxName, const std::string &pTblName,
                     const std::string &pFldName, transaction *pTx);
