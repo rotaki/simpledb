@@ -39,14 +39,14 @@ std::unique_ptr<transaction> simpledb::new_tx() {
   auto txPtr = std::make_unique<transaction>(mFM.get(), mLM.get(), mBM.get());
   return txPtr;
 }
-// todo 参照
-metadata_manager *simpledb::md_mgr() { return mMM.get(); }
 
-file_manager *simpledb::file_mgr() { return mFM.get(); }
+metadata_manager &simpledb::md_mgr() { return *mMM; }
 
-planner *simpledb::plnr() { return mP.get(); }
+file_manager &simpledb::file_mgr() { return *mFM; }
 
-log_manager *simpledb::log_mgr() { return mLM.get(); }
+planner &simpledb::plnr() { return *mP; }
 
-buffer_manager *simpledb::buffer_mgr() { return mBM.get(); }
+log_manager &simpledb::log_mgr() { return *mLM; }
+
+buffer_manager &simpledb::buffer_mgr() { return *mBM; }
 } // namespace simpledb

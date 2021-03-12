@@ -18,11 +18,11 @@ public:
   simpledb(const std::string &pDirname);
 
   std::unique_ptr<transaction> new_tx();
-  metadata_manager *md_mgr();
-  planner *plnr();
-  file_manager *file_mgr();
-  log_manager *log_mgr();
-  buffer_manager *buffer_mgr();
+  metadata_manager &md_mgr();
+  planner &plnr();
+  file_manager &file_mgr();
+  log_manager &log_mgr();
+  buffer_manager &buffer_mgr();
 
 private:
   std::unique_ptr<file_manager> mFM;
