@@ -1,8 +1,8 @@
 #include "jdbc/embedded/embeddeddriver.hpp"
 #include "jdbc/embedded/embeddedmetadata.hpp"
 #include "utils/utils.hpp"
-#include <cppconn/connection.h>
-#include <cppconn/exception.h>
+#include "cppconn/connection.h"
+#include "cppconn/exception.h"
 #include <cstdio>
 #include <memory>
 #include <vector>

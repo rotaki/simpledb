@@ -1,4 +1,4 @@
-#include <cppconn/exception.h>
+#include "cppconn/exception.h"
 
 #include "jdbc/resultsetmetadataadapter.hpp"
 

@@ -1,6 +1,6 @@
 #include "jdbc/embedded/embeddeddriver.hpp"
-#include <cppconn/connection.h>
-#include <cppconn/exception.h>
+#include "cppconn/connection.h"
+#include "cppconn/exception.h"
 #include <memory>
 #include <vector>
 
@@ -27,7 +27,7 @@ void create_student_database() {
         "(1, 'joe', 10, 2021)", "(2, 'amy', 20, 2020)", "(3, 'max', 10, 2022)",
         "(4, 'sue', 20, 2022)", "(5, 'bob', 30, 2020)", "(6, 'kim', 20, 2020)",
         "(7, 'art', 30, 2021)", "(8, 'pat', 20, 2019)", "(9, 'lee', 10, 2021)"};
-    for (int i = 0; i < studVals.size(); i++) {
+    for (int i = 0; i < static_cast<int>(studVals.size()); i++) {
       stmt->executeUpdate(s + studVals[i]);
     }
     std::cout << "STUDENT records inserted." << std::endl;
@@ -39,7 +39,7 @@ void create_student_database() {
     s = "insert into DEPT(DId, DName) values ";
     std::vector<std::string> deptVals = {"(10, 'compsci')", "(20, 'math')",
                                          "(30, 'drama')"};
-    for (int i = 0; i < deptVals.size(); i++) {
+    for (int i = 0; i < static_cast<int>(deptVals.size()); i++) {
       stmt->executeUpdate(s + deptVals[i]);
     }
     std::cout << "DEPT records inserted." << std::endl;
@@ -54,7 +54,7 @@ void create_student_database() {
         "(32, 'calculus', 20)",   "(42, 'algebra', 20)",
         "(52, 'acting', 30)",     "(62, 'elocution', 30)"};
 
-    for (int i = 0; i < courseVals.size(); i++) {
+    for (int i = 0; i < static_cast<int>(courseVals.size()); i++) {
       stmt->executeUpdate(s + courseVals[i]);
     }
     std::cout << "COURSE records inserted." << std::endl;
@@ -70,7 +70,7 @@ void create_student_database() {
         "(33, 32, 'newton', 2019)", "(43, 32, 'einstein', 2017)",
         "(53, 62, 'brando', 2018)"};
 
-    for (int i = 0; i < sectVals.size(); i++) {
+    for (int i = 0; i < static_cast<int>(sectVals.size()); i++) {
       stmt->executeUpdate(s + sectVals[i]);
     }
     std::cout << "SECTION records inserted." << std::endl;
@@ -85,7 +85,7 @@ void create_student_database() {
         "(14, 1, 13, 'A')",  "(24, 1, 43, 'C' )", "(34, 2, 43, 'B+')",
         "(44, 4, 33, 'B' )", "(54, 4, 53, 'A' )", "(64, 6, 53, 'A' )"};
 
-    for (int i = 0; i < enrollVals.size(); i++) {
+    for (int i = 0; i < static_cast<int>(enrollVals.size()); i++) {
       stmt->executeUpdate(s + enrollVals[i]);
     }
 

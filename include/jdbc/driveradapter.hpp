@@ -1,6 +1,6 @@
 #pragma once
 
-#include <cppconn/driver.h>
+#include "cppconn/driver.h"
 
 namespace simpledb {
 class DriverAdapter : public sql::Driver {

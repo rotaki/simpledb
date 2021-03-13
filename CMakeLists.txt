@@ -169,7 +169,7 @@ endfunction()
 add_simpledb_dep(googletest https://github.com/google/googletest.git release-1.10.0)
 
 list(APPEND SIMPLEDB_INCLUDE_DIRECTORIES ${CMAKE_BINARY_DIR}/_deps/src/)
-list(APPEND SIMPLEDB_INCLUDE_DIRECTORIS ${PROJECT_SOURCE_DIR}/third_party/)
+list(APPEND SIMPLEDB_INCLUDE_DIRECTORIES ${PROJECT_SOURCE_DIR}/third_party/)
 
 ###############################################################################
 #                             Simpledb Libraries                            #

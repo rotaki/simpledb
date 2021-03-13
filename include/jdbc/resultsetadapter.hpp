@@ -1,5 +1,5 @@
 #pragma once
-#include <cppconn/resultset.h>
+#include "cppconn/resultset.h"
 
 namespace simpledb {
 class ResultSetAdapter : public sql::ResultSet {
