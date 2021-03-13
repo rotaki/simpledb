@@ -80,6 +80,11 @@ set(SIMPLEDB_LINK_LIBRARIES "")
 set(SIMPLEDB_LINK_OPTIONS "")
 set(SIMPLEDB_INCLUDE_DIRECTORIES "")
 
+if (APPLE)
+  list(APPEND SIMPLEDB_COMPILE_OPTIONS "-fvisibility=hidden")
+  list(APPEND SIMPLEDB_LINK_OPTIONS "-fvisibility=hidden")
+endif ()
+
 # Add compilation flags to SIMPLEDB_COMPILE_OPTIONS based on the current CMAKE_BUILD_TYPE.
 string(TOUPPER ${CMAKE_BUILD_TYPE} CMAKE_BUILD_TYPE)
 if ("${CMAKE_BUILD_TYPE}" STREQUAL "DEBUG")
@@ -232,10 +237,21 @@ target_link_libraries(simpledb_shared PUBLIC simpledb_objlib)
 #                                 Main binary                                 #
 ###############################################################################
 
-add_executable(simpledb ./app/main.cpp)
-target_compile_options(simpledb PRIVATE "-Werror" "-Wall")
-target_link_libraries(simpledb simpledb_static)
-set_target_properties(simpledb PROPERTIES CXX_EXTENTIONS OFF ENABLE_EXPORTS ON)
+file(GLOB_RECURSE EXECUTABLES "${PROJECT_SOURCE_DIR}/app/*.cpp")
+foreach (EXECUTABLE ${EXECUTABLES})
+  get_filename_component(FILENAME ${EXECUTABLE} NAME_WE)
+  add_executable(${FILENAME} ${EXECUTABLE})
+  target_compile_options(${FILENAME} PRIVATE "-Werror" "-Wall")
+  target_link_libraries(${FILENAME} simpledb_static)
+  set_target_properties(${FILENAME} PROPERTIES CXX_EXTENTIONS OFF ENABLE_EXPORTS ON)
+  set_target_properties(
+    ${FILENAME}
+    PROPERTIES
+    ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
+    LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
+    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
+  )
+endforeach (EXECUTABLE ${EXECUTABLES})
 
 ###############################################################################
 #                                     Test                                    #
@@ -273,13 +289,6 @@ set_target_properties(
   RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
   )
 
-set_target_properties(
-  simpledb
-  PROPERTIES
-  ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
-  LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
-  RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
-  )
 
 set_target_properties(
   simpledb_test
