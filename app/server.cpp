@@ -1,11 +1,12 @@
-#include "jdbc/embedded/embeddeddriver.hpp"
-#include "jdbc/embedded/embeddedmetadata.hpp"
-#include "utils/utils.hpp"
-#include "cppconn/connection.h"
-#include "cppconn/exception.h"
 #include <cstdio>
 #include <memory>
 #include <vector>
+
+#include "cppconn/connection.h"
+#include "cppconn/exception.h"
+#include "jdbc/embedded/embeddeddriver.hpp"
+#include "jdbc/embedded/embeddedmetadata.hpp"
+#include "utils/utils.hpp"
 
 namespace simpledb {
 void do_query(sql::Statement &stmt, const std::string &cmd) {

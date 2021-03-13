@@ -11,9 +11,9 @@
 namespace simpledb {
 TEST(tx, transaction_test) {
   simpledb db("txtest", 400, 8);
-  file_manager& fM = db.file_mgr();
-  log_manager& lM = db.log_mgr();
-  buffer_manager& bM = db.buffer_mgr();
+  file_manager &fM = db.file_mgr();
+  log_manager &lM = db.log_mgr();
+  buffer_manager &bM = db.buffer_mgr();
 
   auto tx1 = std::make_unique<transaction>(&fM, &lM, &bM);
   block_id blk("testfile", 1);

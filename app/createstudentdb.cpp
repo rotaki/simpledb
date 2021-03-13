@@ -1,8 +1,9 @@
-#include "jdbc/embedded/embeddeddriver.hpp"
-#include "cppconn/connection.h"
-#include "cppconn/exception.h"
 #include <memory>
 #include <vector>
+
+#include "cppconn/connection.h"
+#include "cppconn/exception.h"
+#include "jdbc/embedded/embeddeddriver.hpp"
 
 namespace simpledb {
 std::string host = "localhost";
