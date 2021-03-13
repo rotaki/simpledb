@@ -2,10 +2,10 @@
 #include <memory>
 #include <vector>
 
-#include "cppconn/connection.h"
-#include "cppconn/exception.h"
 #include "jdbc/embedded/embeddeddriver.hpp"
 #include "jdbc/embedded/embeddedmetadata.hpp"
+#include "mysql-connector-c++/cppconn/connection.h"
+#include "mysql-connector-c++/cppconn/exception.h"
 #include "utils/utils.hpp"
 
 namespace simpledb {

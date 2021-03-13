@@ -1,5 +1,5 @@
 #pragma once
-#include "cppconn/resultset_metadata.h"
+#include "mysql-connector-c++/cppconn/resultset_metadata.h"
 
 namespace simpledb {
 class ResultSetMetaDataAdapter : public sql::ResultSetMetaData {

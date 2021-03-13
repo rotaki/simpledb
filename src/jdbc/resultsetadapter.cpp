@@ -1,4 +1,4 @@
-#include "cppconn/exception.h"
+#include "mysql-connector-c++/cppconn/exception.h"
 
 #include "jdbc/resultsetadapter.hpp"
 

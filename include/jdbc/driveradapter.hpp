@@ -1,6 +1,6 @@
 #pragma once
 
-#include "cppconn/driver.h"
+#include "mysql-connector-c++/cppconn/driver.h"
 
 namespace simpledb {
 class DriverAdapter : public sql::Driver {

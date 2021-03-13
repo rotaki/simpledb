@@ -1,6 +1,6 @@
 #pragma once
 
-#include "cppconn/connection.h"
+#include "mysql-connector-c++/cppconn/connection.h"
 
 namespace simpledb {
 class ConnectionAdapter : public sql::Connection {

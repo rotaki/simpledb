@@ -1,5 +1,5 @@
 #pragma once
-#include "cppconn/statement.h"
+#include "mysql-connector-c++/cppconn/statement.h"
 
 namespace simpledb {
 class StatementAdapter : public sql::Statement {
