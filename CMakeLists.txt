@@ -168,6 +168,9 @@ endfunction()
 
 add_simpledb_dep(googletest https://github.com/google/googletest.git release-1.10.0)
 
+list(APPEND SIMPLEDB_INCLUDE_DIRECTORIES ${CMAKE_BINARY_DIR}/_deps/src/)
+list(APPEND SIMPLEDB_INCLUDE_DIRECTORIS ${PROJECT_SOURCE_DIR}/third_party/)
+
 ###############################################################################
 #                             Simpledb Libraries                            #
 ###############################################################################
@@ -268,6 +271,13 @@ add_executable(simpledb_test ${SIMPLEDB_TEST_SRCS})
 target_link_libraries(simpledb_test PRIVATE simpledb_static gtest)
 
 gtest_add_tests(TARGET simpledb_test)
+
+
+###############################################################################
+#                               MySQL Connector                               #
+###############################################################################
+
+
 
 ###############################################################################
 #                         Generated file destinations                         #
