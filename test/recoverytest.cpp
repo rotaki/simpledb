@@ -7,13 +7,10 @@
 namespace simpledb {
 class tx_recovery : public ::testing::Test {
 public:
-  tx_recovery() : mDb("recoverytest", 400, 8), mTestFile("testfile") {
-    mFM = mDb.file_mgr();
-    mBM = mDb.buffer_mgr();
-    mBlk0 = block_id(mTestFile, 0);
-    mBlk1 = block_id(mTestFile, 1);
-
-    if (mFM->length(mTestFile) == 0) {
+  tx_recovery()
+      : mDb("recoverytest", 400, 8), mTestFile("testfile"), mFM(mDb.file_mgr()),
+        mBM(mDb.buffer_mgr()), mBlk0(mTestFile, 0), mBlk1(mTestFile, 1) {
+    if (mFM.length(mTestFile) == 0) {
       initialize();
       modify();
     } else {
@@ -52,8 +49,8 @@ public:
     }
     tx3->set_string(mBlk0, 30, "uvw", true);
     tx4->set_string(mBlk1, 30, "xyz", true);
-    mBM->flush_all(tx3->num());
-    mBM->flush_all(tx4->num());
+    mBM.flush_all(tx3->num());
+    mBM.flush_all(tx4->num());
     print_values("After modification");
 
     tx3->rollback();
@@ -68,10 +65,10 @@ public:
 
   void print_values(const std::string &pMsg) {
     std::cout << pMsg << std::endl;
-    page p0(mFM->block_size());
-    page p1(mFM->block_size());
-    mFM->read(mBlk0, p0);
-    mFM->read(mBlk1, p1);
+    page p0(mFM.block_size());
+    page p1(mFM.block_size());
+    mFM.read(mBlk0, p0);
+    mFM.read(mBlk1, p1);
     int pos = 0;
     for (int i = 0; i < 6; i++) {
       std::cout << p0.get_int(pos) << " ";
@@ -86,8 +83,8 @@ public:
 private:
   simpledb mDb;
   std::string mTestFile;
-  file_manager *mFM;
-  buffer_manager *mBM;
+  file_manager &mFM;
+  buffer_manager &mBM;
   block_id mBlk0, mBlk1;
 };
 

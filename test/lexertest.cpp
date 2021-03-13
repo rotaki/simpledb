@@ -5,7 +5,7 @@
 #include "gtest/gtest.h"
 
 namespace simpledb {
-TEST(parse, lexertest) {
+TEST(parse, lexer_test) {
   std::string s = "";
   std::stringstream sS("A=1 \n 3=A");
   std::string x = "";

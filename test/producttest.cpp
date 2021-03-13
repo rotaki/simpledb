@@ -7,7 +7,7 @@
 #include "gtest/gtest.h"
 
 namespace simpledb {
-TEST(query, product) {
+TEST(query, product_test) {
   simpledb db("producttest");
   auto tx = db.new_tx();
   schema sch1;

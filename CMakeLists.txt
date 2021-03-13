@@ -230,8 +230,8 @@ target_link_options(simpledb_static PUBLIC
 
 #create SHARED library
 
-add_library(simpledb_shared SHARED $<TARGET_OBJECTS:simpledb_objlib>)
-target_link_libraries(simpledb_shared PUBLIC simpledb_objlib)
+# add_library(simpledb_shared SHARED $<TARGET_OBJECTS:simpledb_objlib>)
+# target_link_libraries(simpledb_shared PUBLIC simpledb_objlib)
 
 ###############################################################################
 #                                 Main binary                                 #
@@ -265,7 +265,7 @@ file(GLOB_RECURSE
   )
 
 add_executable(simpledb_test ${SIMPLEDB_TEST_SRCS})
-target_link_libraries(simpledb_test PRIVATE simpledb_shared gtest)
+target_link_libraries(simpledb_test PRIVATE simpledb_static gtest)
 
 gtest_add_tests(TARGET simpledb_test)
 
@@ -281,14 +281,13 @@ set_target_properties(
   RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
   )
 
-set_target_properties(
-  simpledb_shared
-  PROPERTIES
-  ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
-  LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
-  RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
-  )
-
+# set_target_properties(
+#   simpledb_shared
+#   PROPERTIES
+#   ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
+#   LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
+#   RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
+#   )
 
 set_target_properties(
   simpledb_test

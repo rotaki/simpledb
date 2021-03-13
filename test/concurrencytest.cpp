@@ -13,9 +13,9 @@
 using namespace std::chrono_literals;
 
 namespace simpledb {
-void run_A(file_manager *fM, log_manager *lM, buffer_manager *bM) {
+void run_A(file_manager &fM, log_manager &lM, buffer_manager &bM) {
   try {
-    auto txA = std::make_unique<transaction>(fM, lM, bM);
+    auto txA = std::make_unique<transaction>(&fM, &lM, &bM);
     std::string testFile = "testfile";
     block_id blk1(testFile, 1);
     block_id blk2(testFile, 2);
@@ -36,9 +36,9 @@ void run_A(file_manager *fM, log_manager *lM, buffer_manager *bM) {
   }
 }
 
-void run_B(file_manager *fM, log_manager *lM, buffer_manager *bM) {
+void run_B(file_manager &fM, log_manager &lM, buffer_manager &bM) {
   try {
-    auto txB = std::make_unique<transaction>(fM, lM, bM);
+    auto txB = std::make_unique<transaction>(&fM, &lM, &bM);
     std::string testFile = "testfile";
     block_id blk1(testFile, 1);
     block_id blk2(testFile, 2);
@@ -59,9 +59,9 @@ void run_B(file_manager *fM, log_manager *lM, buffer_manager *bM) {
   }
 }
 
-void run_C(file_manager *fM, log_manager *lM, buffer_manager *bM) {
+void run_C(file_manager &fM, log_manager &lM, buffer_manager &bM) {
   try {
-    auto txC = std::make_unique<transaction>(fM, lM, bM);
+    auto txC = std::make_unique<transaction>(&fM, &lM, &bM);
     std::string testFile = "testfile";
     block_id blk1(testFile, 1);
     block_id blk2(testFile, 2);
@@ -83,15 +83,15 @@ void run_C(file_manager *fM, log_manager *lM, buffer_manager *bM) {
   }
 }
 
-TEST(tx, concurrencytest) {
+TEST(tx, concurrency_test) {
   simpledb db("concurrencytest", 400, 8);
-  file_manager *fM = db.file_mgr();
-  log_manager *lM = db.log_mgr();
-  buffer_manager *bM = db.buffer_mgr();
+  file_manager &fM = db.file_mgr();
+  log_manager &lM = db.log_mgr();
+  buffer_manager &bM = db.buffer_mgr();
 
-  std::thread A(run_A, fM, lM, bM);
-  std::thread B(run_B, fM, lM, bM);
-  std::thread C(run_C, fM, lM, bM);
+  std::thread A(run_A, std::ref(fM), std::ref(lM), std::ref(bM));
+  std::thread B(run_B, std::ref(fM), std::ref(lM), std::ref(bM));
+  std::thread C(run_C, std::ref(fM), std::ref(lM), std::ref(bM));
 
   A.join();
   B.join();

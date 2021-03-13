@@ -8,7 +8,7 @@
 #include "gtest/gtest.h"
 
 namespace simpledb {
-TEST(query, scantest1) {
+TEST(query, scantest1_test) {
   simpledb db("scantest1");
   auto tx = db.new_tx();
 

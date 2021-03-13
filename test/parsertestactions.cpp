@@ -5,7 +5,7 @@
 #include "gtest/gtest.h"
 
 namespace simpledb {
-TEST(parse, parsertestactions) {
+TEST(parse, parsertestactions_test) {
   std::string s1 = "select    C from      T where A  =B";
   std::string s2 = "insert into   T(A,    B, C)   values('a'    , 'b', 'c')";
   std::string s3 = "delete  from T where A=B";

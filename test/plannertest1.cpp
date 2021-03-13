@@ -7,12 +7,12 @@
 #include "gtest/gtest.h"
 
 namespace simpledb {
-TEST(plan, plannertest1) {
+TEST(plan, plannertest1_test) {
   simpledb db("plannertest1");
   auto tx = db.new_tx();
-  planner *plnr = db.plnr();
+  planner &plnr = db.plnr();
   std::string cmd = "create table T1(A int, B varchar(9))";
-  plnr->execute_update(cmd, tx.get());
+  plnr.execute_update(cmd, tx.get());
 
   int n = 200;
   std::cout << "Inserting " << n << " random records" << std::endl;
@@ -25,11 +25,11 @@ TEST(plan, plannertest1) {
     int a = round(d(gen) * 50);
     std::string b = "rec" + std::to_string(a);
     cmd = "insert into T1(A,B) values (" + std::to_string(a) + ", '" + b + "')";
-    plnr->execute_update(cmd, tx.get());
+    plnr.execute_update(cmd, tx.get());
   }
 
   std::string qry = "select B from T1 where A=10";
-  auto p = plnr->create_query_plan(qry, tx.get());
+  auto p = plnr.create_query_plan(qry, tx.get());
   auto s = p->open();
   while (s->next()) {
     std::cout << s->get_string("b") << std::endl;

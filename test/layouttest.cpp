@@ -2,7 +2,7 @@
 #include "gtest/gtest.h"
 
 namespace simpledb {
-TEST(record, layout) {
+TEST(record, layout_test) {
   schema sch;
   sch.add_int_field("A");
   sch.add_string_field("B", 9);

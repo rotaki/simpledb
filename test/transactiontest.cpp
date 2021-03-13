@@ -9,13 +9,13 @@
 #include "gtest/gtest.h"
 
 namespace simpledb {
-TEST(tx, transactiontest) {
+TEST(tx, transaction_test) {
   simpledb db("txtest", 400, 8);
-  file_manager *fM = db.file_mgr();
-  log_manager *lM = db.log_mgr();
-  buffer_manager *bM = db.buffer_mgr();
+  file_manager& fM = db.file_mgr();
+  log_manager& lM = db.log_mgr();
+  buffer_manager& bM = db.buffer_mgr();
 
-  auto tx1 = std::make_unique<transaction>(fM, lM, bM);
+  auto tx1 = std::make_unique<transaction>(&fM, &lM, &bM);
   block_id blk("testfile", 1);
   tx1->pin(blk);
 
@@ -25,7 +25,7 @@ TEST(tx, transactiontest) {
   tx1->set_string(blk, 40, "one", false);
   tx1->commit();
 
-  auto tx2 = std::make_unique<transaction>(fM, lM, bM);
+  auto tx2 = std::make_unique<transaction>(&fM, &lM, &bM);
   tx2->pin(blk);
   int iVal = tx2->get_int(blk, 80);
   std::string sVal = tx2->get_string(blk, 40);
@@ -37,7 +37,7 @@ TEST(tx, transactiontest) {
   tx2->set_string(blk, 40, newSVal, true);
   tx2->commit();
 
-  auto tx3 = std::make_unique<transaction>(fM, lM, bM);
+  auto tx3 = std::make_unique<transaction>(&fM, &lM, &bM);
   tx3->pin(blk);
   std::cout << "new value at location 80 = " << tx3->get_int(blk, 80)
             << std::endl;
@@ -48,7 +48,7 @@ TEST(tx, transactiontest) {
             << std::endl;
   tx3->rollback();
 
-  auto tx4 = std::make_unique<transaction>(fM, lM, bM);
+  auto tx4 = std::make_unique<transaction>(&fM, &lM, &bM);
   tx4->pin(blk);
   std::cout << "post-rollback at location 80 = " << tx4->get_int(blk, 80)
             << std::endl;

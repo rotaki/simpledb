@@ -6,7 +6,7 @@
 #include "gtest/gtest.h"
 
 namespace simpledb {
-TEST(metadata, metadatamanager) {
+TEST(metadata, metadatamanager_test) {
   simpledb db("metadatamgrtest", 400, 8);
   auto tx = db.new_tx();
   metadata_manager mdM(true, tx.get());
