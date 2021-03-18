@@ -1,5 +1,4 @@
 #include "query/predicate.hpp"
-#include <iostream>
 
 namespace simpledb {
 predicate::predicate(){};

@@ -1,7 +1,9 @@
 #include "metadata/indexmanager.hpp"
+#include "index/btree/btreeindex.hpp"
 #include "index/hash/hashindex.hpp"
 #include "record/layout.hpp"
 #include "record/schema.hpp"
+#include <cmath>
 
 namespace simpledb {
 index_info::index_info() {}
@@ -30,14 +32,18 @@ index_info &index_info::operator=(const index_info &pII) {
 }
 
 std::shared_ptr<index> index_info::open() const {
+  // return std::static_pointer_cast<index>(
+  //     std::make_shared<hash_index>(mTx, mIdxName, mIdxLayout));
   return std::static_pointer_cast<index>(
-      std::make_shared<hash_index>(mTx, mIdxName, mIdxLayout));
+      std::make_shared<btree_index>(mTx, mIdxName, mIdxLayout));
 }
 
 int index_info::blocks_accessed() {
   int rPB = mTx->block_size() / mIdxLayout.slot_size();
-  int numBlocks = mSI.records_output() / rPB;
-  return hash_index::search_cost(numBlocks, rPB);
+  int numBlocks = std::ceil(static_cast<double>(mSI.records_output()) /
+                            static_cast<double>(rPB));
+  // return hash_index::search_cost(numBlocks, rPB);
+  return btree_index::search_cost(numBlocks, rPB);
 }
 
 int index_info::records_output() {

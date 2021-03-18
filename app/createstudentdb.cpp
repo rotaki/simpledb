@@ -23,6 +23,10 @@ void create_student_database() {
     stmt->executeUpdate(s);
     std::cout << "Table STUDENT created" << std::endl;
 
+    s = "create index majorid on STUDENT(MajorId)";
+    stmt->executeUpdate(s);
+    std::cout << "Index majorid on STUDENT(MajorId) created" << std::endl;
+
     s = "insert into STUDENT(SId, SName, MajorId, GradYear) values ";
     std::vector<std::string> studVals = {
         "(1, 'joe', 10, 2021)", "(2, 'amy', 20, 2020)", "(3, 'max', 10, 2022)",
@@ -80,6 +84,10 @@ void create_student_database() {
         "varchar(2))";
     stmt->executeUpdate(s);
     std::cout << "Table ENROLL created." << std::endl;
+
+    s = "create index studentid on ENROLL(StudentId)";
+    stmt->executeUpdate(s);
+    std::cout << "Index studentid on ENROLL(StudentId) created" << std::endl;
 
     s = "insert into ENROLL(EId, StudentId, SectionId, Grade) values ";
     std::vector<std::string> enrollVals = {

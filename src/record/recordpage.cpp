@@ -1,5 +1,3 @@
-#include <iostream>
-
 #include "record/recordpage.hpp"
 #include "utils/logger.hpp"
 

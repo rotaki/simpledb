@@ -6,7 +6,7 @@
 #include "gtest/gtest.h"
 
 namespace simpledb {
-TEST(metadata, tablemanagertest) {
+TEST(metadata, tablemanager_test) {
   simpledb db("tblmgrtest", 400, 8);
   auto tx = db.new_tx();
   table_manager tM(true, tx.get());

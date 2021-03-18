@@ -50,7 +50,7 @@ block_id bt_page::append_new(int pFlag) {
 
 void bt_page::format(const block_id &pBlk, int pFlag) {
   mTx->set_int(pBlk, 0, pFlag, false);
-  mTx->set_int(pBlk, sizeof(int), 0, false);
+  mTx->set_int(pBlk, sizeof(int), 0, false); // #records = 0
   int recSize = mLt.slot_size();
   for (int pos = 2 * sizeof(int); pos + recSize <= mTx->block_size();
        pos += recSize) {
@@ -149,7 +149,7 @@ void bt_page::insert(int pSlot) {
   for (int i = get_num_recs(); i > pSlot; i--) {
     copy_record(i - 1, i);
   }
-  set_num_recs(get_num_recs() - 1);
+  set_num_recs(get_num_recs() + 1);
 }
 
 void bt_page::copy_record(int pFrom, int pTo) {

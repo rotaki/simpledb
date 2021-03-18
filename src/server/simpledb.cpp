@@ -2,6 +2,7 @@
 #include <iostream>
 #include <memory>
 
+#include "index/planner/indexupdateplanner.hpp"
 #include "plan/basicqueryplanner.hpp"
 #include "plan/basicupdateplanner.hpp"
 #include "server/simpledb.hpp"
@@ -30,7 +31,8 @@ simpledb::simpledb(const std::string &pDirName)
   }
   mMM = std::make_unique<metadata_manager>(isNew, tx.get());
   auto qP = std::make_unique<basic_query_planner>(mMM.get());
-  auto uP = std::make_unique<basic_update_planner>(mMM.get());
+  // auto uP = std::make_unique<basic_update_planner>(mMM.get());
+  auto uP = std::make_unique<index_update_planner>(mMM.get());
   mP = std::make_unique<planner>(std::move(qP), std::move(uP));
   tx->commit();
 }

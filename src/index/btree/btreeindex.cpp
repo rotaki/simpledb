@@ -7,9 +7,9 @@
 namespace simpledb {
 btree_index::btree_index(transaction *pTx, const std::string &pIdxName,
                          const layout &pLeafLayout)
-    : mTx(pTx), mLeafLayout(pLeafLayout) {
-  // deal with leaves
-  mLeafTbl = pIdxName + "leaf";
+    : mTx(pTx), mLeafTbl(pIdxName + "leaf"), mLeafLayout(pLeafLayout) {
+
+  // deal with the leaves
   if (mTx->size(mLeafTbl) == 0) {
     block_id blk = mTx->append(mLeafTbl);
     bt_page node(mTx, blk, mLeafLayout);
@@ -21,8 +21,8 @@ btree_index::btree_index(transaction *pTx, const std::string &pIdxName,
   dirSch.add("block", mLeafLayout.get_schema());
   dirSch.add("dataval", mLeafLayout.get_schema());
   std::string dirTbl = pIdxName + "dir";
-  layout mDirLayout(dirSch);
-  block_id mRootBlk(dirTbl, 0);
+  mDirLayout = layout(dirSch);
+  mRootBlk = block_id(dirTbl, 0);
   if (mTx->size(dirTbl) == 0) {
     // create new root block
     mTx->append(dirTbl);

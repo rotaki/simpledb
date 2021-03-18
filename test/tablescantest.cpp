@@ -6,7 +6,7 @@
 #include "gtest/gtest.h"
 
 namespace simpledb {
-TEST(record, tablescan) {
+TEST(record, tablescan_test) {
   simpledb db("tabletest", 400, 8);
   auto tx = db.new_tx();
   schema sch;

@@ -1,8 +1,6 @@
-#include <iostream>
-
+#include "plan/planner.hpp"
 #include "parse/object.hpp"
 #include "parse/parser.hpp"
-#include "plan/planner.hpp"
 
 namespace simpledb {
 planner::planner(std::unique_ptr<query_planner> pQP,

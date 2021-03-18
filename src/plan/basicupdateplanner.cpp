@@ -1,5 +1,3 @@
-#include <iostream>
-
 #include "plan/basicupdateplanner.hpp"
 #include "plan/selectplan.hpp"
 #include "plan/tableplan.hpp"

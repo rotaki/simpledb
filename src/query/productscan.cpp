@@ -1,5 +1,4 @@
 #include "query/productscan.hpp"
-#include <iostream>
 
 namespace simpledb {
 product_scan::product_scan(const std::shared_ptr<scan> &pS1,
