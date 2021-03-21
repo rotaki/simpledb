@@ -42,7 +42,7 @@ public:
   void create_index(const std::string &pIdxName, const std::string &pTblName,
                     const std::string &pFldName, transaction *pTx);
   std::map<std::string, index_info> get_index_info(const std::string &pTblName,
-                                                   transaction *pTx);
+                                                   transaction *pTx) const;
 
 private:
   table_manager *mTM;

@@ -94,7 +94,8 @@ void index_manager::create_index(const std::string &pIdxName,
 }
 
 std::map<std::string, index_info>
-index_manager::get_index_info(const std::string &pTblName, transaction *pTx) {
+index_manager::get_index_info(const std::string &pTblName,
+                              transaction *pTx) const {
   std::map<std::string, index_info> result;
   table_scan tS(pTx, "idxcat", mLt);
   while (tS.next()) {

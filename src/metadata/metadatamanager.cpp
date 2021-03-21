@@ -43,7 +43,7 @@ void metadata_manager::create_index(const std::string &pIdxName,
 
 std::map<std::string, index_info>
 metadata_manager::get_index_info(const std::string &pTblName,
-                                 transaction *pTx) {
+                                 transaction *pTx) const {
   return mIM->get_index_info(pTblName, pTx);
 }
 

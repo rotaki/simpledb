@@ -25,7 +25,7 @@ public:
   void create_index(const std::string &pIdxName, const std::string &pTblName,
                     const std::string &pFldName, transaction *pTx);
   std::map<std::string, index_info> get_index_info(const std::string &pTblName,
-                                                   transaction *pTx);
+                                                   transaction *pTx) const;
   stat_info get_stat_info(const std::string &pTblName, const layout &pLt,
                           transaction *pTx);
 

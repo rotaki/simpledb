@@ -31,8 +31,8 @@ int index_update_planner::execute_insert(insert_data *pID, transaction *pTx) {
   for (int i = 0; i < static_cast<int>(fields.size()); i++) {
     std::string fldName = fields[i];
     constant val = vals[i];
-    std::cout << "Modify field " + fldName + " to val " + val.to_string()
-              << std::endl;
+    // std::cout << "Modify field " + fldName + " to val " + val.to_string() <<
+    // std::endl;
     s->set_val(fldName, val);
 
     if (indexes.find(fldName) != indexes.end()) {
