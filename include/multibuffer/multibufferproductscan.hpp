@@ -9,7 +9,7 @@ class multibuffer_product_scan : public scan {
 public:
   multibuffer_product_scan(transaction *pTx,
                            const std::shared_ptr<scan> &pLhsScan,
-                           const std::string &pFileName, const layout &pLt);
+                           const std::string &pTblName, const layout &pLt);
   void before_first() override;
   bool next() override;
   int get_int(const std::string &pFldName) override;

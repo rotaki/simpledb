@@ -6,8 +6,8 @@
 namespace simpledb {
 multibuffer_product_scan::multibuffer_product_scan(
     transaction *pTx, const std::shared_ptr<scan> &pLhsScan,
-    const std::string &pFileName, const layout &pLt)
-    : mTx(pTx), mLhsScan(pLhsScan), mFileName(pFileName), mLt(pLt) {
+    const std::string &pTableName, const layout &pLt)
+    : mTx(pTx), mLhsScan(pLhsScan), mFileName(pTableName + ".tbl"), mLt(pLt) {
   mFileSize = mTx->size(mFileName);
   int available = mTx->available_buffers();
   mChunkSize = buffer_needs::best_factor(available, mFileSize);
