@@ -49,11 +49,11 @@ bool multibuffer_product_scan::has_field(const std::string &pFldName) {
 }
 
 bool multibuffer_product_scan::use_next_chunk() {
-  if (mRhsScan) {
-    mRhsScan->close();
-  }
   if (mNextBlkNum >= mFileSize) {
     return false;
+  }
+  if (mRhsScan) {
+    mRhsScan->close();
   }
   int end = mNextBlkNum + mChunkSize - 1;
   if (end >= mFileSize) {
