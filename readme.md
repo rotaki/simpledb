@@ -19,7 +19,6 @@ The following is the examples of commands which can be accepted by simpledb.
 
 The list of major features mentioned by the book and whether it has been implemented in this project are shown in the following table.
 
-|--------------|--------------------------------------------|--------------------|
 | Book Chapter | Feature                                    | Implemented        |
 |--------------|--------------------------------------------|--------------------|
 | 3            | File Manager                               | :heavy_check_mark: |
@@ -41,8 +40,6 @@ The list of major features mentioned by the book and whether it has been impleme
 | 13           | Materialization and Sorting                | :heavy_check_mark: |
 | 14           | MultiBuffer Sorting/Product                | :heavy_check_mark: |
 | 15           | Query Optimization                         | :heavy_check_mark: |
-|--------------|--------------------------------------------|--------------------|
-    
 
 Currently the only major feature mentioned but has not been implemented is the Remote JDBC Interface. (This is due to the difference between Java and C++. Java has RMI (Remote Method Invocation) which allows to implement remote server easily, on the other hand in C++, since there are no standard libraries for remote procedure calls, it becomes more complex to implement it.)
 
