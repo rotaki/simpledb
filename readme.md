@@ -9,13 +9,13 @@ A C++ version of [SimpleDB](http://www.cs.bc.edu/~sciore/simpledb/) originally w
 simpledb is a database engine that can handle a subset of SQL.
 The following is the examples of commands which can be accepted by simpledb.
 
-- "select F1, F2 from T1, T2 where F3=F4";
-- "insert into T(F1, F2, F3) values ('a', 'b', 'c')";
-- "delete from T where F1=F2";
-- "update T set F1='a' where F1=F2";
-- "create table T(F1 int, F2 varchar(9))";
-- "create view V as select F1, F2 from T1, T2 where F3=F4;
-- "create index I on T(F)";
+- select F1, F2 from T1, T2 where F3=F4
+- insert into T(F1, F2, F3) values ('a', 'b', 'c')
+- delete from T where F1=F2
+- update T set F1='a' where F1=F2
+- create table T(F1 int, F2 varchar(9))
+- create view V as select F1, F2 from T1, T2 where F3=F4
+- create index I on T(F)
 
 The list of major features mentioned by the book and whether it has been implemented in this project are shown in the following table.
 
