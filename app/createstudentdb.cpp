@@ -192,6 +192,6 @@ void change_major() {
 int main() {
   simpledb::create_student_database();
   simpledb::student_major();
-  simpledb::change_major();
-  simpledb::find_majors();
+  //simpledb::change_major();
+  //simpledb::find_majors();
 }
